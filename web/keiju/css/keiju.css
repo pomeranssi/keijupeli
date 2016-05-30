@@ -1,0 +1,66 @@
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+}
+
+.cv {
+    padding: 0;
+    margin: 0 auto;
+    position: relative;
+}
+
+.cv-header .author,
+.cv-header .position {
+    margin: 0;
+    padding: 0;
+}
+
+.game {
+    margin: 10px auto;
+    width: 1024px;
+    background: #FAFFD5;
+}
+
+.game h1 {
+    text-align: center;
+    margin: 10px;
+    text-transform: uppercase;
+}
+
+.portrait {
+    width: 1024px;
+    height: 1024px;
+}
+
+.portrait {
+    position: relative;
+}
+
+.portrait .item {
+    position: absolute;
+}
+
+.item-area .item {
+    max-height: 100px;
+    max-width: 100px;
+}
+
+.item.background { z-index:  0; }
+.item.wings      { z-index:  1; }
+.item.body       { z-index:  2; }
+.item.shoes      { z-index:  3; }
+.item.leg        { z-index:  4; }
+.item.chest      { z-index:  6; }
+.item.necklace   { z-index:  8; }
+.item.hair       { z-index: 10; }
+.item.crown      { z-index: 11; }
+.item.eyes       { z-index: 90; }
+
