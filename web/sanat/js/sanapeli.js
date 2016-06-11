@@ -67,7 +67,7 @@
 
     function clearGame() {
         $("#letters").html("");
-        $("#selection").html("");
+        $("#selection").html("").removeClass("correct").removeClass("incorrect").removeClass("partial");
         $("#result").hide();
         $("#image").html("");
     }
@@ -113,6 +113,7 @@
             s.on("click", function() {
                 $el.removeClass("selected");
                 s.remove();
+                checkSelection(word);
             });
 
             checkSelection(word);
@@ -121,13 +122,22 @@
 
     function checkSelection(word) {
         var sel = "";
-        $.each($("#selection").children(), function(i, s) {
+        var area = $("#selection");
+        $.each(area.children(), function(i, s) {
             sel += $(s).attr("data-letter");
         });
         var correct = _.find(word.word, function(w) { return w == sel; }) !== undefined;
-        console.log("Current word is", sel, correct);
+        var partial = !correct && _.find(word.word, function(w) { return sel.length < w.length && w.substring(0, sel.length) == sel; }) !== undefined;
+        console.log("Current word is", sel, "- it is correct/partial:", correct, partial);
+        area.removeClass("correct").removeClass("partial").removeClass("incorrect");
         if (correct) {
+            area.addClass("correct");
             endGame();
+        }
+        else if (partial) {
+            area.addClass("partial");
+        } else {
+            area.addClass("incorrect");
         }
     }
 
