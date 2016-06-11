@@ -1,4 +1,4 @@
-(function($, _) {
+(function($, _, util) {
     "use strict";
 
     var maxLetters = 20;
@@ -19,50 +19,28 @@
         "pallo", "kukka", "kana", "kissa", "orava", "omena"
     ]);
 
-    var weightedLetters = "aaaaaaaaaaaaiiiiiiiiiiittttttttttnnnnnnnnneeeeeeeesssssssslllllloooookkkkkuuuuuääääämmmmvvvrrjjhhyyppdö";
-
-    // Returns a random integer between min (included) and max (excluded)
-    // Using Math.round() will give you a non-uniform distribution!
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min)) + min;
-    }
-
     function selectWord() {
-        return words[getRandomInt(0, words.length)];
-    }
-
-    function getLetters(str) {
-        var letters = [];
-        for (var i = 0; i < str.length; ++i) {
-            letters.push(str[i]);
-        }
-        return letters;
-    }
-
-    // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
-    function shuffle(a) {
-        var n = a.length;
-        for (var i = 0; i < n - 1; i++) {
-            var j = getRandomInt(0, n - i);
-            // Swap a[i] and a[i + j]
-            var s = a[i];
-            a[i] = a[i + j];
-            a[i + j] = s;
-        }
-        return a;
-    }
-
-    function randomLetter() {
-        return weightedLetters[getRandomInt(0, weightedLetters.length)];
+        return util.getRandomEntry(words);
     }
 
     function selectLetters(word, max) {
+        var needed = {};
+        _.forEach(word.word, function(w) {
+            _.forEach(util.getLetterCounts(w), function(c, l) {
+                needed[l] = needed[l] ? Math.max(needed[l], c) : c;
+            });
+        });
+
         var letters = [];
-        _.forEach(word.word, function(w) { letters = letters.concat(getLetters(w)); });
+        _.forEach(needed, function(c, l) {
+            for (var i = 0; i < c; ++i) {
+                letters.push(l);
+            }
+        });
         for (var i = letters.length; i < max; i++) {
-            letters.push(randomLetter());
+            letters.push(util.getRandomLetter());
         }
-        return shuffle(letters);
+        return util.shuffle(letters);
     }
 
     function normalizeWords(words) {
@@ -162,9 +140,8 @@
     }
 
     window.sanapeli = {
-        words: words,
-        getLetters: getLetters
+        words: words
     };
 
     $(document).ready(init);
-})(jQuery, _);
+})(jQuery, _, util);
