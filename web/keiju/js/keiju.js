@@ -70,7 +70,8 @@
             items: [
                 { img: "skirt-red.png", left: 421, top: 529 },
                 { img: "skirt-pink.png", left: 397, top: 534 },
-                { img: "skirt-orange.png", left: 322, top: 530 }
+                { img: "skirt-orange.png", left: 322, top: 530 },
+                { img: "jeans-blue.png", left: 370, top: 545 }
             ]
         },
         {
@@ -84,7 +85,11 @@
                 { img: "dress-yellow-white.png", left: 223, top: 345 },
                 { img: "dress-heart.png", left: 387, top: 413 },
                 { img: "dress-elsa.png", left: 287, top: 422 },
-                { img: "dress-dots.png", left: 348, top: 401 }
+                { img: "dress-dots.png", left: 348, top: 401 },
+                { img: "dress-dotty.png", left: 352, top: 417 },
+                { img: "dress-lilac-yellow.png", left: 278, top: 416 },
+                { img: "dress-long-side.png", left: 317, top: 415 },
+                { img: "jacket-black.png", left: 374, top: 401 }
             ]
         },
         {
@@ -95,7 +100,8 @@
                 { img: "shoes-yellow.png", left: 369, top: 872 },
                 { img: "shoes-yellow2.png", left: 371, top: 872 },
                 { img: "shoes-black.png", left: 372, top: 904 },
-                { img: "shoes-whiteblack.png", left: 372, top: 732 }
+                { img: "shoes-whiteblack.png", left: 372, top: 732 },
+                { img: "shoes-brown.png", left: 372, top: 888 }
             ]
         },
         {
@@ -106,6 +112,8 @@
                 { img: "necklace-white2.png", left: 469, top: 412 },
                 { img: "necklace-yellow.png", left: 462, top: 413 },
                 { img: "necklace-blue.png", left: 466, top: 411 },
+                { img: "necklace-many-black.png", left: 454, top: 411 },
+                { img: "necklace-stone.png", left: 466, top: 415 },
                 { img: "necklace-pink.png", left: 469, top: 410 }
             ]
         },
@@ -113,7 +121,8 @@
             title: "Kruunut ja tiarat",
             type: "crown",
             items: [
-                { img: "tiara-yellow.png", left: 383, top: 201 }
+                { img: "tiara-yellow.png", left: 383, top: 201 },
+                { img: "crown-yellow.png", left: 377, top: 124 }
             ]
         }
     ];
