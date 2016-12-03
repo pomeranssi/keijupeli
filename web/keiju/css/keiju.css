@@ -60,7 +60,7 @@ h1, h2, h3, h4, h5, h6 {
 .item.leg        { z-index:  4; }
 .item.chest      { z-index:  6; }
 .item.necklace   { z-index:  8; }
-.item.hair       { z-index: 10; }
-.item.crown      { z-index: 11; }
-.item.eyes       { z-index: 90; }
+.item.hair       { z-index: 30; }
+.item.eyes       { z-index: 40; }
+.item.crown      { z-index: 50; }
 

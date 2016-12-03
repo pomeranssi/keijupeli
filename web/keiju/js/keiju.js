@@ -16,7 +16,8 @@
                 { img: "bg-castle.jpg", left: 0, top: 0 },
                 { img: "bg-beach.jpg", left: 0, top: 0, class: "default" },
                 { img: "bg-snow.jpg", left: 0, top: 0 },
-                { img: "bg-castle-carrots.jpg", left: 0, top: 0 }
+                { img: "bg-castle-carrots.jpg", left: 0, top: 0 },
+                { img: "bg-ocean.jpg", left: 0, top: 0 }
             ]
         },
         {
@@ -61,6 +62,8 @@
                 { img: "hair-yellow.png", left: 329, top: 148 },
                 { img: "hair-elsa.png", left: 369, top: 166 },
                 { img: "hair-brown.png", left: 366, top: 188 },
+                { img: "hair-pink-short.png", left: 373, top: 191 },
+                { img: "hair-pink-long.png", left: 247, top: 171, zIndex: "45" },
                 { img: "hair-black.png", left: 352, top: 169 }
             ]
         },
@@ -71,7 +74,9 @@
                 { img: "skirt-red.png", left: 421, top: 529 },
                 { img: "skirt-pink.png", left: 397, top: 534 },
                 { img: "skirt-orange.png", left: 322, top: 530 },
-                { img: "jeans-blue.png", left: 370, top: 545 }
+                { img: "jeans-blue.png", left: 370, top: 545 },
+                { img: "mermaid-tail.png", left: 290, top: 529 },
+                { img: "pants-colorful.png", left: 371, top: 541 }
             ]
         },
         {
@@ -89,7 +94,8 @@
                 { img: "dress-dotty.png", left: 352, top: 417 },
                 { img: "dress-lilac-yellow.png", left: 278, top: 416 },
                 { img: "dress-long-side.png", left: 317, top: 415 },
-                { img: "jacket-black.png", left: 374, top: 401 }
+                { img: "jacket-black.png", left: 374, top: 401 },
+                { img: "mermaid-bra.png", left: 443, top: 448 }
             ]
         },
         {
@@ -122,7 +128,9 @@
             type: "crown",
             items: [
                 { img: "tiara-yellow.png", left: 383, top: 201 },
-                { img: "crown-yellow.png", left: 377, top: 124 }
+                { img: "crown-yellow.png", left: 377, top: 124 },
+                { img: "crown-hearts.png", left: 381, top: 98 },
+                { img: "hat-colorful.png", left: 266, top: 140 }
             ]
         }
     ];
@@ -170,6 +178,7 @@
         removeItem(type);
         var e = createImage(item, type);
         e.css({ left: item.left, top: item.top });
+        if (item.zIndex) e.css({ zIndex: item.zIndex })
         selected[type] = e;
         $("#portrait").append(e);
         e.click(function() { removeItem(type); });
