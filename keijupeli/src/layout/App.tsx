@@ -11,9 +11,9 @@ class App extends React.Component<{}, null> {
           <div className="Logo">
             <img src={logo} className="App-logo" alt="logo" />
           </div>
-          <h2>Keijupeli</h2>
+          <h1>Keijupeli</h1>
         </div>
-        <p className="App-intro">
+        <p className="App-main">
           To get started, edit <code>src/App.tsx</code> and save to reload.
         </p>
       </div>
