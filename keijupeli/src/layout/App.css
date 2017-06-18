@@ -13,9 +13,10 @@
     top: 0;
     left: 0;
     bottom: 0;
-    width: 110px;
-    overflow-y: scroll;
+    min-width: 110px;
     padding-bottom: 1em;
+    z-index: 2;
+    overflow: visible;
 }
 
 .App-main {
@@ -26,4 +27,5 @@
     right: 0;
     overflow: scroll;
     padding-bottom: 1em;
+    z-index: 1;
 }

@@ -1,0 +1,33 @@
+.ItemView {
+    width: 100px;
+    height: 100px;
+    -webkit-border-radius: 0.4em;
+    -moz-border-radius: 0.4em;
+    border-radius: 0.4em;
+    background: rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.ItemImage {
+    position: absolute;
+    background: no-repeat center;
+    background-size: contain;
+    z-index: 1;
+    left: 10px;
+    top: 10px;
+    width: 80px;
+    height: 80px;
+}
+
+.ItemImage.background {
+    width: 100px;
+    height: 100px;
+    top: 0;
+    left: 0;
+}
+
+.ItemList .ItemView {
+    background: rgba(0, 0, 0, 0.2);
+}
