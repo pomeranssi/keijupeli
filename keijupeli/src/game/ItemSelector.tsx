@@ -50,7 +50,7 @@ export class ItemSelector extends React.Component<ItemSelectorProps, {
     render() {
         return (
             <div className="ItemSelector">
-                <span className="title">{this.props.category.title}</span>
+                <div className="CategoryTitle">{this.props.category.title}</div>
                 {this.getImage()}
             </div>
         )

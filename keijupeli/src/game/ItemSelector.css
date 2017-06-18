@@ -13,6 +13,7 @@
     overflow: hidden;
     position: relative;
 }
+
 .ItemImage {
     position: absolute;
     left: 0;
@@ -21,4 +22,20 @@
     height: 100%;
     background: no-repeat center;
     background-size: contain;
+    z-index: 1;
+}
+
+.CategoryTitle {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 0;
+    font-size: 9pt;
+    z-index: 2;
+}
+
+.CategoryTitle {
+    transform-origin: left top;
+    transform: translate(0, 100px) rotate(-90deg);
+    background: rgba(0,0,0,0.3);
 }
