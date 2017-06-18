@@ -9,9 +9,11 @@ export default class App extends React.Component<{}, null> {
             <div className="App">
                 <div className="App-toolbar">
                     <ToolBar />
+                    <br />
                 </div>
                 <div className="App-main">
                     <GameArea />
+                    <br />
                 </div>
             </div>
         )
