@@ -5,7 +5,7 @@ import './ItemView.css'
 interface ItemViewProps {
     item?: Item,
     category: Category,
-    onClick?: () => void
+    onClick?: (item?: Item) => void
 }
 export default class ItemView extends React.Component<ItemViewProps, null> {
     getImageClass(): string {
@@ -18,7 +18,7 @@ export default class ItemView extends React.Component<ItemViewProps, null> {
     }
     render() {
         return (
-            <div className="ItemView" onClick={this.props.onClick}>
+            <div className="ItemView" onClick={i => this.props.onClick && this.props.onClick(this.props.item)}>
                 {this.getImage(this.props.item)}
                 {this.props.children}
             </div>
