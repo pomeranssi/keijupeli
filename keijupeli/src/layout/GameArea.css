@@ -3,9 +3,12 @@
     padding: 0.5em;
 }
 
-.Image {
-    background-image: url("../game/images/bg-beach.jpg");
+.Content {
     width: 1024px;
     height: 1024px;
     border-radius: 30px;
+}
+
+.Image {
+    position: absolute;
 }

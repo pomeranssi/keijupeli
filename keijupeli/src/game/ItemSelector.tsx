@@ -4,7 +4,8 @@ import ItemView from './ItemView'
 import './ItemSelector.css'
 
 interface ItemSelectorProps {
-    readonly category: Category
+    readonly category: Category,
+    readonly onAddItem: (item: Item) => void
 }
 export default class ItemSelector extends React.Component<ItemSelectorProps, {
     selectedItem?: Item,
@@ -36,6 +37,9 @@ export default class ItemSelector extends React.Component<ItemSelectorProps, {
 
     selectItem(item?: Item) {
         this.setState({selectedItem: item, open: false})
+        if (item) {
+            this.props.onAddItem(item)
+        }
     }
 
     render() {
