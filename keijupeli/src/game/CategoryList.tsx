@@ -5,7 +5,7 @@ import {Item} from './items'
 import ItemSelector from './ItemSelector'
 
 export default class CategoryList extends React.Component<{
-    onAddItem: (item: Item) => void
+    onAddItem: (category: string, item: Item) => void
 }, null> {
     render() {
         return (

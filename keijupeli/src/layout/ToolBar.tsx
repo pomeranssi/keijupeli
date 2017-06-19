@@ -6,7 +6,7 @@ import './ToolBar.css'
 const logo = require('./images/fairy.svg')
 
 export default class ToolBar extends React.Component<{
-    onAddItem: (item: Item) => void
+    onAddItem: (category: string, item: Item) => void
 }, null> {
     render() {
         return (

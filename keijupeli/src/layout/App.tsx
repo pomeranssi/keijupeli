@@ -9,7 +9,7 @@ export default class App extends React.Component<{}, null> {
         return (
             <div className="App">
                 <div className="App-toolbar">
-                    <ToolBar onAddItem={i => this.gameArea.addItem(i)}/>
+                    <ToolBar onAddItem={(c, i) => this.gameArea.addItem(c, i)} />
                     <br />
                 </div>
                 <div className="App-main">

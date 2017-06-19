@@ -2,8 +2,18 @@ import * as React from 'react'
 import './GameArea.css'
 import allItems, {Item} from '../game/items'
 
+interface Map<V> {
+    [key: string]: V
+}
 interface GameState {
-    items: Item[]
+    items: Map<Item | undefined>,
+    categories: string[]
+}
+
+const emptyItem: Item = {
+    img: '',
+    left: 0,
+    top: 0
 }
 
 class ItemElement extends React.Component<{item: Item}, null> {
@@ -20,16 +30,28 @@ class ItemElement extends React.Component<{item: Item}, null> {
 
 export default class GameArea extends React.Component<{}, GameState> {
     componentWillMount() {
-        this.setState({items: [].concat.apply([], allItems.map(c => c.items.filter(i => i.isDefault)))})
+        const cats = allItems.map(c => c.type)
+        const its: Map<Item | undefined> = {}
+        allItems.forEach(c => its[c.type] = c.items.find(i => i.isDefault!!))
+        this.setState({
+            categories: cats,
+            items: its
+        })
     }
-    addItem(item: Item) {
-        this.setState(s => ({items: s.items.concat(item)}))
+    addItem(category: string, item: Item) {
+        this.setState(s => {
+            const its = s.items
+            its[category] = item
+            return {items: its}
+        })
     }
     render() {
         return (
             <div className="Game">
                 <div className="Content">
-                   {this.state.items.map(i => <ItemElement item={i} />)}
+                   {this.state.categories.map(i => this.state.items[i])
+                       .filter(i => i !== undefined)
+                       .map(i => <ItemElement item={i || emptyItem} />)}
                    <br />
                 </div>
             </div>
