@@ -13,12 +13,15 @@ interface GameState {
 class ItemElement extends React.Component<{item: Item, category: Category, onClick: () => void}, null> {
     render() {
         return (
-            <img src={this.props.item.img} className={`Image ${this.props.category.type}`} style={{
-                left: this.props.item.left,
-                top: this.props.item.top,
-                zIndex: this.props.item.zIndex
-            }} onClick={this.props.onClick}
-            />
+            <img
+                src={this.props.item.img}
+                className={`Image ${this.props.category.type}`}
+                style={{
+                    left: this.props.item.left,
+                    top: this.props.item.top,
+                    zIndex: this.props.item.zIndex
+                }}
+                onClick={this.props.onClick} />
         )
     }
 }
