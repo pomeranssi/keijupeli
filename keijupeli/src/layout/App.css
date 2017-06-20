@@ -8,15 +8,19 @@
     right: 0;
 }
 
-.App-toolbar {
+.App-toolbar-container {
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
     bottom: 0;
-    min-width: 110px;
-    padding-bottom: 1em;
     z-index: 2;
-    overflow: visible;
+    overflow: scroll;
+}
+
+.App-toolbar {
+    width: 110px;
+    background-color: #222;
 }
 
 .App-main {
