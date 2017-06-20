@@ -1,12 +1,12 @@
 import * as React from 'react'
 import CategoryList from '../game/CategoryList'
-import {Item} from '../game/items'
+import {GameControl} from '../game/GameControl'
 import './ToolBar.css'
 
 const logo = require('./images/fairy.svg')
 
 export default class ToolBar extends React.Component<{
-    onAddItem: (category: string, item: Item) => void
+    getGameControl: () => GameControl
 }, null> {
     render() {
         return (
@@ -17,7 +17,7 @@ export default class ToolBar extends React.Component<{
                     </div>
                     <h1>Keijupeli</h1>
                 </div>
-                <CategoryList onAddItem={this.props.onAddItem} />
+                <CategoryList getGameControl={this.props.getGameControl} />
             </div>
         )
     }

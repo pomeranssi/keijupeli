@@ -1,11 +1,12 @@
 import * as React from 'react'
-import {Category, Item} from './items'
+import {Category, Item} from './Items'
 import ItemView from './ItemView'
+import {GameControl} from './GameControl'
 import './ItemSelector.css'
 
 interface ItemSelectorProps {
     readonly category: Category,
-    readonly onAddItem: (category: string, item: Item) => void
+    readonly getGameControl: () => GameControl
 }
 export default class ItemSelector extends React.Component<ItemSelectorProps, {
     selectedItem?: Item,
@@ -38,7 +39,7 @@ export default class ItemSelector extends React.Component<ItemSelectorProps, {
     selectItem(item?: Item) {
         this.setState({selectedItem: item, open: false})
         if (item) {
-            this.props.onAddItem(this.props.category.type, item)
+            this.props.getGameControl().addItem(this.props.category, item)
         }
     }
 

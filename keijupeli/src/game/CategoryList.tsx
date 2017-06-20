@@ -1,16 +1,16 @@
 import * as React from 'react'
-import items from './items'
 import './CategoryList.css'
-import {Item} from './items'
+import items from './Items'
 import ItemSelector from './ItemSelector'
+import {GameControl} from './GameControl'
 
 export default class CategoryList extends React.Component<{
-    onAddItem: (category: string, item: Item) => void
+    getGameControl: () => GameControl
 }, null> {
     render() {
         return (
             <div className="CategoryList">
-                {items.map(i => <ItemSelector category={i} key={i.title} onAddItem={this.props.onAddItem}/>)}
+                {items.map(i => <ItemSelector category={i} key={i.title} getGameControl={this.props.getGameControl}/>)}
             </div>
         )
     }

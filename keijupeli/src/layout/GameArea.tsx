@@ -1,6 +1,6 @@
 import * as React from 'react'
 import './GameArea.css'
-import allItems, {Item} from '../game/items'
+import allItems, {Category, Item} from '../game/Items'
 
 interface Map<V> {
     [key: string]: V
@@ -38,10 +38,17 @@ export default class GameArea extends React.Component<{}, GameState> {
             items: its
         })
     }
-    addItem(category: string, item: Item) {
+    addItem(category: Category, item: Item) {
         this.setState(s => {
             const its = s.items
-            its[category] = item
+            its[category.type] = item
+            return {items: its}
+        })
+    }
+    removeItem(category: Category, item: Item) {
+        this.setState(s => {
+            const its = s.items
+            its[category.type] = item
             return {items: its}
         })
     }

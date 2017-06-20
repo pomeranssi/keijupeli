@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {Category, Item} from './items'
+import {Category, Item} from './Items'
 import './ItemView.css'
 
 interface ItemViewProps {
