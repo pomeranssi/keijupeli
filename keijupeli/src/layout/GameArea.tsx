@@ -10,10 +10,10 @@ interface GameState {
     categories: Category[]
 }
 
-class ItemElement extends React.Component<{item: Item, onClick: () => void}, null> {
+class ItemElement extends React.Component<{item: Item, category: Category, onClick: () => void}, null> {
     render() {
         return (
-            <img src={this.props.item.img} className="Image" style={{
+            <img src={this.props.item.img} className={`Image ${this.props.category.type}`} style={{
                 left: this.props.item.left,
                 top: this.props.item.top,
                 zIndex: this.props.item.zIndex
@@ -54,7 +54,8 @@ export default class GameArea extends React.Component<{}, GameState> {
                    {this.state.categories.map(c => {
                        const item = this.state.items[c.type]
                        return item ?
-                           <ItemElement key={item.img} item={item} onClick={() => this.removeItem(c, item)} /> :
+                           <ItemElement key={item.img} item={item} category={c}
+                                        onClick={() => this.removeItem(c, item)} /> :
                            undefined
                    }).filter(i => i !== undefined)}
                    <br />

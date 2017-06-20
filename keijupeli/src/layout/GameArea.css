@@ -12,3 +12,15 @@
 .Image {
     position: absolute;
 }
+
+.Image.background { z-index:  0; }
+.Image.wings      { z-index:  1; }
+.Image.body       { z-index:  2; }
+.Image.shoes      { z-index:  3; }
+.Image.leg        { z-index:  4; }
+.Image.chest      { z-index:  6; }
+.Image.necklace   { z-index:  8; }
+.Image.hair       { z-index: 30; }
+.Image.eyes       { z-index: 40; }
+.Image.crown      { z-index: 50; }
+
