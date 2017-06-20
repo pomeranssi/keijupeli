@@ -1,6 +1,7 @@
 import * as React from 'react'
 import './GameArea.css'
 import allItems, {Category, Item} from '../game/Items'
+import {GameEventListener} from '../game/GameControl'
 
 interface Map<V> {
     [key: string]: V
@@ -26,7 +27,9 @@ class ItemElement extends React.Component<{item: Item, category: Category, onCli
     }
 }
 
-export default class GameArea extends React.Component<{}, GameState> {
+export default class GameArea extends React.Component<{
+    getEventListener: () => GameEventListener
+}, GameState> {
     componentWillMount() {
         const cats = allItems.map(c => c)
         const its: Map<Item | undefined> = {}
@@ -58,7 +61,10 @@ export default class GameArea extends React.Component<{}, GameState> {
                        const item = this.state.items[c.type]
                        return item ?
                            <ItemElement key={item.img} item={item} category={c}
-                                        onClick={() => this.removeItem(c)} /> :
+                                        onClick={() => {
+                                            this.removeItem(c)
+                                            this.props.getEventListener().itemRemoved(c, item)
+                                        }} /> :
                            undefined
                    }).filter(i => i !== undefined)}
                    <br />
