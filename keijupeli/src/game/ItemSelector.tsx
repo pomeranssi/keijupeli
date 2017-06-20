@@ -41,6 +41,8 @@ export default class ItemSelector extends React.Component<ItemSelectorProps, {
         this.setState({selectedItem: item, open: false})
         if (item) {
             this.props.getGameControl().addItem(this.props.category, item)
+        } else {
+            this.props.getGameControl().removeItem(this.props.category)
         }
     }
 

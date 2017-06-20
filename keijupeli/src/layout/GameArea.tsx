@@ -43,7 +43,7 @@ export default class GameArea extends React.Component<{}, GameState> {
             return {items: its}
         })
     }
-    removeItem(category: Category, item: Item) {
+    removeItem(category: Category) {
         this.setState(s => {
             const its = s.items
             its[category.type] = undefined
@@ -58,7 +58,7 @@ export default class GameArea extends React.Component<{}, GameState> {
                        const item = this.state.items[c.type]
                        return item ?
                            <ItemElement key={item.img} item={item} category={c}
-                                        onClick={() => this.removeItem(c, item)} /> :
+                                        onClick={() => this.removeItem(c)} /> :
                            undefined
                    }).filter(i => i !== undefined)}
                    <br />
