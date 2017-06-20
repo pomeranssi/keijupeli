@@ -29,6 +29,7 @@ export default class ItemSelector extends React.Component<ItemSelectorProps, {
             <div className="ItemList">
                 <ItemView category={this.props.category} onClick={(item?: Item) => this.selectItem()}/>
                 {this.props.category.items.map(i => <ItemView
+                    key={i.img}
                     category={this.props.category}
                     item={i}
                     onClick={(item?: Item) => this.selectItem(item)}/>)}

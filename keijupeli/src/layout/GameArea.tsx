@@ -7,30 +7,25 @@ interface Map<V> {
 }
 interface GameState {
     items: Map<Item | undefined>,
-    categories: string[]
+    categories: Category[]
 }
 
-const emptyItem: Item = {
-    img: '',
-    left: 0,
-    top: 0
-}
-
-class ItemElement extends React.Component<{item: Item}, null> {
+class ItemElement extends React.Component<{item: Item, onClick: () => void}, null> {
     render() {
         return (
             <img src={this.props.item.img} className="Image" style={{
                 left: this.props.item.left,
                 top: this.props.item.top,
                 zIndex: this.props.item.zIndex
-            }}/>
+            }} onClick={this.props.onClick}
+            />
         )
     }
 }
 
 export default class GameArea extends React.Component<{}, GameState> {
     componentWillMount() {
-        const cats = allItems.map(c => c.type)
+        const cats = allItems.map(c => c)
         const its: Map<Item | undefined> = {}
         allItems.forEach(c => its[c.type] = c.items.find(i => i.isDefault!!))
         this.setState({
@@ -48,7 +43,7 @@ export default class GameArea extends React.Component<{}, GameState> {
     removeItem(category: Category, item: Item) {
         this.setState(s => {
             const its = s.items
-            its[category.type] = item
+            its[category.type] = undefined
             return {items: its}
         })
     }
@@ -56,9 +51,12 @@ export default class GameArea extends React.Component<{}, GameState> {
         return (
             <div className="Game">
                 <div className="Content">
-                   {this.state.categories.map(i => this.state.items[i])
-                       .filter(i => i !== undefined)
-                       .map(i => <ItemElement item={i || emptyItem} />)}
+                   {this.state.categories.map(c => {
+                       const item = this.state.items[c.type]
+                       return item ?
+                           <ItemElement key={item.img} item={item} onClick={() => this.removeItem(c, item)} /> :
+                           undefined
+                   }).filter(i => i !== undefined)}
                    <br />
                 </div>
             </div>
