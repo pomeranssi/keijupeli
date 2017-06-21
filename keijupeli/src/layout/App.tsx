@@ -10,14 +10,17 @@ export default class App extends React.Component<{}, null> {
     render() {
         return (
             <div className="App">
+                <div className="App-main">
+                    <GameArea ref={r => this.gameControl = r} getEventListener={() => this.toolBar.getEventListener()}/>
+                    <br />
+                </div>
                 <div className="App-toolbar-container">
                     <div className="App-toolbar">
                         <ToolBar getGameControl={() => this.gameControl} ref={r => this.toolBar = r}/>
                     </div>
                 </div>
-                <div className="App-main">
-                    <GameArea ref={r => this.gameControl = r} getEventListener={() => this.toolBar.getEventListener()}/>
-                    <br />
+                <div className="App-toolbar2-container">
+                    Selected category
                 </div>
             </div>
         )

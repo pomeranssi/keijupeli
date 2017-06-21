@@ -1,19 +1,33 @@
 .App {
-    position: absolute;
+}
+
+.App-main {
+    position: fixed;
     top: 0;
-    left: 0;
     bottom: 0;
-    right: 0;
+    left: 110px;
+    right: 110px;
+    overflow: hidden;
+}
+
+.App-toolbar-container,
+.App-toolbar2-container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 110px;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
 .App-toolbar-container {
-    position: absolute;
-    top: 0;
     left: 0;
-    bottom: 0;
-    width: 110px;
-    z-index: 2;
-    overflow: visible;
+    background-color: #222;
+}
+
+.App-toolbar2-container {
+    right: 0;
+    background-color: #333;
 }
 
 .App-toolbar {
@@ -21,13 +35,5 @@
     background-color: #222;
 }
 
-.App-main {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 110px;
-    right: 0;
-    overflow: scroll;
-    padding-bottom: 1em;
-    z-index: 1;
-}
+.App-toolbar-container::-webkit-scrollbar,
+.App-toolbar2-container::-webkit-scrollbar { width: 0 !important }
