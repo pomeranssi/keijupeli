@@ -18,16 +18,15 @@
     width: 110px;
     overflow: auto;
     overflow-x: hidden;
+    background-color: #222;
 }
 
 .App-toolbar-container {
     left: 0;
-    background-color: #222;
 }
 
 .App-toolbar2-container {
     right: 0;
-    background-color: #333;
 }
 
 .App-toolbar {

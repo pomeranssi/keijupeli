@@ -47,6 +47,21 @@ const areaPadding = new Size(220, 0)
 export default class GameArea extends React.Component<{
     getEventListener: () => GameEventListener
 }, GameState> {
+
+    static getAreaScale(w: Size): number {
+        if (w.width >= desiredSize.width && w.height >= desiredSize.height) {
+            return 1
+        }
+        let scale = 1
+        if (w.width < desiredSize.width) {
+            scale = Math.min(scale, w.width / desiredSize.width)
+        }
+        if (w.height < desiredSize.height) {
+            scale = Math.min(scale, w.height / desiredSize.height)
+        }
+        return scale
+    }
+
     componentWillMount() {
         const cats = allItems.map(c => c)
         const its: Map<Item | undefined> = {}
@@ -84,20 +99,6 @@ export default class GameArea extends React.Component<{
 
     updateWindowDimensions() {
         this.setState({ windowSize: new Size(window.innerWidth, window.innerHeight).minus(areaPadding)})
-    }
-
-    static getAreaScale(w: Size): number {
-        if (w.width >= desiredSize.width && w.height >= desiredSize.height) {
-            return 1
-        }
-        let scale = 1
-        if (w.width < desiredSize.width) {
-            scale = Math.min(scale, w.width / desiredSize.width)
-        }
-        if (w.height < desiredSize.height) {
-            scale = Math.min(scale, w.height / desiredSize.height)
-        }
-        return scale
     }
 
     render() {

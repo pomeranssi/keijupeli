@@ -1,0 +1,11 @@
+.ItemList {
+    width: 100px;
+    -webkit-border-radius: 0.4em;
+    -moz-border-radius: 0.4em;
+    border-radius: 0.4em;
+    padding: 0.1em 0;
+}
+
+.ItemList .ItemView {
+    margin: 0.1em 0;
+}
