@@ -10,8 +10,7 @@
     overflow: hidden;
 }
 
-.App-toolbar-container,
-.App-toolbar2-container {
+.App-toolbar {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -21,18 +20,12 @@
     background-color: #222;
 }
 
-.App-toolbar-container {
+.App-toolbar.primary {
     left: 0;
 }
 
-.App-toolbar2-container {
+.App-toolbar.secondary {
     right: 0;
 }
 
-.App-toolbar {
-    width: 110px;
-    background-color: #222;
-}
-
-.App-toolbar-container::-webkit-scrollbar,
-.App-toolbar2-container::-webkit-scrollbar { width: 0 !important }
+.App-toolbar::-webkit-scrollbar { width: 0 !important }

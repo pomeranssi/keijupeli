@@ -21,13 +21,11 @@ export default class App extends React.Component<{}, {
                     <GameArea ref={r => this.gameControl = r} getEventListener={() => this.toolBar.getEventListener()}/>
                     <br />
                 </div>
-                <div className="App-toolbar-container">
-                    <div className="App-toolbar">
-                        <ToolBar getGameControl={() => this.gameControl} ref={r => this.toolBar = r}
-                                 setCategory={c => this.setState({category: c})}/>
-                    </div>
+                <div className="App-toolbar primary">
+                    <ToolBar getGameControl={() => this.gameControl} ref={r => this.toolBar = r}
+                             setCategory={c => this.setState({category: c})}/>
                 </div>
-                <div className="App-toolbar2-container">
+                <div className="App-toolbar secondary">
                     <ItemList getGameControl={() => this.gameControl} category={this.state.category}/>
                 </div>
             </div>
