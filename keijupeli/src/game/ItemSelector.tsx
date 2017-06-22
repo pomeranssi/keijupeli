@@ -7,10 +7,10 @@ import './ItemSelector.css'
 interface ItemSelectorProps {
     readonly category: Category,
     readonly getGameControl: () => GameControl
+    readonly setCategory: (category: Category) => void
 }
 export default class ItemSelector extends React.Component<ItemSelectorProps, {
-    selectedItem?: Item,
-    open: boolean
+    selectedItem?: Item
 }> {
 
     constructor(props: ItemSelectorProps) {
@@ -20,25 +20,11 @@ export default class ItemSelector extends React.Component<ItemSelectorProps, {
     componentWillMount() {
         this.setState({
             selectedItem: this.props.category.items.find(i => i.isDefault!!),
-            open: false
         })
     }
 
-    renderItemList(): object {
-        return (
-            <div className="ItemList">
-                <ItemView category={this.props.category} onClick={(item?: Item) => this.selectItem()}/>
-                {this.props.category.items.map(i => <ItemView
-                    key={i.img}
-                    category={this.props.category}
-                    item={i}
-                    onClick={(item?: Item) => this.selectItem(item)}/>)}
-            </div>
-        )
-    }
-
     selectItem(item?: Item) {
-        this.setState({selectedItem: item, open: false})
+        this.setState({selectedItem: item})
         if (item) {
             this.props.getGameControl().addItem(this.props.category, item)
         } else {
@@ -52,10 +38,9 @@ export default class ItemSelector extends React.Component<ItemSelectorProps, {
                 <ItemView
                     category={this.props.category}
                     item={this.state.selectedItem}
-                    onClick={() => this.setState(s => ({open: !s.open}))}>
+                    onClick={() => this.props.setCategory(this.props.category)}>
                     <div className="CategoryTitle">{this.props.category.title}</div>
                 </ItemView>
-                {this.state.open ? this.renderItemList() : null}
             </div>
         )
     }

@@ -5,7 +5,8 @@ import ItemSelector from './ItemSelector'
 import {GameControl} from './GameControl'
 
 export default class CategoryList extends React.Component<{
-    getGameControl: () => GameControl
+    getGameControl: () => GameControl,
+    setCategory: (category: Category) => void
 }, null> {
     selectors: {
         [key: string]: ItemSelector
@@ -20,6 +21,7 @@ export default class CategoryList extends React.Component<{
         return (
             <div className="CategoryList">
                 {items.map(i => <ItemSelector category={i} key={i.title} ref={r => this.selectors[i.type] = r}
+                                              setCategory={this.props.setCategory}
                                               getGameControl={this.props.getGameControl}/>)}
             </div>
         )

@@ -1,12 +1,12 @@
 .Game {
-    background-color: #fff;
-    padding: 0.5em;
+    padding: 0;
 }
 
 .Content {
     width: 1024px;
     height: 1024px;
-    border-radius: 30px;
+    display: block;
+    transform-origin: top left;
 }
 
 .Image {
