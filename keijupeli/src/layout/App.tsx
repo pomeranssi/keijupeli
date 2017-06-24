@@ -4,6 +4,7 @@ import ItemList from '../game/ItemList'
 const logo = require('./images/fairy.svg')
 import './App.css'
 import CategoryList from '../game/CategoryList'
+import UtilityBar from './UtilityBar'
 
 export default class App extends React.Component<{}, {}> {
 
@@ -28,6 +29,9 @@ export default class App extends React.Component<{}, {}> {
                 </div>
                 <div className="App-toolbar secondary">
                     <ItemList />
+                </div>
+                <div className="App-toolbar tertiary">
+                    <UtilityBar />
                 </div>
             </div>
         )

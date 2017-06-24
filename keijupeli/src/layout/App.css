@@ -32,6 +32,12 @@
     left: 110px;
     border-left: 1px dashed #777;
 }
+.App-toolbar.tertiary {
+    right: 0;
+    left: inherit;
+    background: none;
+    background: rgba(0,0,0,0.2);
+}
 
 .App-toolbar::-webkit-scrollbar {
     width: 0 !important;

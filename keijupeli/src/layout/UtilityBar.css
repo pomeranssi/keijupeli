@@ -1,0 +1,14 @@
+.UtilityBar {
+    text-align: center;
+    margin-top: 0.6em;
+}
+
+.App-icon {
+    width: 80px;
+    height: 80px;
+    padding: 5px;
+    background-color: rgba(255,153,153,0.8);
+    border-radius: 50%;
+    display: inline-block;
+}
+
