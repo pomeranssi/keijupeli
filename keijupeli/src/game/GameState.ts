@@ -11,6 +11,8 @@ export type Action = {
 } | {
     type: 'SELECT_CATEGORY',
     category: string
+} | {
+    type: 'RANDOMIZE'
 }
 
 export const addItem = (item: Item, category: Category): Action => ({
@@ -29,6 +31,10 @@ export const selectCategory = (category: Category): Action => ({
     category: category.type
 })
 
+export const randomize = (): Action => ({
+    type: 'RANDOMIZE'
+})
+
 export namespace Game {
 
     export type SelectedItems = {
@@ -42,9 +48,22 @@ export namespace Game {
     }
 }
 
-const initialItems: Game.SelectedItems = Object.assign.apply(
-    {},
-    categories.map(c => ({[c.type]: c.items.find(i => i.isDefault!!)})))
+// Returns a random integer between min (included) and max (excluded)
+// Using Math.round() will give you a non-uniform distribution!
+function getRandomInt(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min)) + min
+}
+
+const toCategorySelection = (items: Array<{[key: string]: Item | undefined}>): {[key: string]: Item} =>
+    Object.assign.apply({}, items)
+
+const initialItems: Game.SelectedItems =
+    toCategorySelection(categories.map(c => ({[c.type]: c.items.find(i => i.isDefault!!)})))
+
+function getRandomItem(category: Category) {
+    const i = getRandomInt(0, category.items.length + 1)
+    return i < category.items.length ? category.items[i] : undefined
+}
 
 function selectedItemsReducer(state: Game.SelectedItems = initialItems, action: Action): Game.SelectedItems {
     switch (action.type) {
@@ -53,6 +72,9 @@ function selectedItemsReducer(state: Game.SelectedItems = initialItems, action: 
         case 'REMOVE_ITEM': {
             const {[action.category]: removed, ...remaining} = state
             return remaining
+        }
+        case 'RANDOMIZE': {
+            return toCategorySelection(categories.map(c => ({[c.type]: getRandomItem(c)})))
         }
         default:
             return state
