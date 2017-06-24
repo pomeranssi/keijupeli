@@ -2,6 +2,7 @@ export interface Category {
     readonly title: string,
     readonly type: string,
     readonly isBackground?: boolean,
+    readonly thumb: string,
     readonly items: Array<Item>
 }
 
@@ -18,6 +19,7 @@ const categories: Category[] = [
         title: 'Taustat',
         type: 'background',
         isBackground: true,
+        thumb: require('./thumbs/category-background.png'),
         items: [
             { img: require('./images/bg-castle.jpg'), left: 0, top: 0 },
             { img: require('./images/bg-beach.jpg'), left: 0, top: 0, isDefault: true },
@@ -29,6 +31,7 @@ const categories: Category[] = [
     {
         title: 'Vartalot',
         type: 'body',
+        thumb: require('./thumbs/category-body.png'),
         items: [
             { img: require('./images/girl-white.png'), left: 336, top: 198, isDefault: true },
             { img: require('./images/girl-latino.png'), left: 336, top: 198 }
@@ -37,6 +40,7 @@ const categories: Category[] = [
     {
         title: 'Siivet',
         type: 'wings',
+        thumb: require('./thumbs/category-wings.png'),
         items: [
             { img: require('./images/wings-pink.png'), left: 25, top: 29 },
             { img: require('./images/wings-pink2.png'), left: 50, top: 140 },
@@ -48,6 +52,7 @@ const categories: Category[] = [
     {
         title: 'Silmät',
         type: 'eyes',
+        thumb: require('./thumbs/category-eyes.png'),
         items: [
             { img: require('./images/eyes-blue.png'), left: 419, top: 310, isDefault: true },
             { img: require('./images/eyes-green.png'), left: 419, top: 310 },
@@ -63,6 +68,7 @@ const categories: Category[] = [
     {
         title: 'Hiukset',
         type: 'hair',
+        thumb: require('./thumbs/category-hair.png'),
         items: [
             { img: require('./images/hair-orig.png'), left: 335, top: 150, isDefault: true },
             { img: require('./images/hair-yellow.png'), left: 329, top: 148 },
@@ -76,6 +82,7 @@ const categories: Category[] = [
     {
         title: 'Hameet ja housut',
         type: 'leg',
+        thumb: require('./thumbs/category-leg.png'),
         items: [
             { img: require('./images/skirt-red.png'), left: 421, top: 529 },
             { img: require('./images/skirt-pink.png'), left: 397, top: 534 },
@@ -88,6 +95,7 @@ const categories: Category[] = [
     {
         title: 'Paidat ja mekot',
         type: 'chest',
+        thumb: require('./thumbs/category-chest.png'),
         items: [
             { img: require('./images/dress-blue.png'), left: 439, top: 406 },
             { img: require('./images/dress-redblue.png'), left: 353, top: 326 },
@@ -107,6 +115,7 @@ const categories: Category[] = [
     {
         title: 'Kengät',
         type: 'shoes',
+        thumb: require('./thumbs/category-shoes.png'),
         items: [
             { img: require('./images/shoes-blue.png'), left: 373, top: 888, isDefault: true },
             { img: require('./images/shoes-yellow.png'), left: 369, top: 872 },
@@ -119,6 +128,7 @@ const categories: Category[] = [
     {
         title: 'Kaulakorut',
         type: 'necklace',
+        thumb: require('./thumbs/category-necklace.png'),
         items: [
             { img: require('./images/necklace-white.png'), left: 469, top: 412 },
             { img: require('./images/necklace-white2.png'), left: 469, top: 412 },
@@ -132,6 +142,7 @@ const categories: Category[] = [
     {
         title: 'Kruunut ja tiarat',
         type: 'crown',
+        thumb: require('./thumbs/category-crown.png'),
         items: [
             { img: require('./images/tiara-yellow.png'), left: 383, top: 201 },
             { img: require('./images/crown-yellow.png'), left: 377, top: 124 },

@@ -5,21 +5,22 @@ import './ItemView.css'
 interface ItemViewProps {
     item?: Item,
     category: Category,
+    missingImage?: string,
     onClick?: (item?: Item) => void
 }
 export default class ItemView extends React.Component<ItemViewProps, null> {
     getImageClass(): string {
         return 'ItemImage' + (this.props.category.isBackground ? ' background' : '')
     }
-    getImage(item: Item | undefined): object | undefined {
-        return item ?
-            <div className={this.getImageClass()} style={{backgroundImage: `url("${item.img}")`}} /> :
+    getImage(item: Item | undefined, thumb: string | undefined): object | undefined {
+        return (item || thumb) ?
+            <div className={this.getImageClass()} style={{backgroundImage: `url("${item ? item.img : thumb}")`}} /> :
             undefined
     }
     render() {
         return (
             <div className="ItemView" onClick={i => this.props.onClick && this.props.onClick(this.props.item)}>
-                {this.getImage(this.props.item)}
+                {this.getImage(this.props.item, this.props.missingImage)}
                 {this.props.children}
             </div>
         )

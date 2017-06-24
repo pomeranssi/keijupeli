@@ -16,6 +16,7 @@ export default class ItemSelector extends React.Component<ItemSelectorProps, {}>
                 <ItemView
                     category={this.props.category}
                     item={this.props.selectedItem}
+                    missingImage={this.props.category.thumb}
                     onClick={() => this.props.setCategory(this.props.category)}>
                     <div className="CategoryTitle">{this.props.category.title}</div>
                 </ItemView>
