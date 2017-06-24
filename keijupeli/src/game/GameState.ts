@@ -42,7 +42,8 @@ export namespace Game {
     }
 }
 
-const initialItems: Game.SelectedItems = Object.assign(
+const initialItems: Game.SelectedItems = Object.assign.apply(
+    {},
     categories.map(c => ({[c.type]: c.items.find(i => i.isDefault!!)})))
 
 function selectedItemsReducer(state: Game.SelectedItems = initialItems, action: Action): Game.SelectedItems {
