@@ -35,7 +35,7 @@ class ItemElement extends React.Component<{item: Item, category: Category, onCli
 }
 
 const desiredSize = new Size(1024, 1024)
-const areaPadding = new Size(220, 0)
+const areaPadding = {landscape: new Size(220, 0), portrait: new Size(0, 220)}
 
 interface GameAreaProps {
     items: Game.SelectedItems,
@@ -83,7 +83,9 @@ export class GameArea extends React.Component<GameAreaProps, GameState> {
     }
 
     updateWindowDimensions() {
-        this.setState({ windowSize: new Size(window.innerWidth, window.innerHeight).minus(areaPadding)})
+        const isLandscape = window.innerWidth >= window.innerHeight
+        this.setState({ windowSize: new Size(window.innerWidth, window.innerHeight)
+            .minus(areaPadding[isLandscape ? 'landscape' : 'portrait'])})
     }
 
     render() {

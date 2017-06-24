@@ -33,7 +33,10 @@
     border-left: 1px dashed #777;
 }
 
-.App-toolbar::-webkit-scrollbar { width: 0 !important }
+.App-toolbar::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+}
 
 
 .LogoArea {
@@ -55,7 +58,59 @@
     display: inline-block;
 }
 
-h1 {
+.LogoArea > h1 {
     font-size: 16pt;
     margin: 0.4em;
+}
+
+@media all and (orientation: portrait) {
+
+    .LogoArea {
+        margin: 0;
+        display: inline-block;
+        width: 100px;
+        height: 110px;
+        vertical-align: top;
+        text-align: center;
+    }
+
+    .LogoArea > .Logo {
+        margin-top: 0.3em;
+        margin-bottom: -0.1em;
+    }
+    .LogoArea > h1 {
+        font-size: 12pt;
+        padding: 0;
+    }
+
+    .App-main {
+        top: 220px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .App-toolbar {
+        left: 0;
+        right: 0;
+        height: 110px;
+        width: inherit;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        vertical-align: top;
+        white-space: nowrap;
+        text-align: left;
+    }
+
+    .App-toolbar.primary {
+        top: 0;
+    }
+
+    .App-toolbar.secondary {
+        top: 110px;
+        left: 0;
+        border: none;
+        border-top: 1px dashed #777;
+    }
+
 }

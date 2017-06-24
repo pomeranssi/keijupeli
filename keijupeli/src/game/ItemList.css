@@ -1,3 +1,10 @@
 .ItemList {
     margin: 0 0.3em;
+    display: inline-block;
+}
+
+@media all and (orientation: portrait) {
+    .ItemList {
+        margin: 0.3em 0;
+    }
 }
