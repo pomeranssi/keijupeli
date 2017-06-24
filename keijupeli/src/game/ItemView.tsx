@@ -14,7 +14,7 @@ export default class ItemView extends React.Component<ItemViewProps, null> {
     }
     getImage(item: Item | undefined, thumb: string | undefined): object | undefined {
         return (item || thumb) ?
-            <div className={this.getImageClass()} style={{backgroundImage: `url("${item ? item.img : thumb}")`}} /> :
+            <div className={this.getImageClass()} style={{backgroundImage: `url("${item ? item.thumb : thumb}")`}} /> :
             undefined
     }
     render() {
