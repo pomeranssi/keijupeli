@@ -1,29 +1,29 @@
 import * as React from 'react'
-import './CategoryList.css'
-import items, {Category, Item} from './Items'
+import categories, {Category} from './Items'
 import ItemSelector from './ItemSelector'
-import {GameControl} from './GameControl'
+import {connect} from 'react-redux'
+import './CategoryList.css'
+import {Game, selectCategory} from './GameState'
 
-export default class CategoryList extends React.Component<{
-    getGameControl: () => GameControl,
-    setCategory: (category: Category) => void
-}, null> {
-    selectors: {
-        [key: string]: ItemSelector
-    } = {}
-    itemAdded(category: Category, item: Item) {
-        this.selectors[category.type].selectItem(item)
-    }
-    itemRemoved(category: Category, item: Item) {
-        this.selectors[category.type].selectItem()
-    }
+export class CategoryList extends React.Component<{
+    selectedCategory: Game.SelectedCategory,
+    selectedItems: Game.SelectedItems,
+    onSelectCategory: (category: Category) => void
+}, {}> {
     render() {
         return (
             <div className="CategoryList">
-                {items.map(i => <ItemSelector category={i} key={i.title} ref={r => this.selectors[i.type] = r}
-                                              setCategory={this.props.setCategory}
-                                              getGameControl={this.props.getGameControl}/>)}
+                {categories.map(c => <ItemSelector category={c} key={c.title}
+                                              selectedItem={this.props.selectedItems[c.type]}
+                                              setCategory={this.props.onSelectCategory}/>)}
             </div>
         )
     }
 }
+
+const StatefulCategoryList = connect(
+    (state: Game.State) => ({ selectedCategory: state.selectedCategory, selectedItems: state.selectedItems }),
+    (dispatch) => ({onSelectCategory: (category: Category) => { dispatch(selectCategory(category)) } })
+)(CategoryList)
+
+export default StatefulCategoryList

@@ -13,7 +13,7 @@ export interface Item {
     readonly zIndex?: number
 }
 
-const items: Array<Category> = [
+const categories: Category[] = [
     {
         title: 'Taustat',
         type: 'background',
@@ -141,4 +141,4 @@ const items: Array<Category> = [
     }
 ]
 
-export default items
+export default categories

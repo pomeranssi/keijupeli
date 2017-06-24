@@ -1,14 +1,17 @@
 import * as React from 'react'
-import {Category, Item} from './Items'
+import categories, {Category, Item} from './Items'
 import ItemView from './ItemView'
-import {GameControl} from './GameControl'
+import {connect} from 'react-redux'
+import {addItem, Game, removeItem} from './GameState'
 import './ItemList.css'
 
 interface ItemListProps {
-    readonly category?: Category,
-    readonly getGameControl: () => GameControl
+    readonly selectedCategory: Game.SelectedCategory,
+    readonly category: Category | undefined,
+    readonly onSelectItem: (category: Category, item: Item) => void
+    readonly onRemoveItem: (category: Category) => void
 }
-export default class ItemList extends React.Component<ItemListProps, {}> {
+export class ItemList extends React.Component<ItemListProps, {}> {
 
     constructor(props: ItemListProps) {
         super(props)
@@ -18,9 +21,9 @@ export default class ItemList extends React.Component<ItemListProps, {}> {
     selectItem(item?: Item) {
         if (this.props.category) {
             if (item) {
-                this.props.getGameControl().addItem(this.props.category, item)
+                this.props.onSelectItem(this.props.category, item)
             } else {
-                this.props.getGameControl().removeItem(this.props.category)
+                this.props.onRemoveItem(this.props.category)
             }
         }
     }
@@ -40,3 +43,16 @@ export default class ItemList extends React.Component<ItemListProps, {}> {
     }
 
 }
+
+const StatefulItemList = connect(
+    (state: Game.State) => ({
+        selectedCategory: state.selectedCategory,
+        category: state.selectedCategory ? categories.find(c => c.type === state.selectedCategory) : undefined
+    }),
+    (dispatch) => ({
+        onSelectItem: (category: Category, item: Item) => { dispatch(addItem(item, category)) },
+        onRemoveItem: (category: Category) => { dispatch(removeItem(category)) }
+    })
+)(ItemList)
+
+export default StatefulItemList

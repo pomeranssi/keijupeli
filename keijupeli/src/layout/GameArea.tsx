@@ -1,11 +1,9 @@
 import * as React from 'react'
-import './GameArea.css'
 import allItems, {Category, Item} from '../game/Items'
-import {GameEventListener} from '../game/GameControl'
+import {connect} from 'react-redux'
+import {Game, removeItem} from '../game/GameState'
+import './GameArea.css'
 
-interface Map<V> {
-    [key: string]: V
-}
 class Size {
     readonly width: number
     readonly height: number
@@ -18,11 +16,6 @@ class Size {
     minus(s: Size): Size {
         return new Size(this.width - s.width, this.height - s.height)
     }
-}
-interface GameState {
-    items: Map<Item | undefined>,
-    categories: Category[],
-    windowSize: Size
 }
 
 class ItemElement extends React.Component<{item: Item, category: Category, onClick: () => void}, null> {
@@ -44,9 +37,17 @@ class ItemElement extends React.Component<{item: Item, category: Category, onCli
 const desiredSize = new Size(1024, 1024)
 const areaPadding = new Size(220, 0)
 
-export default class GameArea extends React.Component<{
-    getEventListener: () => GameEventListener
-}, GameState> {
+interface GameAreaProps {
+    items: Game.SelectedItems,
+    onRemove: (category: Category) => void
+}
+interface GameState {
+    windowSize: Size
+}
+
+export class GameArea extends React.Component<GameAreaProps, GameState> {
+
+    categories: Category[]
 
     static getAreaScale(w: Size): number {
         if (w.width >= desiredSize.width && w.height >= desiredSize.height) {
@@ -62,30 +63,14 @@ export default class GameArea extends React.Component<{
         return scale
     }
 
+    constructor(props: GameAreaProps) {
+        super(props)
+        this.categories = allItems
+    }
+
     componentWillMount() {
-        const cats = allItems.map(c => c)
-        const its: Map<Item | undefined> = {}
-        allItems.forEach(c => its[c.type] = c.items.find(i => i.isDefault!!))
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
-        this.setState({
-            categories: cats,
-            items: its,
-            windowSize: desiredSize
-        })
-    }
-    addItem(category: Category, item: Item) {
-        this.setState(s => {
-            const its = s.items
-            its[category.type] = item
-            return {items: its}
-        })
-    }
-    removeItem(category: Category) {
-        this.setState(s => {
-            const its = s.items
-            its[category.type] = undefined
-            return {items: its}
-        })
+        this.setState({windowSize: desiredSize})
     }
 
     componentDidMount() {
@@ -106,14 +91,11 @@ export default class GameArea extends React.Component<{
             <div className="Game">
                 <div className="Content"
                      style={{ transform: `scale(${GameArea.getAreaScale(this.state.windowSize)})`}}>
-                   {this.state.categories.map(c => {
-                       const item = this.state.items[c.type]
+                   {this.categories.map(c => {
+                       const item = this.props.items[c.type]
                        return item ?
                            <ItemElement key={item.img} item={item} category={c}
-                                        onClick={() => {
-                                            this.removeItem(c)
-                                            this.props.getEventListener().itemRemoved(c, item)
-                                        }} /> :
+                                        onClick={() => {this.props.onRemove(c)}} /> :
                            undefined
                    }).filter(i => i !== undefined)}
                    <br />
@@ -122,3 +104,10 @@ export default class GameArea extends React.Component<{
         )
     }
 }
+
+const StatefulGameArea = connect(
+    (state: Game.State) => ({ items: state.selectedItems }),
+    (dispatch) => ({onRemove: (category: Category) => { dispatch(removeItem(category)) } })
+)(GameArea)
+
+export default StatefulGameArea
