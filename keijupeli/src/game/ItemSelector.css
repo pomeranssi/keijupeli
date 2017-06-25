@@ -14,7 +14,7 @@
 
 .CategoryTitle {
     transform-origin: left top;
-    transform: translate(0, 100px) rotate(-90deg);
+    transform: translate(0, 90px) rotate(-90deg);
     background: rgba(0,0,0,0.3);
 }
 

@@ -1,6 +1,6 @@
 .ItemView {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     -webkit-border-radius: 0.4em;
     -moz-border-radius: 0.4em;
     border-radius: 0.4em;
@@ -17,13 +17,13 @@
     z-index: 1;
     left: 10px;
     top: 10px;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
 }
 
 .ItemImage.background {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     top: 0;
     left: 0;
 }

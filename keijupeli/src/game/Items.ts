@@ -20,17 +20,17 @@ const categories: Category[] = [
         title: 'Taustat',
         type: 'background',
         isBackground: true,
-        thumb: require('./thumbs/category-background.png'),
+        thumb: require('./thumbs/category-background.jpg'),
         items: [
-            { img: require('./images/bg-castle.jpg'), thumb: require('./thumbs/bg-castle.png'),
+            { img: require('./images/bg-castle.jpg'), thumb: require('./thumbs/bg-castle.jpg'),
                 left: 0, top: 0 },
-            { img: require('./images/bg-beach.jpg'), thumb: require('./thumbs/bg-beach.png'),
+            { img: require('./images/bg-beach.jpg'), thumb: require('./thumbs/bg-beach.jpg'),
                 left: 0, top: 0, isDefault: true },
-            { img: require('./images/bg-snow.jpg'), thumb: require('./thumbs/bg-snow.png'),
+            { img: require('./images/bg-snow.jpg'), thumb: require('./thumbs/bg-snow.jpg'),
                 left: 0, top: 0 },
-            { img: require('./images/bg-castle-carrots.jpg'), thumb: require('./thumbs/bg-castle-carrots.png'),
+            { img: require('./images/bg-castle-carrots.jpg'), thumb: require('./thumbs/bg-castle-carrots.jpg'),
                 left: 0, top: 0 },
-            { img: require('./images/bg-ocean.jpg'), thumb: require('./thumbs/bg-ocean.png'),
+            { img: require('./images/bg-ocean.jpg'), thumb: require('./thumbs/bg-ocean.jpg'),
                 left: 0, top: 0 }
         ]
     },

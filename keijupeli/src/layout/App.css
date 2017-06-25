@@ -5,7 +5,7 @@
     position: fixed;
     top: 0;
     bottom: 0;
-    left: 220px;
+    left: 200px;
     right: 0;
     overflow: hidden;
     background-color: #222;
@@ -15,7 +15,7 @@
     position: fixed;
     top: 0;
     bottom: 0;
-    width: 110px;
+    width: 100px;
     overflow: auto;
     overflow-x: hidden;
     background-color: #222;
@@ -29,12 +29,13 @@
 }
 
 .App-toolbar.secondary {
-    left: 110px;
+    left: 100px;
     border-left: 1px dashed #777;
 }
 
 .App-toolbar.tertiary {
     right: 0;
+    width: 100px;
     left: inherit;
     background: none;
     background: rgba(0,0,0,0.2);
@@ -66,8 +67,9 @@
 }
 
 .LogoArea > h1 {
-    font-size: 16pt;
-    margin: 0.4em;
+    font-size: 14pt;
+    margin-top: 0.2em;
+    margin-bottom: 0.3em;
 }
 
 @media all and (orientation: portrait) {
@@ -100,7 +102,7 @@
     .App-toolbar {
         left: 0;
         right: 0;
-        height: 110px;
+        height: 100px;
         width: inherit;
         overflow-x: scroll;
         overflow-y: hidden;
@@ -114,7 +116,7 @@
     }
 
     .App-toolbar.secondary {
-        top: 110px;
+        top: 100px;
         left: 0;
         border: none;
         border-top: 1px dashed #777;
@@ -124,6 +126,8 @@
         top: inherit;
         bottom: 0;
         left: 0;
+        width: inherit;
+        height: 100px;
     }
 
 }

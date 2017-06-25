@@ -35,7 +35,7 @@ class ItemElement extends React.Component<{item: Item, category: Category, onCli
 }
 
 const desiredSize = new Size(1024, 1024)
-const areaPadding = {landscape: new Size(220, 0), portrait: new Size(0, 220)}
+const areaPadding = {landscape: new Size(200, 0), portrait: new Size(0, 200)}
 
 interface GameAreaProps {
     items: Game.SelectedItems,

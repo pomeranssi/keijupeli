@@ -10,7 +10,7 @@ export class UtilityBar extends React.Component<{
         return (
             <div className="UtilityBar">
                 <div className="App-icon" onClick={this.props.onRandomize}>
-                    <img src={require('./images/icon-random.png')} className="App-logo" alt="logo" />
+                    <img src={require('./images/icon-random.png')} className="App-icon-image" alt="logo" />
                 </div>
             </div>
         )

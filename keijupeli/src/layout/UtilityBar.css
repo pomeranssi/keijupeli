@@ -4,12 +4,17 @@
 }
 
 .App-icon {
-    width: 80px;
-    height: 80px;
-    padding: 5px;
+    padding: 10px;
     background-color: rgba(255,153,153,0.8);
     border-radius: 50%;
     display: inline-block;
+}
+
+.App-icon-image {
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    padding: 0;
 }
 
 @media all and (orientation: portrait) {
