@@ -13,6 +13,8 @@ export type Action = {
     category: string
 } | {
     type: 'RANDOMIZE'
+}| {
+    type: 'RESET'
 }
 
 export const addItem = (item: Item, category: Category): Action => ({
@@ -33,6 +35,10 @@ export const selectCategory = (category: Category): Action => ({
 
 export const randomize = (): Action => ({
     type: 'RANDOMIZE'
+})
+
+export const reset = (): Action => ({
+    type: 'RESET'
 })
 
 export namespace Game {
@@ -75,6 +81,9 @@ function selectedItemsReducer(state: Game.SelectedItems = initialItems, action: 
         }
         case 'RANDOMIZE': {
             return toCategorySelection(categories.map(c => ({[c.type]: getRandomItem(c)})))
+        }
+        case 'RESET': {
+            return initialItems
         }
         default:
             return state
