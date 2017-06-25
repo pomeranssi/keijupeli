@@ -33,6 +33,10 @@
     background: rgba(0,0,0,0.3);
 }
 
+.CategoryItem.selected .CategoryTitle {
+    background: rgba(255,153,153,0.7);
+}
+
 @media all and (orientation: portrait) {
     .CategoryList {
         margin: 0.3em 0;
