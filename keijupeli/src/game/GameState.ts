@@ -99,7 +99,15 @@ function selectedCategoryReducer(state: Game.SelectedCategory = null, action: Ac
     }
 }
 
+const persistedState = localStorage.getItem('reduxState') ?
+    JSON.parse(localStorage.getItem('reduxState') || '') :
+    undefined
+
 export const store = createStore(combineReducers({
     selectedItems: selectedItemsReducer,
     selectedCategory: selectedCategoryReducer
-}))
+}), persistedState)
+
+store.subscribe(() => {
+    localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+})
