@@ -10,7 +10,8 @@ interface ItemViewProps {
 }
 export default class ItemView extends React.Component<ItemViewProps, null> {
     getImageClass(): string {
-        return 'ItemImage' + (this.props.category.isBackground ? ' background' : '')
+        return 'ItemImage' +
+            (this.props.category.isBackground ? ' background' : '')
     }
     getImage(item: Item | undefined, thumb: string | undefined): object | undefined {
         return (item || thumb) ?

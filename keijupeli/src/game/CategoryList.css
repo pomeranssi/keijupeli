@@ -8,6 +8,16 @@
     text-align: center;
 }
 
+.CategoryItem.missing > .ItemView {
+    background: rgba(255, 255, 255, 0.2);
+}
+.CategoryItem.missing > .ItemView > .ItemImage {
+    opacity: 0.5;
+}
+.CategoryItem.missing > .ItemView > .ItemImage.background {
+    opacity: 0.3;
+}
+
 .CategoryTitle {
     position: absolute;
     left: 0;

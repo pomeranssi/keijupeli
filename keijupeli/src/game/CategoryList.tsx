@@ -13,7 +13,8 @@ export class CategoryList extends React.Component<{
     render() {
         return (
             <div className="CategoryList">
-                {categories.map(c => <div className="CategoryItem" key={c.type}>
+                {categories.map(c => <div className={'CategoryItem ' +
+                    (this.props.selectedItems[c.type] ? 'selected' : 'missing')} key={c.type}>
                     <ItemView
                         category={c}
                         item={this.props.selectedItems[c.type]}
