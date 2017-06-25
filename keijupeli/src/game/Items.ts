@@ -147,9 +147,11 @@ const categories: Category[] = [
             { img: require('./images/wings-pink3.png'), thumb: require('./thumbs/wings-pink3.png'),
                 left: 50, top: 140 },
             { img: require('./images/wings-red.png'), thumb: require('./thumbs/wings-red.png'),
-                left: 106, top: 146 },
+                left: 107, top: 107 },
             { img: require('./images/wings-bw.png'), thumb: require('./thumbs/wings-bw.png'),
-                left: 244, top: 249 }
+                left: 244, top: 249 },
+            { img: require('./images/wings-bluered.png'), thumb: require('./thumbs/wings-bluered.png'),
+                left: 37, top: 23 }
         ]
     },
     {
