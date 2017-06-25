@@ -46,20 +46,39 @@ const categories: Category[] = [
         ]
     },
     {
-        title: 'Siivet',
-        type: 'wings',
-        thumb: require('./thumbs/category-wings.png'),
+        title: 'Hatut',
+        type: 'crown',
+        thumb: require('./thumbs/category-crown.png'),
         items: [
-            { img: require('./images/wings-pink.png'), thumb: require('./thumbs/wings-pink.png'),
-                left: 25, top: 29 },
-            { img: require('./images/wings-pink2.png'), thumb: require('./thumbs/wings-pink2.png'),
-                left: 50, top: 140 },
-            { img: require('./images/wings-pink3.png'), thumb: require('./thumbs/wings-pink3.png'),
-                left: 50, top: 140 },
-            { img: require('./images/wings-red.png'), thumb: require('./thumbs/wings-red.png'),
-                left: 106, top: 146 },
-            { img: require('./images/wings-bw.png'), thumb: require('./thumbs/wings-bw.png'),
-                left: 244, top: 249 }
+            { img: require('./images/tiara-yellow.png'), thumb: require('./thumbs/tiara-yellow.png'),
+                left: 383, top: 201 },
+            { img: require('./images/crown-yellow.png'), thumb: require('./thumbs/crown-yellow.png'),
+                left: 377, top: 124 },
+            { img: require('./images/crown-hearts.png'), thumb: require('./thumbs/crown-hearts.png'),
+                left: 381, top: 98 },
+            { img: require('./images/hat-colorful.png'), thumb: require('./thumbs/hat-colorful.png'),
+                left: 266, top: 140 }
+        ]
+    },
+    {
+        title: 'Hiukset',
+        type: 'hair',
+        thumb: require('./thumbs/category-hair.png'),
+        items: [
+            { img: require('./images/hair-orig.png'), thumb: require('./thumbs/hair-orig.png'),
+                left: 335, top: 150, isDefault: true },
+            { img: require('./images/hair-yellow.png'), thumb: require('./thumbs/hair-yellow.png'),
+                left: 329, top: 148 },
+            { img: require('./images/hair-elsa.png'), thumb: require('./thumbs/hair-elsa.png'),
+                left: 369, top: 166 },
+            { img: require('./images/hair-brown.png'), thumb: require('./thumbs/hair-brown.png'),
+                left: 366, top: 188 },
+            { img: require('./images/hair-pink-short.png'), thumb: require('./thumbs/hair-pink-short.png'),
+                left: 373, top: 191 },
+            { img: require('./images/hair-pink-long.png'), thumb: require('./thumbs/hair-pink-long.png'),
+                left: 247, top: 171, zIndex: 45 },
+            { img: require('./images/hair-black.png'), thumb: require('./thumbs/hair-black.png'),
+                left: 352, top: 169 }
         ]
     },
     {
@@ -88,47 +107,45 @@ const categories: Category[] = [
         ]
     },
     {
-        title: 'Hiukset',
-        type: 'hair',
-        thumb: require('./thumbs/category-hair.png'),
+        title: 'Kaulakorut',
+        type: 'necklace',
+        thumb: require('./thumbs/category-necklace.png'),
         items: [
-            { img: require('./images/hair-orig.png'), thumb: require('./thumbs/hair-orig.png'),
-                left: 335, top: 150, isDefault: true },
-            { img: require('./images/hair-yellow.png'), thumb: require('./thumbs/hair-yellow.png'),
-                left: 329, top: 148 },
-            { img: require('./images/hair-elsa.png'), thumb: require('./thumbs/hair-elsa.png'),
-                left: 369, top: 166 },
-            { img: require('./images/hair-brown.png'), thumb: require('./thumbs/hair-brown.png'),
-                left: 366, top: 188 },
-            { img: require('./images/hair-pink-short.png'), thumb: require('./thumbs/hair-pink-short.png'),
-                left: 373, top: 191 },
-            { img: require('./images/hair-pink-long.png'), thumb: require('./thumbs/hair-pink-long.png'),
-                left: 247, top: 171, zIndex: 45 },
-            { img: require('./images/hair-black.png'), thumb: require('./thumbs/hair-black.png'),
-                left: 352, top: 169 }
+            { img: require('./images/necklace-white.png'), thumb: require('./thumbs/necklace-white.png'),
+                left: 469, top: 412 },
+            { img: require('./images/necklace-white2.png'), thumb: require('./thumbs/necklace-white2.png'),
+                left: 469, top: 412 },
+            { img: require('./images/necklace-yellow.png'), thumb: require('./thumbs/necklace-yellow.png'),
+                left: 462, top: 413 },
+            { img: require('./images/necklace-blue.png'), thumb: require('./thumbs/necklace-blue.png'),
+                left: 466, top: 411 },
+            { img: require('./images/necklace-many-black.png'), thumb: require('./thumbs/necklace-many-black.png'),
+                left: 454, top: 411 },
+            { img: require('./images/necklace-stone.png'), thumb: require('./thumbs/necklace-stone.png'),
+                left: 466, top: 415 },
+            { img: require('./images/necklace-pink.png'), thumb: require('./thumbs/necklace-pink.png'),
+                left: 469, top: 410 }
         ]
     },
     {
-        title: 'Hameet ja housut',
-        type: 'leg',
-        thumb: require('./thumbs/category-leg.png'),
+        title: 'Siivet',
+        type: 'wings',
+        thumb: require('./thumbs/category-wings.png'),
         items: [
-            { img: require('./images/skirt-red.png'), thumb: require('./thumbs/skirt-red.png'),
-                left: 421, top: 529 },
-            { img: require('./images/skirt-pink.png'), thumb: require('./thumbs/skirt-pink.png'),
-                left: 397, top: 534 },
-            { img: require('./images/skirt-orange.png'), thumb: require('./thumbs/skirt-orange.png'),
-                left: 322, top: 530 },
-            { img: require('./images/jeans-blue.png'), thumb: require('./thumbs/jeans-blue.png'),
-                left: 370, top: 545 },
-            { img: require('./images/mermaid-tail.png'), thumb: require('./thumbs/mermaid-tail.png'),
-                left: 290, top: 529 },
-            { img: require('./images/pants-colorful.png'), thumb: require('./thumbs/pants-colorful.png'),
-                left: 371, top: 541 }
+            { img: require('./images/wings-pink.png'), thumb: require('./thumbs/wings-pink.png'),
+                left: 25, top: 29 },
+            { img: require('./images/wings-pink2.png'), thumb: require('./thumbs/wings-pink2.png'),
+                left: 50, top: 140 },
+            { img: require('./images/wings-pink3.png'), thumb: require('./thumbs/wings-pink3.png'),
+                left: 50, top: 140 },
+            { img: require('./images/wings-red.png'), thumb: require('./thumbs/wings-red.png'),
+                left: 106, top: 146 },
+            { img: require('./images/wings-bw.png'), thumb: require('./thumbs/wings-bw.png'),
+                left: 244, top: 249 }
         ]
     },
     {
-        title: 'Paidat ja mekot',
+        title: 'Paidat',
         type: 'chest',
         thumb: require('./thumbs/category-chest.png'),
         items: [
@@ -161,6 +178,25 @@ const categories: Category[] = [
         ]
     },
     {
+        title: 'Housut',
+        type: 'leg',
+        thumb: require('./thumbs/category-leg.png'),
+        items: [
+            { img: require('./images/skirt-red.png'), thumb: require('./thumbs/skirt-red.png'),
+                left: 421, top: 529 },
+            { img: require('./images/skirt-pink.png'), thumb: require('./thumbs/skirt-pink.png'),
+                left: 397, top: 534 },
+            { img: require('./images/skirt-orange.png'), thumb: require('./thumbs/skirt-orange.png'),
+                left: 322, top: 530 },
+            { img: require('./images/jeans-blue.png'), thumb: require('./thumbs/jeans-blue.png'),
+                left: 370, top: 545 },
+            { img: require('./images/mermaid-tail.png'), thumb: require('./thumbs/mermaid-tail.png'),
+                left: 290, top: 529 },
+            { img: require('./images/pants-colorful.png'), thumb: require('./thumbs/pants-colorful.png'),
+                left: 371, top: 541 }
+        ]
+    },
+    {
         title: 'Kengät',
         type: 'shoes',
         thumb: require('./thumbs/category-shoes.png'),
@@ -177,42 +213,6 @@ const categories: Category[] = [
                 left: 372, top: 732 },
             { img: require('./images/shoes-brown.png'), thumb: require('./thumbs/shoes-brown.png'),
                 left: 372, top: 888 }
-        ]
-    },
-    {
-        title: 'Kaulakorut',
-        type: 'necklace',
-        thumb: require('./thumbs/category-necklace.png'),
-        items: [
-            { img: require('./images/necklace-white.png'), thumb: require('./thumbs/necklace-white.png'),
-                left: 469, top: 412 },
-            { img: require('./images/necklace-white2.png'), thumb: require('./thumbs/necklace-white2.png'),
-                left: 469, top: 412 },
-            { img: require('./images/necklace-yellow.png'), thumb: require('./thumbs/necklace-yellow.png'),
-                left: 462, top: 413 },
-            { img: require('./images/necklace-blue.png'), thumb: require('./thumbs/necklace-blue.png'),
-                left: 466, top: 411 },
-            { img: require('./images/necklace-many-black.png'), thumb: require('./thumbs/necklace-many-black.png'),
-                left: 454, top: 411 },
-            { img: require('./images/necklace-stone.png'), thumb: require('./thumbs/necklace-stone.png'),
-                left: 466, top: 415 },
-            { img: require('./images/necklace-pink.png'), thumb: require('./thumbs/necklace-pink.png'),
-                left: 469, top: 410 }
-        ]
-    },
-    {
-        title: 'Kruunut ja tiarat',
-        type: 'crown',
-        thumb: require('./thumbs/category-crown.png'),
-        items: [
-            { img: require('./images/tiara-yellow.png'), thumb: require('./thumbs/tiara-yellow.png'),
-                left: 383, top: 201 },
-            { img: require('./images/crown-yellow.png'), thumb: require('./thumbs/crown-yellow.png'),
-                left: 377, top: 124 },
-            { img: require('./images/crown-hearts.png'), thumb: require('./thumbs/crown-hearts.png'),
-                left: 381, top: 98 },
-            { img: require('./images/hat-colorful.png'), thumb: require('./thumbs/hat-colorful.png'),
-                left: 266, top: 140 }
         ]
     }
 ]
