@@ -3,6 +3,7 @@ export interface Category {
     readonly type: string,
     readonly isBackground?: boolean,
     readonly thumb: string,
+    readonly isEssential: boolean,
     readonly items: Array<Item>
 }
 
@@ -21,6 +22,7 @@ const categories: Category[] = [
         type: 'background',
         isBackground: true,
         thumb: require('./thumbs/category-background.jpg'),
+        isEssential: false,
         items: [
             { img: require('./images/bg-castle.jpg'), thumb: require('./thumbs/bg-castle.jpg'),
                 left: 0, top: 0 },
@@ -37,6 +39,7 @@ const categories: Category[] = [
     {
         title: 'Vartalot',
         type: 'body',
+        isEssential: true,
         thumb: require('./thumbs/category-body.png'),
         items: [
             { img: require('./images/girl-white.png'), thumb: require('./thumbs/girl-white.png'),
@@ -48,6 +51,7 @@ const categories: Category[] = [
     {
         title: 'Hatut',
         type: 'crown',
+        isEssential: false,
         thumb: require('./thumbs/category-crown.png'),
         items: [
             { img: require('./images/tiara-yellow.png'), thumb: require('./thumbs/tiara-yellow.png'),
@@ -63,6 +67,7 @@ const categories: Category[] = [
     {
         title: 'Hiukset',
         type: 'hair',
+        isEssential: false,
         thumb: require('./thumbs/category-hair.png'),
         items: [
             { img: require('./images/hair-orig.png'), thumb: require('./thumbs/hair-orig.png'),
@@ -84,6 +89,7 @@ const categories: Category[] = [
     {
         title: 'Silmät',
         type: 'eyes',
+        isEssential: true,
         thumb: require('./thumbs/category-eyes.png'),
         items: [
             { img: require('./images/eyes-blue.png'), thumb: require('./thumbs/eyes-blue.png'),
@@ -109,6 +115,7 @@ const categories: Category[] = [
     {
         title: 'Kaulakorut',
         type: 'necklace',
+        isEssential: false,
         thumb: require('./thumbs/category-necklace.png'),
         items: [
             { img: require('./images/necklace-white.png'), thumb: require('./thumbs/necklace-white.png'),
@@ -130,6 +137,7 @@ const categories: Category[] = [
     {
         title: 'Siivet',
         type: 'wings',
+        isEssential: false,
         thumb: require('./thumbs/category-wings.png'),
         items: [
             { img: require('./images/wings-pink.png'), thumb: require('./thumbs/wings-pink.png'),
@@ -147,6 +155,7 @@ const categories: Category[] = [
     {
         title: 'Paidat',
         type: 'chest',
+        isEssential: false,
         thumb: require('./thumbs/category-chest.png'),
         items: [
             { img: require('./images/dress-blue.png'), thumb: require('./thumbs/dress-blue.png'),
@@ -180,6 +189,7 @@ const categories: Category[] = [
     {
         title: 'Housut',
         type: 'leg',
+        isEssential: false,
         thumb: require('./thumbs/category-leg.png'),
         items: [
             { img: require('./images/skirt-red.png'), thumb: require('./thumbs/skirt-red.png'),
@@ -199,6 +209,7 @@ const categories: Category[] = [
     {
         title: 'Kengät',
         type: 'shoes',
+        isEssential: false,
         thumb: require('./thumbs/category-shoes.png'),
         items: [
             { img: require('./images/shoes-blue.png'), thumb: require('./thumbs/shoes-blue.png'),

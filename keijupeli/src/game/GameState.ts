@@ -61,8 +61,8 @@ const initialItems: Game.SelectedItems =
     toCategorySelection(categories.map(c => ({[c.type]: c.items.find(i => i.isDefault!!)})))
 
 function getRandomItem(category: Category) {
-    const i = getRandomInt(0, category.items.length + 1)
-    return i < category.items.length ? category.items[i] : undefined
+    const i = getRandomInt(category.isEssential ? 0 : -1, category.items.length)
+    return i >= 0 ? category.items[i] : undefined
 }
 
 function selectedItemsReducer(state: Game.SelectedItems = initialItems, action: Action): Game.SelectedItems {
