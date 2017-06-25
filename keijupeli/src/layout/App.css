@@ -1,7 +1,7 @@
 .App {
 }
 
-.App-main {
+.AppMain {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -11,7 +11,7 @@
     background-color: #222;
 }
 
-.App-toolbar {
+.AppToolbar {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -24,16 +24,16 @@
     text-align: center;
 }
 
-.App-toolbar.primary {
+.AppToolbar.primary {
     left: 0;
 }
 
-.App-toolbar.secondary {
+.AppToolbar.secondary {
     left: 100px;
     border-left: 1px dashed #777;
 }
 
-.App-toolbar.tertiary {
+.AppToolbar.tertiary {
     right: 0;
     width: 100px;
     left: inherit;
@@ -41,7 +41,7 @@
     background: rgba(0,0,0,0.2);
 }
 
-.App-toolbar::-webkit-scrollbar {
+.AppToolbar::-webkit-scrollbar {
     width: 0 !important;
     height: 0 !important;
 }
@@ -52,18 +52,18 @@
     display: inline-block;
 }
 
-.App-logo {
-    height: 60px;
-    margin-top: 10px;
-}
-
-.Logo {
+.AppLogo {
     background-color: #ff9999;
     border-radius: 50%;
     width: 80px;
     height: 80px;
     text-align: center;
     display: inline-block;
+}
+
+.AppLogoImage {
+    height: 60px;
+    margin-top: 10px;
 }
 
 .LogoArea > h1 {
@@ -77,29 +77,37 @@
     .LogoArea {
         margin: 0;
         display: inline-block;
-        width: 100px;
-        height: 110px;
+        width: 92px;
+        height: 90px;
         vertical-align: top;
         text-align: center;
     }
 
-    .LogoArea > .Logo {
+    .AppLogo {
         margin-top: 0.3em;
         margin-bottom: -0.1em;
+        width: 70px;
+        height: 70px;
     }
+
+    .AppLogoImage {
+        width: 50px;
+        height: 50px;
+    }
+
     .LogoArea > h1 {
         font-size: 12pt;
         padding: 0;
     }
 
-    .App-main {
-        top: 220px;
+    .AppMain {
+        top: 200px;
         bottom: 0;
         left: 0;
         right: 0;
     }
 
-    .App-toolbar {
+    .AppToolbar {
         left: 0;
         right: 0;
         height: 100px;
@@ -111,18 +119,18 @@
         text-align: left;
     }
 
-    .App-toolbar.primary {
+    .AppToolbar.primary {
         top: 0;
     }
 
-    .App-toolbar.secondary {
+    .AppToolbar.secondary {
         top: 100px;
         left: 0;
         border: none;
         border-top: 1px dashed #777;
     }
 
-    .App-toolbar.tertiary {
+    .AppToolbar.tertiary {
         top: inherit;
         bottom: 0;
         left: 0;

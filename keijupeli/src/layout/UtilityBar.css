@@ -3,14 +3,14 @@
     margin-top: 0.6em;
 }
 
-.App-icon {
+.AppIcon {
     padding: 10px;
     background-color: rgba(255,153,153,0.8);
     border-radius: 50%;
     display: inline-block;
 }
 
-.App-icon-image {
+.AppIconImage {
     width: 60px;
     height: 60px;
     margin: 0;
@@ -22,7 +22,7 @@
         text-align: left;
         margin: 0.6em 0.6em;
     }
-    .App-icon {
+    .AppIcon {
         text-align: center;
     }
 }

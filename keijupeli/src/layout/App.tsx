@@ -14,23 +14,23 @@ export default class App extends React.Component<{}, {}> {
     render() {
         return (
             <div className="App">
-                <div className="App-main">
+                <div className="AppMain">
                     <GameArea />
                     <br />
                 </div>
-                <div className="App-toolbar primary">
+                <div className="AppToolbar primary">
                     <div className="LogoArea">
-                        <div className="Logo">
-                            <img src={logo} className="App-logo" alt="logo" />
+                        <div className="AppLogo">
+                            <img src={logo} className="AppLogoImage" alt="Keijupeli" title="Keijupeli" />
                         </div>
                         <h1>Keijupeli</h1>
                     </div>
                     <CategoryList />
                 </div>
-                <div className="App-toolbar secondary">
+                <div className="AppToolbar secondary">
                     <ItemList />
                 </div>
-                <div className="App-toolbar tertiary">
+                <div className="AppToolbar tertiary">
                     <UtilityBar />
                 </div>
             </div>

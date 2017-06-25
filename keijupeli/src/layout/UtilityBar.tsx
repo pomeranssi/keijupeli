@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
-import './UtilityBar.css'
 import {Game, randomize} from '../game/GameState'
+import './UtilityBar.css'
 
 export class UtilityBar extends React.Component<{
     onRandomize: () => void
@@ -9,8 +9,8 @@ export class UtilityBar extends React.Component<{
     render() {
         return (
             <div className="UtilityBar">
-                <div className="App-icon" onClick={this.props.onRandomize}>
-                    <img src={require('./images/icon-random.png')} className="App-icon-image" alt="logo" />
+                <div className="AppIcon" onClick={this.props.onRandomize}>
+                    <img src={require('./images/icon-random.png')} className="AppIconImage" alt="logo" />
                 </div>
             </div>
         )

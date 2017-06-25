@@ -1,9 +1,9 @@
 import * as React from 'react'
 import categories, {Category} from './Items'
-import ItemSelector from './ItemSelector'
 import {connect} from 'react-redux'
-import './CategoryList.css'
 import {Game, selectCategory} from './GameState'
+import ItemView from './ItemView'
+import './CategoryList.css'
 
 export class CategoryList extends React.Component<{
     selectedCategory: Game.SelectedCategory,
@@ -13,9 +13,16 @@ export class CategoryList extends React.Component<{
     render() {
         return (
             <div className="CategoryList">
-                {categories.map(c => <ItemSelector category={c} key={c.title}
-                                              selectedItem={this.props.selectedItems[c.type]}
-                                              setCategory={this.props.onSelectCategory}/>)}
+                {categories.map(c => <div className="CategoryItem" key={c.type}>
+                    <ItemView
+                        category={c}
+                        item={this.props.selectedItems[c.type]}
+                        missingImage={c.thumb}
+                        onClick={() => this.props.onSelectCategory(c)}>
+                        <div className="CategoryTitle">{c.title}</div>
+                    </ItemView>
+                </div>
+                )}
             </div>
         )
     }
