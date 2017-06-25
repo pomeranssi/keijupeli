@@ -27,5 +27,7 @@
     }
     .AppIcon {
         text-align: center;
+        margin-bottom: 0;
+        margin-right: 10px;
     }
 }
