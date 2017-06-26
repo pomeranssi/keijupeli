@@ -18,7 +18,7 @@ class Size {
     }
 }
 
-class ItemElement extends React.Component<{item: Item, category: Category, onClick: () => void}, null> {
+class ItemElement extends React.Component<{item: Item, category: Category, onClick: () => void}, {}> {
     render() {
         return (
             <img

@@ -8,7 +8,7 @@ interface ItemViewProps {
     missingImage?: string,
     onClick?: (item?: Item) => void
 }
-export default class ItemView extends React.Component<ItemViewProps, null> {
+export default class ItemView extends React.Component<ItemViewProps, {}> {
     getImageClass(): string {
         return 'ItemImage' +
             (this.props.category.isBackground ? ' background' : '')
