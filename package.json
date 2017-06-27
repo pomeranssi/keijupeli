@@ -17,7 +17,7 @@
     "fsevents": "^1.1.2",
     "react-scripts-ts": "2.2.0"
   },
-  "homepage": "http://peli.pomeranssi.fi/",
+  "homepage": "http://keijupeli.pomeranssi.fi/",
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
