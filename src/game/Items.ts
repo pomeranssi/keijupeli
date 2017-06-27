@@ -178,6 +178,10 @@ const categories: Category[] = [
                 left: 348, top: 401 },
             { img: require('./images/dress-dotty.png'), thumb: require('./thumbs/dress-dotty.png'),
                 left: 352, top: 417 },
+            { img: require('./images/dress-drawn.png'), thumb: require('./thumbs/dress-drawn.png'),
+                left: 243, top: 400 },
+            { img: require('./images/dress-drawn2.png'), thumb: require('./thumbs/dress-drawn2.png'),
+                left: 276, top: 404 },
             { img: require('./images/dress-lilac-yellow.png'), thumb: require('./thumbs/dress-lilac-yellow.png'),
                 left: 278, top: 416 },
             { img: require('./images/dress-long-side.png'), thumb: require('./thumbs/dress-long-side.png'),
@@ -185,7 +189,9 @@ const categories: Category[] = [
             { img: require('./images/jacket-black.png'), thumb: require('./thumbs/jacket-black.png'),
                 left: 374, top: 401 },
             { img: require('./images/mermaid-bra.png'), thumb: require('./thumbs/mermaid-bra.png'),
-                left: 443, top: 448 }
+                left: 443, top: 448 },
+            { img: require('./images/chest-swimsuit.png'), thumb: require('./thumbs/chest-swimsuit.png'),
+                left: 386, top: 413 }
         ]
     },
     {
