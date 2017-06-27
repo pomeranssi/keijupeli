@@ -1,5 +1,5 @@
 import * as React from 'react'
-import allItems, {Category, Item} from '../game/Items'
+import allItems, {Category, getImagePath, Item} from '../game/Items'
 import {connect} from 'react-redux'
 import {Game, removeItem} from '../game/GameState'
 import './GameArea.css'
@@ -22,7 +22,7 @@ class ItemElement extends React.Component<{item: Item, category: Category, onCli
     render() {
         return (
             <img
-                src={this.props.item.img}
+                src={getImagePath(this.props.item.fileName)}
                 className={`Image ${this.props.category.type}`}
                 style={{
                     left: this.props.item.left,
@@ -96,7 +96,7 @@ export class GameArea extends React.Component<GameAreaProps, GameState> {
                    {this.categories.map(c => {
                        const item = this.props.items[c.type]
                        return item ?
-                           <ItemElement key={item.img} item={item} category={c}
+                           <ItemElement key={item.fileName} item={item} category={c}
                                         onClick={() => {this.props.onRemove(c)}} /> :
                            undefined
                    }).filter(i => i !== undefined)}

@@ -34,7 +34,7 @@ export class ItemList extends React.Component<ItemListProps, {}> {
             <div className="ItemList">
                 <ItemView category={cat} onClick={this.selectItem}/>
                 {cat.items.map(i => <ItemView
-                    key={i.img}
+                    key={i.fileName}
                     category={cat}
                     item={i}
                     onClick={this.selectItem}/>)}

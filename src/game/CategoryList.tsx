@@ -19,7 +19,7 @@ export class CategoryList extends React.Component<{
                     <ItemView
                         category={c}
                         item={this.props.selectedItems[c.type]}
-                        missingImage={c.thumb}
+                        missingImage={c.imageFileName}
                         onClick={() => this.props.onSelectCategory(c)}>
                         <div className="CategoryTitle">{c.title}</div>
                     </ItemView>
