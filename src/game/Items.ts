@@ -15,12 +15,14 @@ export interface Item {
     readonly zIndex?: number
 }
 
+const baseUrl = process.env.PUBLIC_URL
+
 export function getImagePath(fileName: string | undefined) {
-    return fileName ? `/images/${fileName}` : undefined
+    return fileName ? `${baseUrl}/images/${fileName}` : undefined
 }
 
 export function getThumbPath(fileName: string | undefined) {
-    return fileName ? `/images/thumbs/${fileName}` : undefined
+    return fileName ? `${baseUrl}/images/thumbs/${fileName}` : undefined
 }
 
 const categories: Category[] = [
