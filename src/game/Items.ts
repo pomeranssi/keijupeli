@@ -106,6 +106,7 @@ const categories: Category[] = [
             { fileName: 'necklace-blue.png', left: 466, top: 411 },
             { fileName: 'necklace-many-black.png', left: 454, top: 411 },
             { fileName: 'necklace-stone.png', left: 466, top: 415 },
+            { fileName: 'necklace-heart.png', left: 467, top: 414 },
             { fileName: 'necklace-pink.png', left: 469, top: 410 }
         ]
     },
@@ -138,13 +139,17 @@ const categories: Category[] = [
             { fileName: 'dress-elsa.png', left: 287, top: 422 },
             { fileName: 'dress-dots.png', left: 348, top: 401 },
             { fileName: 'dress-dotty.png', left: 352, top: 417 },
+            { fileName: 'dress-dotty2.png', left: 232, top: 412 },
             { fileName: 'dress-drawn.png', left: 243, top: 400 },
             { fileName: 'dress-drawn2.png', left: 276, top: 404 },
             { fileName: 'dress-lilac-yellow.png', left: 278, top: 416 },
             { fileName: 'dress-long-side.png', left: 317, top: 415 },
+            { fileName: 'dress-black.png', left: 412, top: 419 },
             { fileName: 'jacket-black.png', left: 374, top: 401 },
             { fileName: 'mermaid-bra.png', left: 443, top: 448 },
-            { fileName: 'chest-swimsuit.png', left: 386, top: 413 }
+            { fileName: 'bikini-bra-yellow.png', left: 450, top: 450 },
+            { fileName: 'chest-swimsuit.png', left: 386, top: 413 },
+            { fileName: 'swimsuit-yellow.png', left: 425, top: 415 }
         ]
     },
     {
@@ -156,6 +161,7 @@ const categories: Category[] = [
             { fileName: 'skirt-red.png', left: 421, top: 529 },
             { fileName: 'skirt-pink.png', left: 397, top: 534 },
             { fileName: 'skirt-orange.png', left: 322, top: 530 },
+            { fileName: 'bikini-pants-yellowred.png', left: 428, top: 548 },
             { fileName: 'jeans-blue.png', left: 370, top: 545 },
             { fileName: 'mermaid-tail.png', left: 290, top: 529 },
             { fileName: 'pants-colorful.png', left: 371, top: 541 }
@@ -172,6 +178,8 @@ const categories: Category[] = [
             { fileName: 'shoes-yellow2.png', left: 371, top: 872 },
             { fileName: 'shoes-black.png', left: 372, top: 904 },
             { fileName: 'shoes-whiteblack.png', left: 372, top: 732 },
+            { fileName: 'shoes-redyellow.png', left: 371, top: 894 },
+            { fileName: 'shoes-pink.png', left: 371, top: 883 },
             { fileName: 'shoes-brown.png', left: 372, top: 888 }
         ]
     }
