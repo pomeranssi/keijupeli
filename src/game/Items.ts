@@ -149,6 +149,7 @@ const categories: Category[] = [
             { fileName: 'dress-drawn2.png', left: 276, top: 404 },
             { fileName: 'dress-lilac-yellow.png', left: 278, top: 416 },
             { fileName: 'dress-long-side.png', left: 317, top: 415 },
+            { fileName: 'dress-rapunzel.png', left: 336, top: 416 },
             { fileName: 'dress-black.png', left: 412, top: 419 },
             { fileName: 'jacket-black.png', left: 374, top: 401 },
             { fileName: 'mermaid-bra.png', left: 443, top: 448 },
