@@ -79,6 +79,8 @@ const categories: Category[] = [
             { fileName: 'hair-brown.png', left: 366, top: 188 },
             { fileName: 'hair-pink-short.png', left: 373, top: 191 },
             { fileName: 'hair-pink-long.png', left: 247, top: 171, zIndex: 45 },
+            { fileName: 'hair-red.png', left: 327, top: 159 },
+            { fileName: 'hair-blue.png', left: 331, top: 101 },
             { fileName: 'hair-black.png', left: 352, top: 169 }
         ]
     },
