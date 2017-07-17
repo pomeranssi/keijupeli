@@ -37,7 +37,12 @@ const categories: Category[] = [
             { fileName: 'bg-beach.jpg', left: 0, top: 0, isDefault: true },
             { fileName: 'bg-snow.jpg', left: 0, top: 0 },
             { fileName: 'bg-castle-carrots.jpg', left: 0, top: 0 },
-            { fileName: 'bg-ocean.jpg', left: 0, top: 0 }
+            { fileName: 'bg-ocean.jpg', left: 0, top: 0 },
+            { fileName: 'bg-farm.jpg', left: 0, top: 0 },
+            { fileName: 'bg-houses.jpg', left: 0, top: 0 },
+            { fileName: 'bg-oldhouse.jpg', left: 0, top: 0 },
+            { fileName: 'bg-town.jpg', left: 0, top: 0 },
+            { fileName: 'bg-meadow.jpg', left: 0, top: 0 }
         ]
     },
     {
