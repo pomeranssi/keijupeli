@@ -10,6 +10,10 @@
     display: inline-block;
 }
 
+.ItemView.selected {
+    box-shadow: inset 0 0 0 5px rgba(255,153,153,0.7);
+}
+
 .ItemImage {
     position: absolute;
     background: no-repeat center;

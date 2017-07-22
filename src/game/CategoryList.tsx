@@ -1,9 +1,14 @@
 import * as React from 'react'
-import categories, {Category} from './Items'
+import categories, {Category, Item} from './Items'
 import {connect} from 'react-redux'
 import {Game, selectCategory} from './GameState'
 import ItemView from './ItemView'
 import './CategoryList.css'
+
+function findItem(selection: Game.CategoryItems): Item | undefined {
+    const fn = Object.keys(selection || {}).find(i => true)
+    return fn ? selection[fn] : undefined
+}
 
 export class CategoryList extends React.Component<{
     selectedCategory: Game.SelectedCategory,
@@ -18,7 +23,7 @@ export class CategoryList extends React.Component<{
                     (this.props.selectedCategory === c.type ? ' selected' : '')} key={c.type}>
                     <ItemView
                         category={c}
-                        item={this.props.selectedItems[c.type]}
+                        item={findItem(this.props.selectedItems[c.type])}
                         missingImage={c.imageFileName}
                         onClick={() => this.props.onSelectCategory(c)}>
                         <div className="CategoryTitle">{c.title}</div>

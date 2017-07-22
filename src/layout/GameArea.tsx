@@ -1,7 +1,7 @@
 import * as React from 'react'
 import allItems, {Category, getImagePath, Item} from '../game/Items'
 import {connect} from 'react-redux'
-import {Game, removeItem} from '../game/GameState'
+import {Game, toggleItem} from '../game/GameState'
 import './GameArea.css'
 
 class Size {
@@ -39,7 +39,7 @@ const areaPadding = {landscape: new Size(200, 0), portrait: new Size(0, 200)}
 
 interface GameAreaProps {
     items: Game.SelectedItems,
-    onRemove: (category: Category) => void
+    onRemove: (category: Category, item: Item) => void
 }
 interface GameState {
     windowSize: Size
@@ -93,13 +93,13 @@ export class GameArea extends React.Component<GameAreaProps, GameState> {
             <div className="Game">
                 <div className="Content"
                      style={{ transform: `scale(${GameArea.getAreaScale(this.state.windowSize)})`}}>
-                   {this.categories.map(c => {
-                       const item = this.props.items[c.type]
+                   {this.categories.map(category => (Object.keys(this.props.items[category.type] || {})).map(fn => {
+                       const item = this.props.items[category.type][fn]
                        return item ?
-                           <ItemElement key={item.fileName} item={item} category={c}
-                                        onClick={() => {this.props.onRemove(c)}} /> :
+                           <ItemElement key={item.fileName} item={item} category={category}
+                                        onClick={() => {this.props.onRemove(category, item)}} /> :
                            undefined
-                   }).filter(i => i !== undefined)}
+                   })).filter(i => i !== undefined)}
                    <br />
                 </div>
             </div>
@@ -109,7 +109,7 @@ export class GameArea extends React.Component<GameAreaProps, GameState> {
 
 const StatefulGameArea = connect(
     (state: Game.State) => ({ items: state.selectedItems }),
-    (dispatch) => ({onRemove: (category: Category) => { dispatch(removeItem(category)) } })
+    (dispatch) => ({onRemove: (category: Category, item: Item) => { dispatch(toggleItem(item, category)) } })
 )(GameArea)
 
 export default StatefulGameArea

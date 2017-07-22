@@ -1,13 +1,16 @@
 import {createStore, combineReducers} from 'redux'
 import categories, {Category, Item} from './Items'
+import CategoryItems = Game.CategoryItems
+import {addToMap, mapSize, removeFromMap} from '../util/objects'
 
 export type Action = {
-    type: 'ADD_ITEM',
+    type: 'TOGGLE_ITEM',
     item: Item,
     category: string
 } | {
     type: 'REMOVE_ITEM',
-    category: string
+    category: string,
+    item?: Item
 } | {
     type: 'SELECT_CATEGORY',
     category: string
@@ -17,15 +20,16 @@ export type Action = {
     type: 'RESET'
 }
 
-export const addItem = (item: Item, category: Category): Action => ({
-    type: 'ADD_ITEM',
+export const toggleItem = (item: Item, category: Category): Action => ({
+    type: 'TOGGLE_ITEM',
     item: item,
     category: category.type
 })
 
-export const removeItem = (category: Category): Action => ({
+export const removeItem = (category: Category, item?: Item): Action => ({
     type: 'REMOVE_ITEM',
-    category: category.type
+    category: category.type,
+    item: item
 })
 
 export const selectCategory = (category: Category): Action => ({
@@ -43,8 +47,12 @@ export const reset = (): Action => ({
 
 export namespace Game {
 
+    export type CategoryItems = {
+        [fileName: string]: Item
+    }
+
     export type SelectedItems = {
-        [category: string]: Item | undefined
+        [category: string]: CategoryItems
     }
     export type SelectedCategory = string | null
 
@@ -60,24 +68,42 @@ function getRandomInt(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min)) + min
 }
 
-const toCategorySelection = (items: Array<{[key: string]: Item | undefined}>): {[key: string]: Item} =>
+const toCategorySelection = (items: Array<{[key: string]: CategoryItems}>): {[key: string]: CategoryItems} =>
     Object.assign.apply({}, items)
 
-const initialItems: Game.SelectedItems =
-    toCategorySelection(categories.map(c => ({[c.type]: c.items.find(i => i.isDefault!!)})))
+function getDefaultItems(category: Category): Game.CategoryItems {
+    return toCategoryItems(category.items.filter(i => i.isDefault))
+}
 
-function getRandomItem(category: Category) {
+const initialItems: Game.SelectedItems =
+    toCategorySelection(categories.map(c => ({[c.type]: getDefaultItems(c)})))
+
+function getRandomItem(category: Category): CategoryItems {
     const i = getRandomInt(category.isEssential ? 0 : -1, category.items.length)
-    return i >= 0 ? category.items[i] : undefined
+    return i >= 0 ? toCategoryItems([category.items[i]]) : {}
+}
+
+function toCategoryItems(items: Item[]): CategoryItems {
+    return items.length > 0 ? Object.assign.apply({}, items.map(i => ({ [i.fileName] : i }))) : {}
 }
 
 function selectedItemsReducer(state: Game.SelectedItems = initialItems, action: Action): Game.SelectedItems {
     switch (action.type) {
-        case 'ADD_ITEM':
-            return {...state, [action.category]: action.item}
+        case 'TOGGLE_ITEM':
+            const current: CategoryItems = state[action.category] || {}
+            const isAdd = current[action.item.fileName] === undefined
+            if (isAdd) {
+                return {...state, [action.category]: addToMap(current, action.item.fileName, action.item)}
+            } else {
+                const trimmedItems: CategoryItems = removeFromMap(current, action.item.fileName)
+                if (mapSize(trimmedItems) > 0) {
+                    return {...state, [action.category]: trimmedItems}
+                } else {
+                    return removeFromMap(state, action.category)
+                }
+            }
         case 'REMOVE_ITEM': {
-            const {[action.category]: removed, ...remaining} = state
-            return remaining
+            return removeFromMap(state, action.category)
         }
         case 'RANDOMIZE': {
             return toCategorySelection(categories.map(c => ({[c.type]: getRandomItem(c)})))

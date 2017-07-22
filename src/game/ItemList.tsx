@@ -2,11 +2,12 @@ import * as React from 'react'
 import categories, {Category, Item} from './Items'
 import ItemView from './ItemView'
 import {connect} from 'react-redux'
-import {addItem, Game, removeItem} from './GameState'
+import {Game, removeItem, toggleItem} from './GameState'
 import './ItemList.css'
 
 interface ItemListProps {
     readonly selectedCategory: Game.SelectedCategory,
+    readonly selectedItems: Game.CategoryItems,
     readonly category: Category | undefined,
     readonly onSelectItem: (category: Category, item: Item) => void
     readonly onRemoveItem: (category: Category) => void
@@ -35,6 +36,7 @@ export class ItemList extends React.Component<ItemListProps, {}> {
                 <ItemView category={cat} onClick={this.selectItem}/>
                 {cat.items.map(i => <ItemView
                     key={i.fileName}
+                    selected={this.props.selectedItems && this.props.selectedItems[i.fileName] !== undefined}
                     category={cat}
                     item={i}
                     onClick={this.selectItem}/>)}
@@ -45,12 +47,16 @@ export class ItemList extends React.Component<ItemListProps, {}> {
 }
 
 const StatefulItemList = connect(
-    (state: Game.State) => ({
-        selectedCategory: state.selectedCategory,
-        category: state.selectedCategory ? categories.find(c => c.type === state.selectedCategory) : undefined
-    }),
+    (state: Game.State) => {
+        const category = state.selectedCategory ? categories.find(c => c.type === state.selectedCategory) : undefined
+        return {
+            selectedCategory: state.selectedCategory,
+            category: category,
+            selectedItems: category ? state.selectedItems[category.type] : {}
+        }
+    },
     (dispatch) => ({
-        onSelectItem: (category: Category, item: Item) => { dispatch(addItem(item, category)) },
+        onSelectItem: (category: Category, item: Item) => { dispatch(toggleItem(item, category)) },
         onRemoveItem: (category: Category) => { dispatch(removeItem(category)) }
     })
 )(ItemList)

@@ -6,6 +6,7 @@ interface ItemViewProps {
     item?: Item,
     category: Category,
     missingImage?: string,
+    selected?: boolean,
     onClick?: (item?: Item) => void
 }
 export default class ItemView extends React.Component<ItemViewProps, {}> {
@@ -21,7 +22,8 @@ export default class ItemView extends React.Component<ItemViewProps, {}> {
     }
     render() {
         return (
-            <div className="ItemView" onClick={i => this.props.onClick && this.props.onClick(this.props.item)}>
+            <div className={`ItemView ${this.props.selected ? 'selected' : ''}`}
+                 onClick={i => this.props.onClick && this.props.onClick(this.props.item)}>
                 {this.getImage(this.props.item, this.props.missingImage)}
                 {this.props.children}
             </div>
