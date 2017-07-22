@@ -4,6 +4,7 @@ export interface Category {
     readonly isBackground?: boolean,
     readonly imageFileName: string,
     readonly isEssential: boolean,
+    readonly unique?: boolean,
     readonly items: Array<Item>
 }
 
@@ -32,6 +33,7 @@ const categories: Category[] = [
         isBackground: true,
         imageFileName: 'category-background.jpg',
         isEssential: false,
+        unique: true,
         items: [
             { fileName: 'bg-castle.jpg', left: 0, top: 0 },
             { fileName: 'bg-beach.jpg', left: 0, top: 0, isDefault: true },
@@ -49,6 +51,7 @@ const categories: Category[] = [
         title: 'Vartalot',
         type: 'body',
         isEssential: true,
+        unique: true,
         imageFileName: 'category-body.png',
         items: [
             { fileName: 'girl-white.png', left: 336, top: 198, isDefault: true },
@@ -88,6 +91,7 @@ const categories: Category[] = [
         title: 'Silmät',
         type: 'eyes',
         isEssential: true,
+        unique: true,
         imageFileName: 'category-eyes.png',
         items: [
             { fileName: 'eyes-blue.png', left: 419, top: 310, isDefault: true },
@@ -121,6 +125,7 @@ const categories: Category[] = [
         title: 'Siivet',
         type: 'wings',
         isEssential: false,
+        unique: true,
         imageFileName: 'category-wings.png',
         items: [
             { fileName: 'wings-pink.png', left: 25, top: 29 },
@@ -179,6 +184,7 @@ const categories: Category[] = [
         title: 'Kengät',
         type: 'shoes',
         isEssential: false,
+        unique: true,
         imageFileName: 'category-shoes.png',
         items: [
             { fileName: 'shoes-blue.png', left: 373, top: 888, isDefault: true },

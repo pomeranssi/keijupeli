@@ -90,10 +90,13 @@ function toCategoryItems(items: Item[]): CategoryItems {
 function selectedItemsReducer(state: Game.SelectedItems = initialItems, action: Action): Game.SelectedItems {
     switch (action.type) {
         case 'TOGGLE_ITEM':
+            const category = categories.find(c => c.type === action.category) || { unique: false }
             const current: CategoryItems = state[action.category] || {}
             const isAdd = current[action.item.fileName] === undefined
             if (isAdd) {
-                return {...state, [action.category]: addToMap(current, action.item.fileName, action.item)}
+                return {...state, [action.category]:
+                    category.unique ? { [action.item.fileName]: action.item } :
+                    addToMap(current, action.item.fileName, action.item)}
             } else {
                 const trimmedItems: CategoryItems = removeFromMap(current, action.item.fileName)
                 if (mapSize(trimmedItems) > 0) {
