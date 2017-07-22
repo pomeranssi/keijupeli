@@ -12,11 +12,17 @@ export type Action = {
     category: string,
     item?: Item
 } | {
+    type: 'MOVE_ITEM',
+    category: string,
+    item: Item,
+    x: number,
+    y: number
+} | {
     type: 'SELECT_CATEGORY',
     category: string
 } | {
     type: 'RANDOMIZE'
-}| {
+} | {
     type: 'RESET'
 }
 
@@ -24,6 +30,14 @@ export const toggleItem = (item: Item, category: Category): Action => ({
     type: 'TOGGLE_ITEM',
     item: item,
     category: category.type
+})
+
+export const moveItem = (item: Item, category: Category, x: number, y: number): Action => ({
+    type: 'MOVE_ITEM',
+    item: item,
+    category: category.type,
+    x: x,
+    y: y
 })
 
 export const removeItem = (category: Category, item?: Item): Action => ({
@@ -87,6 +101,10 @@ function toCategoryItems(items: Item[]): CategoryItems {
     return items.length > 0 ? Object.assign.apply({}, items.map(i => ({ [i.fileName] : i }))) : {}
 }
 
+function moveItemTo(item: Item, x: number, y: number): Item {
+    return Object.assign({}, item, { left: x, top: y })
+}
+
 function selectedItemsReducer(state: Game.SelectedItems = initialItems, action: Action): Game.SelectedItems {
     switch (action.type) {
         case 'TOGGLE_ITEM':
@@ -113,6 +131,11 @@ function selectedItemsReducer(state: Game.SelectedItems = initialItems, action: 
         }
         case 'RESET': {
             return initialItems
+        }
+        case 'MOVE_ITEM': {
+            const catSel = state[action.category]
+            return {...state, [action.category]: { ...catSel,
+                [action.item.fileName]: moveItemTo(action.item, action.x, action.y) } }
         }
         default:
             return state
