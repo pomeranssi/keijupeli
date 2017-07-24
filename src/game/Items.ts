@@ -82,7 +82,7 @@ const categories: Category[] = [
         type: 'hair',
         isBackground: false,
         isEssential: true,
-        isUnique: false,
+        isUnique: true,
         isMovable: false,
         imageFileName: 'category-hair.png',
         items: [
