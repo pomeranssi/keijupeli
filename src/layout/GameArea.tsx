@@ -48,7 +48,7 @@ class ItemElement extends React.Component<{item: Item, category: Category, scale
                     this.props.onMove(this.itemX + (event.pageX - this.mouseX) / this.props.scale,
                         this.itemY + (event.pageY - this.mouseY) / this.props.scale)
                 }}
-                draggable={true}
+                draggable={this.props.category.isMovable}
                 onClick={this.props.onClick} />
         )
     }

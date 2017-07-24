@@ -108,12 +108,12 @@ function moveItemTo(item: Item, x: number, y: number): Item {
 function selectedItemsReducer(state: Game.SelectedItems = initialItems, action: Action): Game.SelectedItems {
     switch (action.type) {
         case 'TOGGLE_ITEM':
-            const category = categories.find(c => c.type === action.category) || { unique: false }
+            const category = categories.find(c => c.type === action.category) || { isUnique: false }
             const current: CategoryItems = state[action.category] || {}
             const isAdd = current[action.item.fileName] === undefined
             if (isAdd) {
                 return {...state, [action.category]:
-                    category.unique ? { [action.item.fileName]: action.item } :
+                    category.isUnique ? { [action.item.fileName]: action.item } :
                     addToMap(current, action.item.fileName, action.item)}
             } else {
                 const trimmedItems: CategoryItems = removeFromMap(current, action.item.fileName)

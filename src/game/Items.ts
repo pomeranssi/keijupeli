@@ -1,10 +1,11 @@
 export interface Category {
     readonly title: string,
     readonly type: string,
-    readonly isBackground?: boolean,
-    readonly imageFileName: string,
+    readonly isBackground: boolean,
     readonly isEssential: boolean,
-    readonly unique?: boolean,
+    readonly isUnique: boolean,
+    readonly isMovable: boolean,
+    readonly imageFileName: string,
     readonly items: Array<Item>
 }
 
@@ -33,7 +34,8 @@ const categories: Category[] = [
         isBackground: true,
         imageFileName: 'category-background.jpg',
         isEssential: false,
-        unique: true,
+        isUnique: true,
+        isMovable: false,
         items: [
             { fileName: 'bg-castle.jpg', left: 0, top: 0 },
             { fileName: 'bg-beach.jpg', left: 0, top: 0, isDefault: true },
@@ -50,8 +52,10 @@ const categories: Category[] = [
     {
         title: 'Vartalot',
         type: 'body',
+        isBackground: false,
         isEssential: true,
-        unique: true,
+        isUnique: true,
+        isMovable: false,
         imageFileName: 'category-body.png',
         items: [
             { fileName: 'girl-white.png', left: 336, top: 198, isDefault: true },
@@ -61,7 +65,10 @@ const categories: Category[] = [
     {
         title: 'Hatut',
         type: 'crown',
+        isBackground: false,
         isEssential: false,
+        isUnique: false,
+        isMovable: true,
         imageFileName: 'category-crown.png',
         items: [
             { fileName: 'tiara-yellow.png', left: 383, top: 201 },
@@ -73,7 +80,10 @@ const categories: Category[] = [
     {
         title: 'Hiukset',
         type: 'hair',
-        isEssential: false,
+        isBackground: false,
+        isEssential: true,
+        isUnique: false,
+        isMovable: false,
         imageFileName: 'category-hair.png',
         items: [
             { fileName: 'hair-orig.png', left: 335, top: 150, isDefault: true },
@@ -90,8 +100,10 @@ const categories: Category[] = [
     {
         title: 'Silmät',
         type: 'eyes',
+        isBackground: false,
         isEssential: true,
-        unique: true,
+        isUnique: true,
+        isMovable: true,
         imageFileName: 'category-eyes.png',
         items: [
             { fileName: 'eyes-blue.png', left: 419, top: 310, isDefault: true },
@@ -108,7 +120,10 @@ const categories: Category[] = [
     {
         title: 'Kaulakorut',
         type: 'necklace',
+        isBackground: false,
         isEssential: false,
+        isUnique: false,
+        isMovable: false,
         imageFileName: 'category-necklace.png',
         items: [
             { fileName: 'necklace-white.png', left: 469, top: 412 },
@@ -124,8 +139,10 @@ const categories: Category[] = [
     {
         title: 'Siivet',
         type: 'wings',
+        isBackground: false,
         isEssential: false,
-        unique: true,
+        isUnique: true,
+        isMovable: false,
         imageFileName: 'category-wings.png',
         items: [
             { fileName: 'wings-pink.png', left: 25, top: 29 },
@@ -139,7 +156,10 @@ const categories: Category[] = [
     {
         title: 'Paidat',
         type: 'chest',
+        isBackground: false,
         isEssential: false,
+        isUnique: false,
+        isMovable: false,
         imageFileName: 'category-chest.png',
         items: [
             { fileName: 'dress-blue.png', left: 439, top: 406 },
@@ -168,7 +188,10 @@ const categories: Category[] = [
     {
         title: 'Housut',
         type: 'leg',
+        isBackground: false,
         isEssential: false,
+        isUnique: false,
+        isMovable: false,
         imageFileName: 'category-leg.png',
         items: [
             { fileName: 'skirt-red.png', left: 421, top: 529 },
@@ -183,8 +206,10 @@ const categories: Category[] = [
     {
         title: 'Kengät',
         type: 'shoes',
+        isBackground: false,
         isEssential: false,
-        unique: true,
+        isUnique: true,
+        isMovable: false,
         imageFileName: 'category-shoes.png',
         items: [
             { fileName: 'shoes-blue.png', left: 373, top: 888, isDefault: true },
