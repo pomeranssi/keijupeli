@@ -6,10 +6,11 @@ import {Game, removeItem, toggleItem} from './GameState'
 import './ItemList.css'
 
 interface ItemListProps {
+    readonly restricted: boolean,
     readonly selectedCategory: Game.SelectedCategory,
     readonly selectedItems: Game.CategoryItems,
     readonly category: Category | undefined,
-    readonly onSelectItem: (category: Category, item: Item) => void
+    readonly onSelectItem: (category: Category, item: Item, restricted: boolean) => void
     readonly onRemoveItem: (category: Category) => void
 }
 export class ItemList extends React.Component<ItemListProps, {}> {
@@ -22,7 +23,7 @@ export class ItemList extends React.Component<ItemListProps, {}> {
     selectItem(item?: Item) {
         if (this.props.category) {
             if (item) {
-                this.props.onSelectItem(this.props.category, item)
+                this.props.onSelectItem(this.props.category, item, this.props.restricted)
             } else {
                 this.props.onRemoveItem(this.props.category)
             }
@@ -48,15 +49,19 @@ export class ItemList extends React.Component<ItemListProps, {}> {
 
 const StatefulItemList = connect(
     (state: Game.State) => {
-        const category = state.selectedCategory ? categories.find(c => c.type === state.selectedCategory) : undefined
+        const category = state.selectedCategory ?
+            categories.find(c => c.type === state.selectedCategory) : undefined
         return {
             selectedCategory: state.selectedCategory,
             category: category,
+            restricted: state.settings.restrictions,
             selectedItems: category ? state.selectedItems[category.type] : {}
         }
     },
     (dispatch) => ({
-        onSelectItem: (category: Category, item: Item) => { dispatch(toggleItem(item, category)) },
+        onSelectItem: (category: Category, item: Item, restricted: boolean) => {
+            dispatch(toggleItem(item, category, restricted))
+        },
         onRemoveItem: (category: Category) => { dispatch(removeItem(category)) }
     })
 )(ItemList)

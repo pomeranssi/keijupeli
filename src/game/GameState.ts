@@ -5,6 +5,7 @@ import {addToMap, mapSize, removeFromMap} from '../util/objects'
 
 export type Action = {
     type: 'TOGGLE_ITEM',
+    restricted: boolean,
     item: Item,
     category: string
 } | {
@@ -24,11 +25,14 @@ export type Action = {
     type: 'RANDOMIZE'
 } | {
     type: 'RESET'
+} | {
+    type: 'TOGGLE_RESTRICTIONS'
 }
 
-export const toggleItem = (item: Item, category: Category): Action => ({
+export const toggleItem = (item: Item, category: Category, restricted: boolean): Action => ({
     type: 'TOGGLE_ITEM',
     item: item,
+    restricted: restricted,
     category: category.type
 })
 
@@ -59,6 +63,10 @@ export const reset = (): Action => ({
     type: 'RESET'
 })
 
+export const toggleRestrictions = (): Action => ({
+    type: 'TOGGLE_RESTRICTIONS'
+})
+
 export namespace Game {
 
     export type CategoryItems = {
@@ -70,9 +78,14 @@ export namespace Game {
     }
     export type SelectedCategory = string | null
 
+    export type Settings = {
+        restrictions: boolean
+    }
+
     export type State = {
         selectedItems: SelectedItems,
-        selectedCategory: SelectedCategory
+        selectedCategory: SelectedCategory,
+        settings: Settings
     }
 }
 
@@ -91,6 +104,10 @@ function getDefaultItems(category: Category): Game.CategoryItems {
 
 const initialItems: Game.SelectedItems =
     toCategorySelection(categories.map(c => ({[c.type]: getDefaultItems(c)})))
+
+const initialSettings: Game.Settings = {
+    restrictions: true
+}
 
 function getRandomItem(category: Category): CategoryItems {
     const i = getRandomInt(category.isEssential ? 0 : -1, category.items.length)
@@ -112,8 +129,9 @@ function selectedItemsReducer(state: Game.SelectedItems = initialItems, action: 
             const current: CategoryItems = state[action.category] || {}
             const isAdd = current[action.item.fileName] === undefined
             if (isAdd) {
+                const isCategoryUnique = category.isUnique && (action.restricted || category.isBackground)
                 return {...state, [action.category]:
-                    category.isUnique ? { [action.item.fileName]: action.item } :
+                    isCategoryUnique ? { [action.item.fileName]: action.item } :
                     addToMap(current, action.item.fileName, action.item)}
             } else {
                 const trimmedItems: CategoryItems = removeFromMap(current, action.item.fileName)
@@ -151,13 +169,23 @@ function selectedCategoryReducer(state: Game.SelectedCategory = null, action: Ac
     }
 }
 
+function settingsReducer(state: Game.Settings = initialSettings, action: Action): Game.Settings {
+    switch (action.type) {
+        case 'TOGGLE_RESTRICTIONS':
+            return { ...state, restrictions: !state.restrictions }
+        default:
+            return state
+    }
+}
+
 const persistedState = localStorage.getItem('reduxState') ?
     JSON.parse(localStorage.getItem('reduxState') || '') :
     undefined
 
 export const store = createStore(combineReducers({
     selectedItems: selectedItemsReducer,
-    selectedCategory: selectedCategoryReducer
+    selectedCategory: selectedCategoryReducer,
+    settings: settingsReducer
 }), persistedState)
 
 store.subscribe(() => {

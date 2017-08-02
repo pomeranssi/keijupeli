@@ -12,6 +12,7 @@
 }
 .AppIcon.reset { background-color: rgba(180, 180, 255, 0.8); }
 .AppIcon.randomize { background-color: rgba(255,153,153,0.8); }
+.AppIcon.restrictions { background-color: rgba(126, 208, 126, 0.8); }
 
 .AppIconImage {
     width: 60px;

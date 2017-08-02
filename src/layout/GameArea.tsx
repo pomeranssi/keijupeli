@@ -19,7 +19,7 @@ class Size {
 }
 
 class ItemElement extends React.Component<{item: Item, category: Category, scale: number, onClick: () => void,
-    onMove: (x: number, y: number) => void}, {}> {
+    onMove: (x: number, y: number) => void, restricted: boolean}, {}> {
     mouseX: number = 0
     mouseY: number = 0
     itemX: number = 0
@@ -48,7 +48,8 @@ class ItemElement extends React.Component<{item: Item, category: Category, scale
                     this.props.onMove(this.itemX + (event.pageX - this.mouseX) / this.props.scale,
                         this.itemY + (event.pageY - this.mouseY) / this.props.scale)
                 }}
-                draggable={this.props.category.isMovable}
+                draggable={this.props.category.isMovable ||
+                    (!this.props.restricted && !this.props.category.isBackground)}
                 onClick={this.props.onClick} />
         )
     }
@@ -59,8 +60,9 @@ const areaPadding = {landscape: new Size(200, 0), portrait: new Size(0, 200)}
 
 interface GameAreaProps {
     items: Game.SelectedItems,
-    onRemove: (category: Category, item: Item) => void
-    onMoveItem: (category: Category, item: Item, x: number, y: number) => void
+    onRemove: (category: Category, item: Item) => void,
+    onMoveItem: (category: Category, item: Item, x: number, y: number) => void,
+    restricted: boolean
 }
 interface GameState {
     windowSize: Size,
@@ -122,7 +124,8 @@ export class GameArea extends React.Component<GameAreaProps, GameState> {
                        return item ?
                            <ItemElement key={item.fileName} item={item} category={category} scale={this.state.scale}
                                         onClick={() => {this.props.onRemove(category, item)}}
-                                        onMove={(x, y) => this.props.onMoveItem(category, item, x, y)}/> :
+                                        onMove={(x, y) => this.props.onMoveItem(category, item, x, y)}
+                                        restricted={this.props.restricted} /> :
                            undefined
                    })).filter(i => i !== undefined)}
                    <br />
@@ -133,9 +136,12 @@ export class GameArea extends React.Component<GameAreaProps, GameState> {
 }
 
 const StatefulGameArea = connect(
-    (state: Game.State) => ({ items: state.selectedItems }),
+    (state: Game.State) => ({
+        items: state.selectedItems,
+        restricted: state.settings.restrictions
+    }),
     (dispatch) => ({
-        onRemove: (category: Category, item: Item) => { dispatch(toggleItem(item, category)) },
+        onRemove: (category: Category, item: Item) => { dispatch(toggleItem(item, category, false)) },
         onMoveItem: (category: Category, item: Item, x: number, y: number) => {
             dispatch(moveItem(item, category, x, y))
         }
