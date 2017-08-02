@@ -221,6 +221,19 @@ const categories: Category[] = [
             { fileName: 'shoes-pink.png', left: 371, top: 883 },
             { fileName: 'shoes-brown.png', left: 372, top: 888 }
         ]
+    },
+    {
+        title: 'Asusteet',
+        type: 'other',
+        isBackground: false,
+        isEssential: false,
+        isUnique: false,
+        isMovable: true,
+        imageFileName: 'category-other.png',
+        items: [
+            { fileName: 'gloves-yellow.png', left: 331, top: 577 },
+            { fileName: 'shovel.png', left: 491, top: 586 }
+        ]
     }
 ]
 

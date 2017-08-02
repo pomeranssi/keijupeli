@@ -23,4 +23,4 @@
 .Image.hair       { z-index: 30; }
 .Image.eyes       { z-index: 40; }
 .Image.crown      { z-index: 50; }
-
+.Image.other      { z-index: 60; }
