@@ -129,6 +129,7 @@ const categories: Category[] = [
             { fileName: 'necklace-white.png', left: 469, top: 412 },
             { fileName: 'necklace-white2.png', left: 469, top: 412 },
             { fileName: 'necklace-yellow.png', left: 462, top: 413 },
+            { fileName: 'necklace-colorful.png', left: 458, top: 401 },
             { fileName: 'necklace-blue.png', left: 466, top: 411 },
             { fileName: 'necklace-many-black.png', left: 454, top: 411 },
             { fileName: 'necklace-stone.png', left: 466, top: 415 },
@@ -177,8 +178,11 @@ const categories: Category[] = [
             { fileName: 'dress-lilac-yellow.png', left: 278, top: 416 },
             { fileName: 'dress-long-side.png', left: 317, top: 415 },
             { fileName: 'dress-rapunzel.png', left: 336, top: 416 },
+            { fileName: 'dress-stylish.png', left: 300, top: 414 },
             { fileName: 'dress-black.png', left: 412, top: 419 },
             { fileName: 'jacket-black.png', left: 374, top: 401 },
+            { fileName: 'shirt-white.png', left: 417, top: 403 },
+            { fileName: 'shirt-lilac.png', left: 402, top: 400 },
             { fileName: 'mermaid-bra.png', left: 443, top: 448 },
             { fileName: 'bikini-bra-yellow.png', left: 450, top: 450 },
             { fileName: 'chest-swimsuit.png', left: 386, top: 413 },
@@ -200,7 +204,8 @@ const categories: Category[] = [
             { fileName: 'bikini-pants-yellowred.png', left: 428, top: 548 },
             { fileName: 'jeans-blue.png', left: 370, top: 545 },
             { fileName: 'mermaid-tail.png', left: 290, top: 529 },
-            { fileName: 'pants-colorful.png', left: 371, top: 541 }
+            { fileName: 'pants-colorful.png', left: 371, top: 541 },
+            { fileName: 'pants-red.png', left: 366, top: 543 }
         ]
     },
     {
@@ -216,6 +221,7 @@ const categories: Category[] = [
             { fileName: 'shoes-yellow.png', left: 369, top: 872 },
             { fileName: 'shoes-yellow2.png', left: 371, top: 872 },
             { fileName: 'shoes-black.png', left: 372, top: 904 },
+            { fileName: 'shoes-colorful.png', left: 369, top: 891 },
             { fileName: 'shoes-whiteblack.png', left: 372, top: 732 },
             { fileName: 'shoes-redyellow.png', left: 371, top: 894 },
             { fileName: 'shoes-pink.png', left: 371, top: 883 },
