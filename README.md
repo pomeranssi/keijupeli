@@ -2,9 +2,9 @@
 
 Spawn server for development
 
-> `npm run start`
+> `yarn start`
 
 Run production build
 
-> `npm run build`
+> `yarn build`
 
