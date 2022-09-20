@@ -1,13 +1,17 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 
 import { store } from "./game/GameState";
-import App from "./layout/App";
+import { App } from "./layout/App";
+import { assertDefined } from "./util/objects";
 
-ReactDOM.render(
+const container = document.getElementById("root");
+assertDefined(container);
+const root = createRoot(container);
+
+root.render(
   <Provider store={store}>
     <App />
-  </Provider>,
-  document.getElementById("root") as HTMLElement
+  </Provider>
 );
