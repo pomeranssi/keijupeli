@@ -9,12 +9,12 @@ interface ItemViewProps {
     selected?: boolean,
     onClick?: (item?: Item) => void
 }
-export default class ItemView extends React.Component<ItemViewProps, {}> {
+export default class ItemView extends React.Component<React.PropsWithChildren<ItemViewProps>, {}> {
     getImageClass(): string {
         return 'ItemImage' +
             (this.props.category.isBackground ? ' background' : '')
     }
-    getImage(item: Item | undefined, thumb: string | undefined): object | undefined {
+    getImage(item: Item | undefined, thumb: string | undefined): React.ReactNode {
         return (item || thumb) ? (
             <div className={this.getImageClass()}
                  style={{backgroundImage: `url("${getThumbPath(item ? item.fileName : thumb)}")`}} />

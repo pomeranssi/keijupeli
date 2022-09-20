@@ -1,6 +1,5 @@
 import {createStore, combineReducers} from 'redux'
 import categories, {Category, Item} from './Items'
-import CategoryItems = Game.CategoryItems
 import {addToMap, mapSize, removeFromMap} from '../util/objects'
 
 export type Action = {
@@ -88,6 +87,8 @@ export namespace Game {
         settings: Settings
     }
 }
+
+type CategoryItems = Game.CategoryItems
 
 // Returns a random integer between min (included) and max (excluded)
 // Using Math.round() will give you a non-uniform distribution!
