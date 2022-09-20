@@ -1,6 +1,6 @@
 import { combineReducers, createStore } from "redux";
 
-import { addToMap, mapSize, removeFromMap } from "../util/objects";
+import { mapSize, removeFromMap } from "../util/objects";
 import categories, { Category, Item } from "./Items";
 
 export type Action =
@@ -160,7 +160,7 @@ function selectedItemsReducer(
           ...state,
           [action.category]: isCategoryUnique
             ? { [action.item.fileName]: action.item }
-            : addToMap(current, action.item.fileName, action.item),
+            : { ...current, [action.item.fileName]: action.item },
         };
       } else {
         const trimmedItems: CategoryItems = removeFromMap(

@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 
 import CategoryList from "../game/CategoryList";
-import ItemList from "../game/ItemList";
+import { ItemList } from "../game/ItemList";
 import GameArea from "./GameArea";
 import { LogoView } from "./LogoView";
 import { Toolbar } from "./Toolbar";

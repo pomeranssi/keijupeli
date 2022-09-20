@@ -1,79 +1,58 @@
-import "./ItemList.css";
-
 import * as React from "react";
 import { connect } from "react-redux";
+import styled from "styled-components";
 
-import {
-  CategoryItems,
-  removeItem,
-  SelectedCategory,
-  State,
-  toggleItem,
-} from "./GameState";
+import { CategoryItems, removeItem, State, toggleItem } from "./GameState";
 import categories, { Category, Item } from "./Items";
 import ItemView from "./ItemView";
 
-interface ItemListProps {
-  readonly restricted: boolean;
-  readonly selectedCategory: SelectedCategory;
-  readonly selectedItems: CategoryItems;
-  readonly category: Category | undefined;
-  readonly onSelectItem: (
-    category: Category,
-    item: Item,
-    restricted: boolean
-  ) => void;
-  readonly onRemoveItem: (category: Category) => void;
-}
-export class ItemList extends React.Component<ItemListProps> {
-  constructor(props: ItemListProps) {
-    super(props);
-    this.selectItem = this.selectItem.bind(this);
-  }
+type ItemListProps = {
+  restricted: boolean;
+  selectedItems: CategoryItems;
+  category: Category | undefined;
+  onSelectItem: (category: Category, item: Item, restricted: boolean) => void;
+  onRemoveItem: (category: Category) => void;
+};
 
-  selectItem(item?: Item) {
-    if (this.props.category) {
+const ItemListView: React.FC<ItemListProps> = ({
+  restricted,
+  selectedItems,
+  category: cat,
+  onSelectItem,
+  onRemoveItem,
+}) => {
+  const selectItem = (item?: Item) => {
+    if (cat) {
       if (item) {
-        this.props.onSelectItem(
-          this.props.category,
-          item,
-          this.props.restricted
-        );
+        onSelectItem(cat, item, restricted);
       } else {
-        this.props.onRemoveItem(this.props.category);
+        onRemoveItem(cat);
       }
     }
-  }
+  };
 
-  render() {
-    const cat = this.props.category;
-    return cat ? (
-      <div className="ItemList">
-        <ItemView category={cat} onClick={this.selectItem} />
-        {cat.items.map((i) => (
-          <ItemView
-            key={i.fileName}
-            selected={
-              this.props.selectedItems &&
-              this.props.selectedItems[i.fileName] !== undefined
-            }
-            category={cat}
-            item={i}
-            onClick={this.selectItem}
-          />
-        ))}
-      </div>
-    ) : null;
-  }
-}
+  return cat ? (
+    <ListContainer>
+      <ItemView category={cat} onClick={selectItem} />
+      {cat.items.map((i) => (
+        <ItemView
+          key={i.fileName}
+          selected={selectedItems && selectedItems[i.fileName] !== undefined}
+          category={cat}
+          item={i}
+          onClick={selectItem}
+        />
+      ))}
+    </ListContainer>
+  ) : null;
+};
 
-const StatefulItemList = connect(
+export const ItemList = connect(
   (state: State) => {
     const category = state.selectedCategory
       ? categories.find((c) => c.type === state.selectedCategory)
       : undefined;
     return {
-      selectedCategory: state.selectedCategory,
       category: category,
       restricted: state.settings.restrictions,
       selectedItems: category ? state.selectedItems[category.type] : {},
@@ -87,6 +66,13 @@ const StatefulItemList = connect(
       dispatch(removeItem(category));
     },
   })
-)(ItemList);
+)(ItemListView);
 
-export default StatefulItemList;
+const ListContainer = styled.div`
+  margin: 0 0.3em;
+  display: inline-block;
+
+  @media all and (orientation: portrait) {
+    margin: 0.3em 0;
+  }
+`;
