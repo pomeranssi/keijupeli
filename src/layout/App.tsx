@@ -4,7 +4,7 @@ import styled from "styled-components";
 import CategoryList from "../game/CategoryList";
 import ItemList from "../game/ItemList";
 import GameArea from "./GameArea";
-import UtilityBar from "./UtilityBar";
+import { UtilityBar } from "./UtilityBar";
 
 export default class App extends React.Component<object> {
   UNSAFE_componentWillMount() {
