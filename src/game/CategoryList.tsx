@@ -1,7 +1,7 @@
-import "./CategoryList.css";
+import './CategoryList.css';
 
-import * as React from "react";
-import { connect } from "react-redux";
+import * as React from 'react';
+import { connect } from 'react-redux';
 
 import {
   CategoryItems,
@@ -9,9 +9,9 @@ import {
   SelectedCategory,
   SelectedItems,
   State,
-} from "./GameState";
-import categories, { Category, Item } from "./Items";
-import ItemView from "./ItemView";
+} from './GameState';
+import categories, { Category, Item } from './Items';
+import ItemView from './ItemView';
 
 function findItem(selection: CategoryItems): Item | undefined {
   const fn = Object.keys(selection || {}).find(() => true);
@@ -26,12 +26,12 @@ export class CategoryList extends React.Component<{
   render() {
     return (
       <div className="CategoryList">
-        {categories.map((c) => (
+        {categories.map(c => (
           <div
             className={
-              "CategoryItem " +
-              (this.props.selectedItems[c.type] ? "has-item" : "missing") +
-              (this.props.selectedCategory === c.type ? " selected" : "")
+              'CategoryItem ' +
+              (this.props.selectedItems[c.type] ? 'has-item' : 'missing') +
+              (this.props.selectedCategory === c.type ? ' selected' : '')
             }
             key={c.type}
           >
@@ -55,7 +55,7 @@ const StatefulCategoryList = connect(
     selectedCategory: state.selectedCategory,
     selectedItems: state.selectedItems,
   }),
-  (dispatch) => ({
+  dispatch => ({
     onSelectCategory: (category: Category) => {
       dispatch(selectCategory(category));
     },

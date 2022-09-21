@@ -1,39 +1,39 @@
-import { combineReducers, createStore } from "redux";
+import { combineReducers, createStore } from 'redux';
 
-import { mapSize, removeFromMap } from "../util/objects";
-import categories, { Category, Item } from "./Items";
+import { mapSize, removeFromMap } from '../util/objects';
+import categories, { Category, Item } from './Items';
 
 export type Action =
   | {
-      type: "TOGGLE_ITEM";
+      type: 'TOGGLE_ITEM';
       restricted: boolean;
       item: Item;
       category: string;
     }
   | {
-      type: "REMOVE_ITEM";
+      type: 'REMOVE_ITEM';
       category: string;
       item?: Item;
     }
   | {
-      type: "MOVE_ITEM";
+      type: 'MOVE_ITEM';
       category: string;
       item: Item;
       x: number;
       y: number;
     }
   | {
-      type: "SELECT_CATEGORY";
+      type: 'SELECT_CATEGORY';
       category: string;
     }
   | {
-      type: "RANDOMIZE";
+      type: 'RANDOMIZE';
     }
   | {
-      type: "RESET";
+      type: 'RESET';
     }
   | {
-      type: "TOGGLE_RESTRICTIONS";
+      type: 'TOGGLE_RESTRICTIONS';
     };
 
 export const toggleItem = (
@@ -41,7 +41,7 @@ export const toggleItem = (
   category: Category,
   restricted: boolean
 ): Action => ({
-  type: "TOGGLE_ITEM",
+  type: 'TOGGLE_ITEM',
   item: item,
   restricted: restricted,
   category: category.type,
@@ -53,7 +53,7 @@ export const moveItem = (
   x: number,
   y: number
 ): Action => ({
-  type: "MOVE_ITEM",
+  type: 'MOVE_ITEM',
   item: item,
   category: category.type,
   x: x,
@@ -61,26 +61,26 @@ export const moveItem = (
 });
 
 export const removeItem = (category: Category, item?: Item): Action => ({
-  type: "REMOVE_ITEM",
+  type: 'REMOVE_ITEM',
   category: category.type,
   item: item,
 });
 
 export const selectCategory = (category: Category): Action => ({
-  type: "SELECT_CATEGORY",
+  type: 'SELECT_CATEGORY',
   category: category.type,
 });
 
 export const randomize = (): Action => ({
-  type: "RANDOMIZE",
+  type: 'RANDOMIZE',
 });
 
 export const reset = (): Action => ({
-  type: "RESET",
+  type: 'RESET',
 });
 
 export const toggleRestrictions = (): Action => ({
-  type: "TOGGLE_RESTRICTIONS",
+  type: 'TOGGLE_RESTRICTIONS',
 });
 
 export type CategoryItems = {
@@ -113,11 +113,11 @@ const toCategorySelection = (
 ): { [key: string]: CategoryItems } => Object.assign.apply({}, items);
 
 function getDefaultItems(category: Category): CategoryItems {
-  return toCategoryItems(category.items.filter((i) => i.isDefault));
+  return toCategoryItems(category.items.filter(i => i.isDefault));
 }
 
 const initialItems: SelectedItems = toCategorySelection(
-  categories.map((c) => ({ [c.type]: getDefaultItems(c) }))
+  categories.map(c => ({ [c.type]: getDefaultItems(c) }))
 );
 
 const initialSettings: Settings = {
@@ -133,13 +133,9 @@ function toCategoryItems(items: Item[]): CategoryItems {
   return items.length > 0
     ? Object.assign.apply(
         {},
-        items.map((i) => ({ [i.fileName]: i }))
+        items.map(i => ({ [i.fileName]: i }))
       )
     : {};
-}
-
-function moveItemTo(item: Item, x: number, y: number): Item {
-  return Object.assign({}, item, { left: x, top: y });
 }
 
 function selectedItemsReducer(
@@ -147,8 +143,8 @@ function selectedItemsReducer(
   action: Action
 ): SelectedItems {
   switch (action.type) {
-    case "TOGGLE_ITEM":
-      const category = categories.find((c) => c.type === action.category) || {
+    case 'TOGGLE_ITEM':
+      const category = categories.find(c => c.type === action.category) || {
         isUnique: false,
       };
       const current: CategoryItems = state[action.category] || {};
@@ -173,24 +169,29 @@ function selectedItemsReducer(
           return removeFromMap(state, action.category);
         }
       }
-    case "REMOVE_ITEM": {
+    case 'REMOVE_ITEM': {
       return removeFromMap(state, action.category);
     }
-    case "RANDOMIZE": {
+    case 'RANDOMIZE': {
       return toCategorySelection(
-        categories.map((c) => ({ [c.type]: getRandomItem(c) }))
+        categories.map(c => ({ [c.type]: getRandomItem(c) }))
       );
     }
-    case "RESET": {
+    case 'RESET': {
       return initialItems;
     }
-    case "MOVE_ITEM": {
+    case 'MOVE_ITEM': {
+      console.log('Moving item to', action);
       const catSel = state[action.category];
       return {
         ...state,
         [action.category]: {
           ...catSel,
-          [action.item.fileName]: moveItemTo(action.item, action.x, action.y),
+          [action.item.fileName]: {
+            ...action.item,
+            left: action.x,
+            top: action.y,
+          },
         },
       };
     }
@@ -204,7 +205,7 @@ function selectedCategoryReducer(
   action: Action
 ): SelectedCategory {
   switch (action.type) {
-    case "SELECT_CATEGORY":
+    case 'SELECT_CATEGORY':
       return action.category;
     default:
       return state;
@@ -216,15 +217,15 @@ function settingsReducer(
   action: Action
 ): Settings {
   switch (action.type) {
-    case "TOGGLE_RESTRICTIONS":
+    case 'TOGGLE_RESTRICTIONS':
       return { ...state, restrictions: !state.restrictions };
     default:
       return state;
   }
 }
 
-const persistedState = localStorage.getItem("reduxState")
-  ? JSON.parse(localStorage.getItem("reduxState") || "")
+const persistedState = localStorage.getItem('reduxState')
+  ? JSON.parse(localStorage.getItem('reduxState') || '')
   : undefined;
 
 export const store = createStore(
@@ -237,5 +238,5 @@ export const store = createStore(
 );
 
 store.subscribe(() => {
-  localStorage.setItem("reduxState", JSON.stringify(store.getState()));
+  localStorage.setItem('reduxState', JSON.stringify(store.getState()));
 });

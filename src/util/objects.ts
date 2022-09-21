@@ -12,7 +12,7 @@ export function mapSize<T>(o: Map<T>): number {
 }
 
 export function assertDefined<T>(t: T | undefined | null): asserts t is T {
-  if (t === null || typeof t === "undefined") {
+  if (t === null || typeof t === 'undefined') {
     throw new Error(`Value is ${t}`);
   }
 }

@@ -1,8 +1,8 @@
-import "./ItemView.css";
+import './ItemView.css';
 
-import * as React from "react";
+import * as React from 'react';
 
-import { Category, getThumbPath, Item } from "./Items";
+import { Category, getThumbPath, Item } from './Items';
 
 interface ItemViewProps {
   item?: Item;
@@ -16,7 +16,7 @@ export default class ItemView extends React.Component<
 > {
   getImageClass(): string {
     return (
-      "ItemImage" + (this.props.category.isBackground ? " background" : "")
+      'ItemImage' + (this.props.category.isBackground ? ' background' : '')
     );
   }
   getImage(item: Item | undefined, thumb: string | undefined): React.ReactNode {
@@ -33,7 +33,7 @@ export default class ItemView extends React.Component<
       <div
         className="ItemImage"
         style={{
-          backgroundImage: `url("${require("./images/item-unselect.png")}")`,
+          backgroundImage: `url("${require('./images/item-unselect.png')}")`,
         }}
       />
     );
@@ -41,7 +41,7 @@ export default class ItemView extends React.Component<
   render() {
     return (
       <div
-        className={`ItemView ${this.props.selected ? "selected" : ""}`}
+        className={`ItemView ${this.props.selected ? 'selected' : ''}`}
         onClick={() =>
           this.props.onClick && this.props.onClick(this.props.item)
         }

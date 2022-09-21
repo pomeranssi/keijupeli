@@ -1,8 +1,8 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import styled from "styled-components";
+import * as React from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
 
-import { randomize, reset, State, toggleRestrictions } from "../game/GameState";
+import { randomize, reset, State, toggleRestrictions } from '../game/GameState';
 
 export const UtilityBarView: React.FC<{
   onRandomize: () => void;
@@ -13,14 +13,14 @@ export const UtilityBarView: React.FC<{
   <Container>
     <AppIcon className="reset" onClick={onReset}>
       <IconImage
-        src={require("./images/icon-reset.png")}
+        src={require('./images/icon-reset.png')}
         alt="Aloita alusta"
         title="Aloita alusta"
       />
     </AppIcon>
     <AppIcon className="randomize" onClick={onRandomize}>
       <IconImage
-        src={require("./images/icon-random.png")}
+        src={require('./images/icon-random.png')}
         alt="Kokeile onneasi!"
         title="Kokeile onneasi!"
       />
@@ -29,13 +29,13 @@ export const UtilityBarView: React.FC<{
       <IconImage
         src={
           restricted
-            ? require("./images/icon-restrictions-on.png")
-            : require("./images/icon-restrictions-off.png")
+            ? require('./images/icon-restrictions-on.png')
+            : require('./images/icon-restrictions-off.png')
         }
         title={
           restricted
-            ? "Asut lukittu paikalleen"
-            : "Asut vapaasti liikutettavissa"
+            ? 'Asut lukittu paikalleen'
+            : 'Asut vapaasti liikutettavissa'
         }
       />
     </AppIcon>
@@ -87,7 +87,7 @@ export const UtilityBar = connect(
   (state: State) => ({
     restricted: state.settings.restrictions,
   }),
-  (dispatch) => ({
+  dispatch => ({
     onRandomize: () => {
       dispatch(randomize());
     },

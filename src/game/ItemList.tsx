@@ -1,10 +1,10 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import styled from "styled-components";
+import * as React from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
 
-import { CategoryItems, removeItem, State, toggleItem } from "./GameState";
-import categories, { Category, Item } from "./Items";
-import ItemView from "./ItemView";
+import { CategoryItems, removeItem, State, toggleItem } from './GameState';
+import categories, { Category, Item } from './Items';
+import ItemView from './ItemView';
 
 type ItemListProps = {
   restricted: boolean;
@@ -34,7 +34,7 @@ const ItemListView: React.FC<ItemListProps> = ({
   return cat ? (
     <ListContainer>
       <ItemView category={cat} onClick={selectItem} />
-      {cat.items.map((i) => (
+      {cat.items.map(i => (
         <ItemView
           key={i.fileName}
           selected={selectedItems && selectedItems[i.fileName] !== undefined}
@@ -50,7 +50,7 @@ const ItemListView: React.FC<ItemListProps> = ({
 export const ItemList = connect(
   (state: State) => {
     const category = state.selectedCategory
-      ? categories.find((c) => c.type === state.selectedCategory)
+      ? categories.find(c => c.type === state.selectedCategory)
       : undefined;
     return {
       category: category,
@@ -58,7 +58,7 @@ export const ItemList = connect(
       selectedItems: category ? state.selectedItems[category.type] : {},
     };
   },
-  (dispatch) => ({
+  dispatch => ({
     onSelectItem: (category: Category, item: Item, restricted: boolean) => {
       dispatch(toggleItem(item, category, restricted));
     },
