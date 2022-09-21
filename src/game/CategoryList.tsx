@@ -11,7 +11,7 @@ import {
   State,
 } from './GameState';
 import categories, { Category, Item } from './Items';
-import ItemView from './ItemView';
+import { ItemView } from './ItemView';
 
 function findItem(selection: CategoryItems): Item | undefined {
   const fn = Object.keys(selection || {}).find(() => true);

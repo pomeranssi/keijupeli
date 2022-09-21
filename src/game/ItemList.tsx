@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { CategoryItems, removeItem, State, toggleItem } from './GameState';
 import categories, { Category, Item } from './Items';
-import ItemView from './ItemView';
+import { ItemView } from './ItemView';
 
 type ItemListProps = {
   restricted: boolean;
