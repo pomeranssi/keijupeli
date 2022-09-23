@@ -2,10 +2,10 @@
   "name": "keijupeli",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://keijupeli.pomeranssi.fi/",
+  "homepage": "https://keijupeli.pomeranssi.fi/",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "watch-client": "react-scripts start",
+    "build-client": "react-scripts build",
     "lint": "yarn lint-es",
     "lint-es": "eslint \"src/**/*.ts\" \"src/**/*.tsx\"",
     "test": "react-scripts test --env=jsdom"

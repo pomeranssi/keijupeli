@@ -2,9 +2,9 @@
 
 Spawn server for development
 
-> `yarn start`
+> `yarn watch-client`
 
 Run production build
 
-> `yarn build`
+> `yarn build-client`
 
