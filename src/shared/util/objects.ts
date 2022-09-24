@@ -25,3 +25,27 @@ export function nullsToUndefined<O extends object>(
     typedKeys(o).map(k => [k, o[k] !== null ? o[k] : undefined])
   ) as any;
 }
+
+export function groupBy<T, K extends string | number>(
+  arr: ReadonlyArray<T>,
+  filter: (item: T) => K
+): Record<K, T[]> {
+  const res: Record<K, T[]> = {} as any;
+  arr.forEach(a => {
+    const key = filter(a);
+    if (!res[key]) {
+      res[key] = [];
+    }
+    res[key].push(a);
+  });
+  return res;
+}
+
+export function mapObject<S, D, K extends string | number>(
+  o: Record<K, S>,
+  f: (s: S, key: K) => D
+): Record<K, D> {
+  const res: Record<K, D> = {} as any;
+  typedKeys(o).forEach(k => (res[k] = f(o[k], k)));
+  return res;
+}
