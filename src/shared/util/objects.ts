@@ -6,6 +6,12 @@ export function isDefined<T>(x: T | undefined | null): x is T {
   return x !== undefined && x !== null;
 }
 
+export function assertDefined<T>(t: T | undefined | null): asserts t is T {
+  if (t === null || typeof t === 'undefined') {
+    throw new Error(`Value is ${t}`);
+  }
+}
+
 export function recordFromPairs<K extends string | number | symbol, V>(
   items: [K, V][]
 ): Record<K, V> {
@@ -48,4 +54,16 @@ export function mapObject<S, D, K extends string | number>(
   const res: Record<K, D> = {} as any;
   typedKeys(o).forEach(k => (res[k] = f(o[k], k)));
   return res;
+}
+
+export function removeFromRecord<T, K extends keyof T>(
+  o: T,
+  key: K
+): Omit<T, K> {
+  const { [key]: removeThis, ...remaining } = o;
+  return remaining;
+}
+
+export function recordSize<T extends object>(o: T): number {
+  return Object.keys(o).length;
 }

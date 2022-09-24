@@ -1,6 +1,7 @@
 import { combineReducers, createStore } from 'redux';
 
-import { mapSize, removeFromMap } from '../util/objects';
+import { recordSize, removeFromRecord } from 'shared/util';
+
 import categories, { Category, Item } from './Items';
 
 export type Action =
@@ -159,18 +160,15 @@ function selectedItemsReducer(
             : { ...current, [action.item.fileName]: action.item },
         };
       } else {
-        const trimmedItems: CategoryItems = removeFromMap(
-          current,
-          action.item.fileName
-        );
-        if (mapSize(trimmedItems) > 0) {
+        const { [action.item.fileName]: deleted, ...trimmedItems } = current;
+        if (recordSize(trimmedItems) > 0) {
           return { ...state, [action.category]: trimmedItems };
         } else {
-          return removeFromMap(state, action.category);
+          return removeFromRecord(state, action.category);
         }
       }
     case 'REMOVE_ITEM': {
-      return removeFromMap(state, action.category);
+      return removeFromRecord(state, action.category);
     }
     case 'RANDOMIZE': {
       return toCategorySelection(
