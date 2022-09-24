@@ -28,10 +28,3 @@ export class AuthenticationError extends GameError {
     Object.setPrototypeOf(this, AuthenticationError.prototype);
   }
 }
-
-export class TokenNotPresentError extends GameError {
-  constructor() {
-    super('TOKEN_MISSING', 'Authorization token missing', 401);
-    Object.setPrototypeOf(this, TokenNotPresentError.prototype);
-  }
-}

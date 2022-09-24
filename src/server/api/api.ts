@@ -1,7 +1,7 @@
 import debug from 'debug';
 import { Router } from 'express';
 
-import { createErrorHandler } from 'server/server/ErrorHandler';
+import { createErrorHandler } from 'server/server/errorHandler';
 
 import { createSessionApi } from './sessionApi';
 

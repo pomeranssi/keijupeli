@@ -1,7 +1,8 @@
 import { Router } from 'express';
 
-import { db } from 'server/data/db';
+import { LoginData } from 'shared/types';
 import { loginUser } from 'server/data/sessionService';
+import { Requests } from 'server/server/requestHandling';
 
 /**
  * Creates session API router.
@@ -11,11 +12,11 @@ export function createSessionApi() {
   const api = Router();
 
   // PUT /api/session
-  api.put('/', (req, res, next) =>
-    db
-      .tx(tx => loginUser(tx, req.body.username, req.body.password))
-      .then(r => res.json({ status: 'OK', result: r }))
-      .catch(next)
+  api.put(
+    '/',
+    Requests.validatedTxRequest({ body: LoginData }, (tx, { body }) =>
+      loginUser(tx, body.username, body.password)
+    )
   );
 
   return api;
