@@ -4,6 +4,7 @@ import { Router } from 'express';
 import { createErrorHandler } from 'server/server/errorHandler';
 import { Requests } from 'server/server/requestHandling';
 
+import { createItemApi } from './itemApi';
 import { createSessionApi } from './sessionApi';
 
 const log = debug('server:api');
@@ -21,6 +22,7 @@ export function createApi() {
 
   // Attach subrouters
   api.use('/session', createSessionApi());
+  api.use('/item', createItemApi());
 
   // GET /api/status
   api.get(

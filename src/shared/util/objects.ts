@@ -13,3 +13,15 @@ export function recordFromPairs<K extends string | number | symbol, V>(
   items.forEach(([k, v]) => (res[k] = v));
   return res;
 }
+
+export function typedKeys<O extends object>(o: O): (keyof O)[] {
+  return Object.keys(o) as any;
+}
+
+export function nullsToUndefined<O extends object>(
+  o: O
+): { [k in keyof O]: O[k] extends null ? undefined : O[k] } {
+  return recordFromPairs(
+    typedKeys(o).map(k => [k, o[k] !== null ? o[k] : undefined])
+  ) as any;
+}
