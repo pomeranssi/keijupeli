@@ -2,6 +2,7 @@ import debug from 'debug';
 import { Router } from 'express';
 
 import { createErrorHandler } from 'server/server/errorHandler';
+import { Requests } from 'server/server/requestHandling';
 
 import { createSessionApi } from './sessionApi';
 
@@ -22,7 +23,10 @@ export function createApi() {
   api.use('/session', createSessionApi());
 
   // GET /api/status
-  api.get('/status', (_req, res) => res.json({ status: 'OK' }));
+  api.get(
+    '/status',
+    Requests.request(() => ({ status: 'OK' }))
+  );
 
   // Handle errors
   api.use(createErrorHandler());

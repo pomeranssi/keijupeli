@@ -1,12 +1,12 @@
 import { z } from 'zod';
 
-export const PositiveIntString = z
+export const ObjectIdString = z
   .string()
   .regex(/^[1-9][0-9]*$/)
   .transform(Number);
 
 export const ObjectId = z.union([
-  PositiveIntString,
+  ObjectIdString,
   z.number().int().nonnegative(),
 ]);
 export type ObjectId = z.infer<typeof ObjectId>;

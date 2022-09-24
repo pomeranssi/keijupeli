@@ -6,32 +6,26 @@ import {
   logoutUser,
   requireSession,
 } from 'server/data/sessionService';
-import { Requests } from 'server/server/requestHandling';
+import { createValidatingRouter } from 'server/server/validatingRouter';
 
 /**
  * Creates session API router.
  * Assumed attach path: `/api/session`
  */
 export function createSessionApi() {
-  const api = Router();
+  const api = createValidatingRouter(Router());
 
   // Login user
   // PUT /api/session
-  api.put(
-    '/',
-    Requests.validatedTxRequest({ body: LoginData }, (tx, { body }) =>
-      loginUser(tx, body.username, body.password)
-    )
+  api.putTx('/', { body: LoginData }, (tx, { body }) =>
+    loginUser(tx, body.username, body.password)
   );
 
   // Logout user
   // DELETE /api/session
-  api.delete(
-    '/',
-    Requests.validatedTxRequest({}, (tx, { session }) =>
-      logoutUser(tx, requireSession(session).session.id)
-    )
+  api.deleteTx('/', {}, (tx, { session }) =>
+    logoutUser(tx, requireSession(session).session.id)
   );
 
-  return api;
+  return api.router;
 }
