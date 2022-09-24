@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
-import { DateTime } from 'luxon';
 import { IBaseProtocol } from 'pg-promise';
 
-import { toHttpDateHeader } from 'shared/time/time';
 import { AuthenticationError, SessionInfo, UUID } from 'shared/types';
 import { getSession } from 'server/data/sessionDb';
 import { getUserBySession } from 'server/data/userDb';
@@ -13,7 +11,7 @@ export function setNoCacheHeaders(res: Response): Response {
     'private, no-cache, no-store, must-revalidate, max-age=0'
   );
   res.set('Pragma', 'no-cache');
-  const time = toHttpDateHeader(DateTime.now());
+  const time = new Date().toUTCString();
   res.set('Date', time);
   res.set('Expires', time);
   return res;
