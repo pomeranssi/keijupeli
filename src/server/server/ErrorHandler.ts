@@ -21,10 +21,10 @@ export function createErrorHandler() {
     const status = typeof err.status === 'number' ? err.status : 500;
 
     log(
-      `Error processing ${req.method} ${req.path} -> ${status}: ${err.message}`,
+      `Error processing ${req.method} ${req.path} -> ${status}: `,
       logUserErrors || !isUserError(status)
         ? JSON.stringify(err, null, 2)
-        : undefined
+        : err.message
     );
     const data: ErrorInfo = {
       ...(config.showErrorCause ? err : undefined),

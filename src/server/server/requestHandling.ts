@@ -4,12 +4,11 @@ import { ITask } from 'pg-promise';
 import { z } from 'zod';
 
 import { timeout } from 'shared/time';
-import { AuthenticationError, MaybePromise } from 'shared/types';
-import { Session } from 'shared/types/user';
+import { MaybePromise } from 'shared/types';
+import { SessionInfo } from 'shared/types/user';
 import { db } from 'server/data/db';
-import { getSession } from 'server/data/sessionDb';
 
-import { getTokenFromRequest, setNoCacheHeaders } from './serverUtil';
+import { readSessionFromRequest, setNoCacheHeaders } from './serverUtil';
 import { validateOr } from './validation';
 
 const log = debug('bookkeeper:server');
@@ -41,50 +40,34 @@ function processUnauthorizedRequest<T>(
   };
 }
 
-function processUnauthorizedTxRequest<T>(
+const processUnauthorizedTxRequest = <T>(
   handler: (tx: ITask<any>, req: Request, res: Response) => MaybePromise<T>
-): RequestHandler {
-  return processUnauthorizedRequest((req, res) =>
-    db.tx(tx => handler(tx, req, res))
-  );
-}
+): RequestHandler =>
+  processUnauthorizedRequest((req, res) => db.tx(tx => handler(tx, req, res)));
 
-function processRequest<T>(
+const processRequest = <T>(
   handler: (
-    session: Session | undefined,
+    session: SessionInfo | undefined,
     req: Request,
     res: Response
   ) => MaybePromise<T>
-): RequestHandler {
-  return processUnauthorizedRequest(async (req, res) => {
-    const token = getTokenFromRequest(req);
-    if (token) {
-      const session = await db.tx(tx => getSession(tx, token));
-      if (!session) {
-        throw new AuthenticationError(
-          `INVALID_SESSION`,
-          `Session token is invalid, please re-login.`
-        );
-      }
-      return await handler(session, req, res);
-    } else {
-      return await handler(undefined, req, res);
-    }
-  });
-}
+): RequestHandler =>
+  processUnauthorizedRequest(
+    async (req, res) =>
+      await handler(await readSessionFromRequest(req, db), req, res)
+  );
 
-function processTxRequest<T>(
+const processTxRequest = <T>(
   handler: (
     tx: ITask<any>,
-    session: Session | undefined,
+    session: SessionInfo | undefined,
     req: Request,
     res: Response
   ) => MaybePromise<T>
-): RequestHandler {
-  return processRequest((session, req, res) =>
+): RequestHandler =>
+  processRequest((session, req, res) =>
     db.tx(tx => handler(tx, session, req, res))
   );
-}
 
 type ValidatorSpec<R, P, Q, B> = {
   params?: z.ZodType<P, any, any>;
@@ -97,18 +80,18 @@ type HandlerParams<P, Q, B> = {
   params: P;
   query: Q;
   body: B;
-  session: Session | undefined;
+  session: SessionInfo | undefined;
 };
 
-function processValidatedRequest<Return, P, Q, B>(
+const processValidatedRequest = <Return, P, Q, B>(
   spec: ValidatorSpec<Return, P, Q, B>,
   handler: (
     data: HandlerParams<P, Q, B>,
     req: Request,
     res: Response
   ) => MaybePromise<Return>
-): RequestHandler {
-  return processRequest(async (session, req, res) => {
+): RequestHandler =>
+  processRequest(async (session, req, res) => {
     const ctx = `${req.method} ${req.originalUrl}`;
     const params = validateOr(
       req.params,
@@ -121,9 +104,8 @@ function processValidatedRequest<Return, P, Q, B>(
     const response = await handler({ session, params, query, body }, req, res);
     return validateOr(response, spec.response, response, `${ctx} return value`);
   });
-}
 
-function processValidatedTxRequest<Return, P, Q, B>(
+const processValidatedTxRequest = <Return, P, Q, B>(
   spec: ValidatorSpec<Return, P, Q, B>,
   handler: (
     tx: ITask<any>,
@@ -131,11 +113,8 @@ function processValidatedTxRequest<Return, P, Q, B>(
     req: Request,
     res: Response
   ) => MaybePromise<Return>
-): RequestHandler {
-  return processValidatedRequest(spec, (...p) =>
-    db.tx(tx => handler(tx, ...p))
-  );
-}
+): RequestHandler =>
+  processValidatedRequest(spec, (...p) => db.tx(tx => handler(tx, ...p)));
 
 export const Requests = {
   unauthorizedRequest: processUnauthorizedRequest,
