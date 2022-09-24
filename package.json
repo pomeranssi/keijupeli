@@ -4,12 +4,16 @@
   "private": true,
   "homepage": "https://keijupeli.pomeranssi.fi/",
   "scripts": {
+    "create-dev-db": "docker run -e POSTGRES_PASSWORD=postgres -p 15490:5432 --name keijupeli-db -d postgres:14.3",
     "watch-client": "react-scripts start",
     "watch-server": "nodemon",
     "build-client": "react-scripts build",
     "lint": "yarn lint-es",
     "lint-es": "eslint \"src/**/*.ts\" \"src/**/*.tsx\"",
-    "test": "react-scripts test --env=jsdom"
+    "test": "react-scripts test --env=jsdom",
+    "migrate": "knex migrate:latest",
+    "migrate-make": "knex migrate:make",
+    "migrate-rollback": "knex migrate:rollback"
   },
   "dependencies": {
     "debug": "4.3.4",
@@ -50,6 +54,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-unused-imports": "^2.0.0",
+    "knex": "2.3.0",
     "nodemon": "2.0.20",
     "prettier": "2.7.1",
     "react-scripts": "5.0.1",

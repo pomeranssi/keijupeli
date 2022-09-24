@@ -3,7 +3,7 @@ import * as express from 'express';
 
 import { config } from '../config';
 
-const log = debug('bookkeeper:api:error');
+const log = debug('server:api:error');
 
 const logUserErrors = false;
 
@@ -24,7 +24,7 @@ export function createErrorHandler() {
       `Error processing ${req.method} ${req.path} -> ${status}: ${err.message}`,
       logUserErrors || !isUserError(status)
         ? JSON.stringify(err, null, 2)
-        : err.message
+        : undefined
     );
     const data: ErrorInfo = {
       ...(config.showErrorCause ? err : undefined),
