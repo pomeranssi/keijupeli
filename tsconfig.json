@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "outDir": "build/dist",
     "module": "commonjs",
     "target": "ES2021",
     "lib": [
@@ -12,21 +11,23 @@
     "allowJs": false,
     "jsx": "react",
     "moduleResolution": "node",
+    "baseUrl": "./src",  
     "rootDir": "src",
+    "outDir": "build-server",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "paths": {
+      "shared/*": ["./shared/*", "../build-server/shared/*"],
+      "server/*": ["./server/*", "../build-server/server/*"],
+      "client/*": ["./client/*", "../build-server/client/*"]
+    }
   },
   "include": [
     "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "build",
-    "script",
   ]
 }
