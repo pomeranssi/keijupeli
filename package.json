@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://keijupeli.pomeranssi.fi/",
+  "proxy": "http://localhost:3200",
   "scripts": {
     "create-dev-db": "docker run -e POSTGRES_PASSWORD=postgres -p 15490:5432 --name keijupeli-db -d postgres:14.3",
     "watch-client": "react-scripts start",
