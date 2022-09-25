@@ -2,16 +2,6 @@ export function identity<T>(t: T): T {
   return t;
 }
 
-export function isDefined<T>(x: T | undefined | null): x is T {
-  return x !== undefined && x !== null;
-}
-
-export function assertDefined<T>(t: T | undefined | null): asserts t is T {
-  if (t === null || typeof t === 'undefined') {
-    throw new Error(`Value is ${t}`);
-  }
-}
-
 export function recordFromPairs<K extends string | number | symbol, V>(
   items: [K, V][]
 ): Record<K, V> {

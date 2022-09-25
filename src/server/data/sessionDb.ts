@@ -1,8 +1,7 @@
 import { DateTime } from 'luxon';
 import { ITask } from 'pg-promise';
 
-import { ObjectId, UUID } from 'shared/types';
-import { Session } from 'shared/types/user';
+import { ObjectId, Session, UUID } from 'shared/types';
 
 const SessionFields = `--sql
   id, user_id AS "userId", login_time AS "loginTime",

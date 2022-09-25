@@ -1,46 +1,47 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
+import shallow from 'zustand/shallow';
 
-import { randomize, reset, State, toggleRestrictions } from '../game/GameState';
+import { useGameState } from '../game/state/GameState';
 
-export const UtilityBarView: React.FC<{
-  onRandomize: () => void;
-  onReset: () => void;
-  onToggleRestrictions: () => void;
-  restricted: boolean;
-}> = ({ onRandomize, onReset, onToggleRestrictions, restricted }) => (
-  <Container>
-    <AppIcon className="reset" onClick={onReset}>
-      <IconImage
-        src={require('./images/icon-reset.png')}
-        alt="Aloita alusta"
-        title="Aloita alusta"
-      />
-    </AppIcon>
-    <AppIcon className="randomize" onClick={onRandomize}>
-      <IconImage
-        src={require('./images/icon-random.png')}
-        alt="Kokeile onneasi!"
-        title="Kokeile onneasi!"
-      />
-    </AppIcon>
-    <AppIcon className="restrictions" onClick={onToggleRestrictions}>
-      <IconImage
-        src={
-          restricted
-            ? require('./images/icon-restrictions-on.png')
-            : require('./images/icon-restrictions-off.png')
-        }
-        title={
-          restricted
-            ? 'Asut lukittu paikalleen'
-            : 'Asut vapaasti liikutettavissa'
-        }
-      />
-    </AppIcon>
-  </Container>
-);
+export const UtilityBar: React.FC = () => {
+  const [reset, randomize, toggleRestrictions, restricted] = useGameState(
+    s => [s.reset, s.randomize, s.toggleRestrictions, s.restricted],
+    shallow
+  );
+  return (
+    <Container>
+      <AppIcon className="reset" onClick={reset}>
+        <IconImage
+          src={require('./images/icon-reset.png')}
+          alt="Aloita alusta"
+          title="Aloita alusta"
+        />
+      </AppIcon>
+      <AppIcon className="randomize" onClick={randomize}>
+        <IconImage
+          src={require('./images/icon-random.png')}
+          alt="Kokeile onneasi!"
+          title="Kokeile onneasi!"
+        />
+      </AppIcon>
+      <AppIcon className="restrictions" onClick={toggleRestrictions}>
+        <IconImage
+          src={
+            restricted
+              ? require('./images/icon-restrictions-on.png')
+              : require('./images/icon-restrictions-off.png')
+          }
+          title={
+            restricted
+              ? 'Asut lukittu paikalleen'
+              : 'Asut vapaasti liikutettavissa'
+          }
+        />
+      </AppIcon>
+    </Container>
+  );
+};
 
 const AppIcon = styled.div`
   padding: 10px;
@@ -82,20 +83,3 @@ const Container = styled.div`
     margin: 0.6em 0.6em;
   }
 `;
-
-export const UtilityBar = connect(
-  (state: State) => ({
-    restricted: state.settings.restrictions,
-  }),
-  dispatch => ({
-    onRandomize: () => {
-      dispatch(randomize());
-    },
-    onReset: () => {
-      dispatch(reset());
-    },
-    onToggleRestrictions: () => {
-      dispatch(toggleRestrictions());
-    },
-  })
-)(UtilityBarView);

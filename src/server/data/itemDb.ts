@@ -1,7 +1,6 @@
 import { ITask } from 'pg-promise';
 
-import { ObjectId } from 'shared/types';
-import { Item } from 'shared/types/item';
+import { Item, ObjectId } from 'shared/types';
 import { nullsToUndefined } from 'shared/util';
 
 const ItemFields = `--sql

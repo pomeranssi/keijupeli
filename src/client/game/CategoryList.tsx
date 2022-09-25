@@ -1,66 +1,53 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
+import shallow from 'zustand/shallow';
 
-import {
-  CategoryItems,
-  selectCategory,
-  SelectedCategory,
-  SelectedItems,
-  State,
-} from './GameState';
-import categories, { Category, Item } from './Items';
+import { Item } from 'shared/types';
+
 import { ItemView } from './ItemView';
+import { CategoryItems, useGameState } from './state/GameState';
 
 function findItem(selection: CategoryItems): Item | undefined {
   const fn = Object.keys(selection || {}).find(() => true);
   return fn ? selection[fn] : undefined;
 }
 
-interface CategoreyListProps {
-  selectedCategory: SelectedCategory;
-  selectedItems: SelectedItems;
-  onSelectCategory: (category: Category) => void;
-}
-
-const CategoryListView: React.FC<CategoreyListProps> = ({
-  selectedCategory,
-  selectedItems,
-  onSelectCategory,
-}) => (
-  <Container>
-    {categories.map(c => (
-      <CategoryItem
-        className={
-          (selectedItems[c.type] ? 'has-item' : 'missing') +
-          (selectedCategory === c.type ? ' selected' : '')
-        }
-        key={c.type}
-      >
-        <ItemView
-          category={c}
-          item={findItem(selectedItems[c.type])}
-          missingImage={c.imageFileName}
-          onClick={() => onSelectCategory(c)}
+export const CategoryList: React.FC = () => {
+  const [selectedCategory, categories, selectedItems, selectCategory] =
+    useGameState(
+      s => [
+        s.selectedCategory,
+        s.categories,
+        s.selectedItems,
+        s.selectCategory,
+      ],
+      shallow
+    );
+  return (
+    <Container>
+      {Object.values(categories).map(category => (
+        <CategoryItem
+          className={
+            (selectedItems[category.type] ? 'has-item' : 'missing') +
+            (selectedCategory === category.type ? ' selected' : '')
+          }
+          key={category.type}
         >
-          <CategoryTitle className="category-title">{c.title}</CategoryTitle>
-        </ItemView>
-      </CategoryItem>
-    ))}
-  </Container>
-);
-
-export const CategoryList = connect(
-  (state: State) => ({
-    selectedCategory: state.selectedCategory,
-    selectedItems: state.selectedItems,
-  }),
-  dispatch => ({
-    onSelectCategory: (category: Category) => {
-      dispatch(selectCategory(category));
-    },
-  })
-)(CategoryListView);
+          <ItemView
+            category={category}
+            item={findItem(selectedItems[category.type])}
+            missingImage={category.imageFileName}
+            onClick={() => selectCategory(category.type)}
+          >
+            <CategoryTitle className="category-title">
+              {category.title}
+            </CategoryTitle>
+          </ItemView>
+        </CategoryItem>
+      ))}
+    </Container>
+  );
+};
 
 const CategoryItem = styled.div`
   position: relative;

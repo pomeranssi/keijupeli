@@ -1,8 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { CategoryMap } from 'shared/types/item';
-import { CategoryLoader } from 'client/game/AppDataLoader';
+import { AppDataLoader } from 'client/game/AppDataLoader';
 
 import { CategoryList } from '../game/CategoryList';
 import { ItemList } from '../game/ItemList';
@@ -11,7 +10,7 @@ import { LogoView } from './LogoView';
 import { Toolbar } from './Toolbar';
 import { UtilityBar } from './UtilityBar';
 
-const AppView: React.FC<{ categories: CategoryMap }> = ({}) => (
+const AppView: React.FC = () => (
   <Container>
     <AppMain>
       <GameArea />
@@ -30,7 +29,7 @@ const AppView: React.FC<{ categories: CategoryMap }> = ({}) => (
   </Container>
 );
 
-export const App = () => <CategoryLoader component={AppView} />;
+export const App = () => <AppDataLoader component={AppView} />;
 
 const AppMain = styled.div`
   position: fixed;

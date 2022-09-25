@@ -1,7 +1,6 @@
 import { ITask } from 'pg-promise';
 
-import { NotFoundError, UUID } from 'shared/types';
-import { User } from 'shared/types/user';
+import { NotFoundError, User, UUID } from 'shared/types';
 
 const UserFields = (p = '') => `--sql
   ${p}id, ${p}username, ${p}admin

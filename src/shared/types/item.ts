@@ -16,6 +16,7 @@ export const CategoryType = z.enum([
   'other',
 ]);
 export type CategoryType = z.infer<typeof CategoryType>;
+export const CategoryTypes = CategoryType.options;
 
 export const Item = z.object({
   id: ObjectId,

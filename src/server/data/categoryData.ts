@@ -1,4 +1,4 @@
-import { Category, CategoryType } from 'shared/types/item';
+import { Category, CategoryType } from 'shared/types';
 
 export const BaseCategoryData: Record<
   CategoryType,
