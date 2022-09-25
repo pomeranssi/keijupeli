@@ -6,6 +6,7 @@ import { useGameState } from 'client/game/GameState';
 
 import { useWindowSize } from '../hooks/useWindowSize';
 import { Size } from '../util/size';
+import { ImageUploader } from './ImageUploader';
 import { ItemElement } from './ItemElement';
 
 const desiredSize = new Size(1024, 1024);
@@ -21,34 +22,42 @@ export const GameArea: React.FC = ({}) => {
   );
   const scale = availableSpace.getScale(desiredSize);
 
+  const uploading = useGameState(s => s.uploading);
+
+  return (
+    <Container>
+      {uploading ? <ImageUploader /> : <DollImages scale={scale} />}
+    </Container>
+  );
+};
+
+const DollImages: React.FC<{ scale: number }> = ({ scale }) => {
   const [categories, selectedItems, restricted, toggleItem] = useGameState(
     s => [s.categories, s.selectedItems, s.restricted, s.toggleItem],
     shallow
   );
 
   return (
-    <Container>
-      <Content scale={scale}>
-        {Object.values(categories)
-          .map(category =>
-            Object.keys(selectedItems[category.type]).map(fn => {
-              const item = selectedItems[category.type][fn];
-              return item ? (
-                <ItemElement
-                  key={item.filename}
-                  item={item}
-                  category={category}
-                  scale={scale}
-                  onClick={() => toggleItem(category.type, item)}
-                  restricted={restricted}
-                />
-              ) : undefined;
-            })
-          )
-          .filter(i => i !== undefined)}
-        <br />
-      </Content>
-    </Container>
+    <Content scale={scale}>
+      {Object.values(categories)
+        .map(category =>
+          Object.keys(selectedItems[category.type]).map(fn => {
+            const item = selectedItems[category.type][fn];
+            return item ? (
+              <ItemElement
+                key={item.filename}
+                item={item}
+                category={category}
+                scale={scale}
+                onClick={() => toggleItem(category.type, item)}
+                restricted={restricted}
+              />
+            ) : undefined;
+          })
+        )
+        .filter(i => i !== undefined)}
+      <br />
+    </Content>
   );
 };
 

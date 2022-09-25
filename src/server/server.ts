@@ -1,6 +1,6 @@
 import * as bodyParser from 'body-parser';
 import debug from 'debug';
-import * as express from 'express';
+import express from 'express';
 import * as path from 'path';
 
 import { createApi } from './api/api';

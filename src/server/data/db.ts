@@ -1,5 +1,5 @@
 import debug from 'debug';
-import * as pgp from 'pg-promise';
+import pgp from 'pg-promise';
 
 import { identity } from 'shared/util';
 

@@ -2,7 +2,6 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { Category, Item } from 'shared/types';
-import { getImagePath } from 'client/layout/Images';
 
 import { getItemThumbPath } from './Items';
 
@@ -23,13 +22,39 @@ export const ItemView: React.FC<React.PropsWithChildren<ItemViewProps>> = ({
   onClick,
 }) => {
   const image = getImage(item, missingImage, category.isBackground);
-
   return (
-    <Container
-      className={selected ? 'selected' : ''}
-      onClick={() => onClick?.(item)}
+    <ItemImageView
+      image={image}
+      onClick={onClick ? () => onClick?.(item) : undefined}
+      selected={selected}
     >
-      {image}
+      {children}
+    </ItemImageView>
+  );
+};
+
+interface ItemImageViewProps {
+  image: React.ReactNode | string;
+  selected?: boolean;
+  onClick?: () => void;
+}
+
+export const ItemImageView: React.FC<
+  React.PropsWithChildren<ItemImageViewProps>
+> = ({ image, children, selected, onClick }) => {
+  const img =
+    typeof image === 'string' ? (
+      <ItemImage
+        style={{
+          backgroundImage: `url("${image}")`,
+        }}
+      />
+    ) : (
+      image
+    );
+  return (
+    <Container className={selected ? 'selected' : ''} onClick={onClick}>
+      {img}
       {children}
     </Container>
   );
@@ -43,17 +68,9 @@ function getImage(
   return item || thumb ? (
     <ItemImage
       className={background ? 'background' : undefined}
-      style={{
-        backgroundImage: `url("${getItemThumbPath(item?.filename ?? thumb)}")`,
-      }}
+      image={getItemThumbPath(item?.filename ?? thumb)}
     />
-  ) : (
-    <ItemImage
-      style={{
-        backgroundImage: `url("${getImagePath('item-unselect.png')}")`,
-      }}
-    />
-  );
+  ) : null;
 }
 
 const ItemImage = styled.div`
@@ -65,6 +82,9 @@ const ItemImage = styled.div`
   top: 10px;
   width: 70px;
   height: 70px;
+
+  ${(props: { image?: string }) =>
+    props.image ? `background-image: url("${props.image}");` : ''}
 
   &.background {
     width: 90px;
