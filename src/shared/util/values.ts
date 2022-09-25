@@ -12,6 +12,11 @@ export function assertDefined<T>(t: T | undefined | null): asserts t is T {
   }
 }
 
+export function requireDefined<T>(t: T | undefined | null): T {
+  assertDefined(t);
+  return t;
+}
+
 export function assertUnreachable(e: never): never {
   throw new GameError(
     'VALUE_NOT_EXPECTED',

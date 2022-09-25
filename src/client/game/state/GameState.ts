@@ -1,8 +1,22 @@
 import * as debug from 'debug';
 import create from 'zustand';
 
-import { CategoryMap, CategoryType, CategoryTypes, Item } from 'shared/types';
-import { assertDefined, recordFromPairs, recordSize } from 'shared/util';
+import {
+  Category,
+  CategoryMap,
+  CategoryType,
+  CategoryTypes,
+  Item,
+} from 'shared/types';
+import {
+  assertDefined,
+  getRandomInt,
+  mapObject,
+  recordFromPairs,
+  recordSize,
+  replaceKey,
+  requireDefined,
+} from 'shared/util';
 
 const log = debug('client:state');
 
@@ -20,6 +34,7 @@ export type State = {
   setupCategories(categories: CategoryMap): void;
   selectCategory(type: CategoryType): void;
   toggleItem(type: CategoryType, item: Item): void;
+  clearItems(type: CategoryType): void;
   randomize(): void;
   reset(): void;
   toggleRestrictions(): void;
@@ -49,50 +64,61 @@ export const useGameState = create<State>((set, get) => ({
     if (isAdd) {
       const isCategoryUnique =
         category.isUnique && (restricted || category.isBackground);
+      const newItems = isCategoryUnique
+        ? { [item.filename]: item }
+        : { ...current, [item.filename]: item };
       set({
-        selectedItems: {
-          ...selectedItems,
-          [type]: isCategoryUnique
-            ? { [item.filename]: item }
-            : { ...current, [item.filename]: item },
-        },
+        selectedItems: replaceKey(selectedItems, type, newItems),
       });
       return;
     } else {
       const { [item.filename]: deleted, ...trimmedItems } = current;
       if (recordSize(trimmedItems) > 0) {
         return set({
-          selectedItems: { ...selectedItems, [type]: trimmedItems },
+          selectedItems: replaceKey(selectedItems, type, trimmedItems),
         });
       } else {
-        return set({ selectedItems: { ...selectedItems, [type]: {} } });
+        return set({ selectedItems: replaceKey(selectedItems, type, {}) });
       }
     }
   },
 
+  clearItems: type =>
+    set({ selectedItems: replaceKey(get().selectedItems, type, {}) }),
+
   randomize: () => {
-    // TODO
+    const { categories } = get();
+    set({
+      selectedItems: recordFromPairs(
+        Object.values(categories).map(category => [
+          category.type,
+          getRandomEntriesFor(requireDefined(category)),
+        ])
+      ),
+    });
   },
 
-  reset: () => {
-    // TODO
-  },
+  reset: () =>
+    set({ selectedItems: mapObject(get().categories, getDefaultSelection) }),
 
   toggleRestrictions: () => set({ restricted: !get().restricted }),
 }));
 
-/*
-function getRandomItem(category: Category): CategoryItems {
-  const i = getRandomInt(category.isEssential ? 0 : -1, category.items.length);
-  return i >= 0 ? toCategoryItems([category.items[i]]) : {};
+function getDefaultSelection(category: Category): CategoryItems {
+  return recordFromPairs(
+    category.items.filter(i => i.isDefault).map(i => [i.filename, i])
+  );
 }
 
-function toCategoryItems(items: Item[]): CategoryItems {
-  return items.length > 0
-    ? Object.assign.apply(
-        {},
-        items.map(i => ({ [i.filename]: i }))
-      )
-    : {};
+function getRandomEntriesFor(category: Category): CategoryItems {
+  if (category.items.length < 1) return {};
+  const item = getRandomItem(category);
+  if (!item) return {};
+
+  return { [item.filename]: item };
 }
-*/
+
+function getRandomItem(category: Category): Item | undefined {
+  const i = getRandomInt(category.isEssential ? 0 : -1, category.items.length);
+  return i >= 0 ? category.items[i] : undefined;
+}

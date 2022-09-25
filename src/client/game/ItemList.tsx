@@ -9,33 +9,30 @@ import { ItemView } from './ItemView';
 import { useGameState } from './state/GameState';
 
 export const ItemList: React.FC = () => {
-  const [selectedCategory, categories, toggleItem, selectedItems] =
-    useGameState(
-      s =>
-        [
-          s.selectedCategory,
-          s.categories,
-          s.toggleItem,
-          s.selectedItems,
-        ] as const,
-      shallow
-    );
-  const cat = categories[selectedCategory];
+  const [type, categories, toggle, selected, clear] = useGameState(
+    s =>
+      [
+        s.selectedCategory,
+        s.categories,
+        s.toggleItem,
+        s.selectedItems,
+        s.clearItems,
+      ] as const,
+    shallow
+  );
+  const cat = categories[type];
   assertDefined(cat);
 
   const selectItem = React.useCallback(
-    (item: Item) => toggleItem(cat.type, item),
-    [toggleItem, cat]
+    (item: Item) => toggle(cat.type, item),
+    [toggle, cat]
   );
 
-  const selections = selectedItems[selectedCategory];
+  const selections = selected[type];
 
   return cat ? (
     <ListContainer>
-      <ItemView
-        category={cat}
-        onClick={(item: Item) => toggleItem(cat.type, item)}
-      />
+      <ItemView category={cat} onClick={() => clear(cat.type)} />
       {cat.items.map(i => (
         <ItemView
           key={i.filename}

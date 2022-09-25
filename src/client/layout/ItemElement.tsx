@@ -47,7 +47,7 @@ const Image = styled.img`
   &.shoes {
     z-index: 3;
   }
-  &.leg {
+  &.legs {
     z-index: 4;
   }
   &.chest {

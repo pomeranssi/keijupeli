@@ -37,12 +37,12 @@ export function groupBy<T, K extends string | number>(
   return res;
 }
 
-export function mapObject<S, D, K extends string | number>(
-  o: Record<K, S>,
-  f: (s: S, key: K) => D
-): Record<K, D> {
-  const res: Record<K, D> = {} as any;
-  typedKeys(o).forEach(k => (res[k] = f(o[k], k)));
+export function mapObject<O extends object, V>(
+  o: O,
+  f: (v: O[keyof O], key: keyof O) => V
+): Record<keyof O, V> {
+  const res: Record<keyof O, V> = {} as any;
+  typedKeys(o).forEach(k => (res[k] = f(o[k as any], k)));
   return res;
 }
 
@@ -52,6 +52,14 @@ export function removeFromRecord<T, K extends keyof T>(
 ): Omit<T, K> {
   const { [key]: removeThis, ...remaining } = o;
   return remaining;
+}
+
+export function replaceKey<O, K extends keyof O, V>(
+  o: O,
+  key: K,
+  value: V
+): Omit<O, K> & { [key in K]: V } {
+  return { ...o, [key]: value };
 }
 
 export function recordSize<T extends object>(o: T): number {
