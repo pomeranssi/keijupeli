@@ -5,8 +5,8 @@ import { CategoryMap } from 'shared/types';
 import { useAsyncData } from 'client/hooks/useAsyncData';
 
 import { apiClient } from './apiCient';
+import { useGameState } from './GameState';
 import { Loader } from './Loader';
-import { useGameState } from './state/GameState';
 
 export const AppDataLoader: React.FC<{
   component: React.ComponentType;

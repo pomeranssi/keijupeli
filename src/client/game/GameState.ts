@@ -20,9 +20,9 @@ import {
 
 const log = debug('client:state');
 
-export type CategoryItems = {
-  [filename: string]: Item;
-};
+type Filename = string;
+
+export type CategoryItems = Record<Filename, Item>;
 
 export type SelectedItems = Record<CategoryType, CategoryItems>;
 

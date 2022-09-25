@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 
-import { useGameState } from 'client/game/state/GameState';
+import { useGameState } from 'client/game/GameState';
 
 import { useWindowSize } from '../hooks/useWindowSize';
 import { Size } from '../util/size';

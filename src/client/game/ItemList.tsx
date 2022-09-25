@@ -5,8 +5,8 @@ import shallow from 'zustand/shallow';
 import { Item } from 'shared/types';
 import { assertDefined } from 'shared/util';
 
+import { useGameState } from './GameState';
 import { ItemView } from './ItemView';
-import { useGameState } from './state/GameState';
 
 export const ItemList: React.FC = () => {
   const [type, categories, toggle, selected, clear] = useGameState(

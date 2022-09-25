@@ -4,8 +4,8 @@ import shallow from 'zustand/shallow';
 
 import { Item } from 'shared/types';
 
+import { CategoryItems, useGameState } from './GameState';
 import { ItemView } from './ItemView';
-import { CategoryItems, useGameState } from './state/GameState';
 
 function findItem(selection: CategoryItems): Item | undefined {
   const fn = Object.keys(selection || {}).find(() => true);

@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 
-import { useGameState } from '../game/state/GameState';
+import { useGameState } from '../game/GameState';
 
 export const UtilityBar: React.FC = () => {
   const [reset, randomize, toggleRestrictions, restricted] = useGameState(
