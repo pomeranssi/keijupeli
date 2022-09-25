@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 
 import { useGameState } from '../game/GameState';
+import { getImagePath } from './Images';
 
 export const UtilityBar: React.FC = () => {
   const [reset, randomize, toggleRestrictions, restricted] = useGameState(
@@ -13,25 +14,25 @@ export const UtilityBar: React.FC = () => {
     <Container>
       <AppIcon className="reset" onClick={reset}>
         <IconImage
-          src={require('./images/icon-reset.png')}
+          src={getImagePath('icon-reset.png')}
           alt="Aloita alusta"
           title="Aloita alusta"
         />
       </AppIcon>
       <AppIcon className="randomize" onClick={randomize}>
         <IconImage
-          src={require('./images/icon-random.png')}
+          src={getImagePath('icon-random.png')}
           alt="Kokeile onneasi!"
           title="Kokeile onneasi!"
         />
       </AppIcon>
       <AppIcon className="restrictions" onClick={toggleRestrictions}>
         <IconImage
-          src={
+          src={getImagePath(
             restricted
-              ? require('./images/icon-restrictions-on.png')
-              : require('./images/icon-restrictions-off.png')
-          }
+              ? 'icon-restrictions-on.png'
+              : 'icon-restrictions-off.png'
+          )}
           title={
             restricted
               ? 'Asut lukittu paikalleen'

@@ -2,8 +2,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { Category, Item } from 'shared/types';
+import { getImagePath } from 'client/layout/Images';
 
-import { getThumbPath } from './Items';
+import { getItemThumbPath } from './Items';
 
 interface ItemViewProps {
   item?: Item;
@@ -43,13 +44,13 @@ function getImage(
     <ItemImage
       className={background ? 'background' : undefined}
       style={{
-        backgroundImage: `url("${getThumbPath(item?.filename ?? thumb)}")`,
+        backgroundImage: `url("${getItemThumbPath(item?.filename ?? thumb)}")`,
       }}
     />
   ) : (
     <ItemImage
       style={{
-        backgroundImage: `url("${require('./images/item-unselect.png')}")`,
+        backgroundImage: `url("${getImagePath('item-unselect.png')}")`,
       }}
     />
   );

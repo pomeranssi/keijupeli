@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { Category, Item } from 'shared/types';
 
-import { getImagePath } from '../game/Items';
+import { getItemImagePath } from '../game/Items';
 
 type ItemElementProps = {
   item: Item;
@@ -25,7 +25,7 @@ export const ItemElement: React.FC<ItemElementProps> = ({
         top: item.offsetY,
         zIndex: item.zIndex,
       }}
-      src={getImagePath(item.filename)}
+      src={getItemImagePath(item.filename)}
       className={category.type}
       onClick={onClick}
       draggable={false}

@@ -1,10 +1,16 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { getImagePath } from './Images';
+
 export const LogoView: React.FC = () => (
   <LogoArea>
     <AppLogo>
-      <LogoImage src="images/fairy.svg" alt="Keijupeli" title="Keijupeli" />
+      <LogoImage
+        src={getImagePath('fairy.svg')}
+        alt="Keijupeli"
+        title="Keijupeli"
+      />
     </AppLogo>
     <h1>Keijupeli</h1>
   </LogoArea>
