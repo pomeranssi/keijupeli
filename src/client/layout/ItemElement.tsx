@@ -1,7 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { Category, getImagePath, Item } from '../game/Items';
+import { Category, Item } from 'shared/types';
+
+import { getImagePath } from '../game/Items';
 
 type ItemElementProps = {
   item: Item;
@@ -19,13 +21,14 @@ export const ItemElement: React.FC<ItemElementProps> = ({
   return (
     <Image
       style={{
-        left: item.left,
-        top: item.top,
+        left: item.offsetX,
+        top: item.offsetY,
         zIndex: item.zIndex,
       }}
-      src={getImagePath(item.fileName)}
+      src={getImagePath(item.filename)}
       className={category.type}
       onClick={onClick}
+      draggable={false}
     />
   );
 };
@@ -45,7 +48,7 @@ const Image = styled.img`
   &.shoes {
     z-index: 3;
   }
-  &.leg {
+  &.legs {
     z-index: 4;
   }
   &.chest {

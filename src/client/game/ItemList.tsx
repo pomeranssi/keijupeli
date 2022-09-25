@@ -1,43 +1,42 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
+import shallow from 'zustand/shallow';
 
-import { CategoryItems, removeItem, State, toggleItem } from './GameState';
-import categories, { Category, Item } from './Items';
+import { Item } from 'shared/types';
+import { assertDefined } from 'shared/util';
+
+import { useGameState } from './GameState';
 import { ItemView } from './ItemView';
 
-type ItemListProps = {
-  restricted: boolean;
-  selectedItems: CategoryItems;
-  category: Category | undefined;
-  onSelectItem: (category: Category, item: Item, restricted: boolean) => void;
-  onRemoveItem: (category: Category) => void;
-};
+export const ItemList: React.FC = () => {
+  const [type, categories, toggle, selected, clear] = useGameState(
+    s =>
+      [
+        s.selectedCategory,
+        s.categories,
+        s.toggleItem,
+        s.selectedItems,
+        s.clearItems,
+      ] as const,
+    shallow
+  );
+  const cat = categories[type];
+  assertDefined(cat);
 
-const ItemListView: React.FC<ItemListProps> = ({
-  restricted,
-  selectedItems,
-  category: cat,
-  onSelectItem,
-  onRemoveItem,
-}) => {
-  const selectItem = (item?: Item) => {
-    if (cat) {
-      if (item) {
-        onSelectItem(cat, item, restricted);
-      } else {
-        onRemoveItem(cat);
-      }
-    }
-  };
+  const selectItem = React.useCallback(
+    (item: Item) => toggle(cat.type, item),
+    [toggle, cat]
+  );
+
+  const selections = selected[type];
 
   return cat ? (
     <ListContainer>
-      <ItemView category={cat} onClick={selectItem} />
+      <ItemView category={cat} onClick={() => clear(cat.type)} />
       {cat.items.map(i => (
         <ItemView
-          key={i.fileName}
-          selected={selectedItems && selectedItems[i.fileName] !== undefined}
+          key={i.filename}
+          selected={selections?.[i.filename] !== undefined}
           category={cat}
           item={i}
           onClick={selectItem}
@@ -46,27 +45,6 @@ const ItemListView: React.FC<ItemListProps> = ({
     </ListContainer>
   ) : null;
 };
-
-export const ItemList = connect(
-  (state: State) => {
-    const category = state.selectedCategory
-      ? categories.find(c => c.type === state.selectedCategory)
-      : undefined;
-    return {
-      category: category,
-      restricted: state.settings.restrictions,
-      selectedItems: category ? state.selectedItems[category.type] : {},
-    };
-  },
-  dispatch => ({
-    onSelectItem: (category: Category, item: Item, restricted: boolean) => {
-      dispatch(toggleItem(item, category, restricted));
-    },
-    onRemoveItem: (category: Category) => {
-      dispatch(removeItem(category));
-    },
-  })
-)(ItemListView);
 
 const ListContainer = styled.div`
   margin: 0 0.3em;

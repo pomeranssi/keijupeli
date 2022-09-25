@@ -1,240 +1,130 @@
-import { combineReducers, createStore } from 'redux';
+import * as debug from 'debug';
+import create from 'zustand';
+import { persist } from 'zustand/middleware';
 
-import { recordSize, removeFromRecord } from 'shared/util';
+import {
+  Category,
+  CategoryMap,
+  CategoryType,
+  CategoryTypes,
+  Item,
+} from 'shared/types';
+import {
+  assertDefined,
+  getRandomInt,
+  mapObject,
+  recordFromPairs,
+  recordSize,
+  replaceKey,
+  requireDefined,
+} from 'shared/util';
 
-import categories, { Category, Item } from './Items';
+const log = debug('client:state');
 
-export type Action =
-  | {
-      type: 'TOGGLE_ITEM';
-      restricted: boolean;
-      item: Item;
-      category: string;
-    }
-  | {
-      type: 'REMOVE_ITEM';
-      category: string;
-      item?: Item;
-    }
-  | {
-      type: 'MOVE_ITEM';
-      category: string;
-      item: Item;
-      x: number;
-      y: number;
-    }
-  | {
-      type: 'SELECT_CATEGORY';
-      category: string;
-    }
-  | {
-      type: 'RANDOMIZE';
-    }
-  | {
-      type: 'RESET';
-    }
-  | {
-      type: 'TOGGLE_RESTRICTIONS';
-    };
+type Filename = string;
 
-export const toggleItem = (
-  item: Item,
-  category: Category,
-  restricted: boolean
-): Action => ({
-  type: 'TOGGLE_ITEM',
-  item: item,
-  restricted: restricted,
-  category: category.type,
-});
+export type CategoryItems = Record<Filename, Item>;
 
-export const moveItem = (
-  item: Item,
-  category: Category,
-  x: number,
-  y: number
-): Action => ({
-  type: 'MOVE_ITEM',
-  item: item,
-  category: category.type,
-  x: x,
-  y: y,
-});
-
-export const removeItem = (category: Category, item?: Item): Action => ({
-  type: 'REMOVE_ITEM',
-  category: category.type,
-  item: item,
-});
-
-export const selectCategory = (category: Category): Action => ({
-  type: 'SELECT_CATEGORY',
-  category: category.type,
-});
-
-export const randomize = (): Action => ({
-  type: 'RANDOMIZE',
-});
-
-export const reset = (): Action => ({
-  type: 'RESET',
-});
-
-export const toggleRestrictions = (): Action => ({
-  type: 'TOGGLE_RESTRICTIONS',
-});
-
-export type CategoryItems = {
-  [fileName: string]: Item;
-};
-
-export type SelectedItems = {
-  [category: string]: CategoryItems;
-};
-export type SelectedCategory = string | null;
-
-export type Settings = {
-  restrictions: boolean;
-};
+export type SelectedItems = Record<CategoryType, CategoryItems>;
 
 export type State = {
+  categories: CategoryMap;
   selectedItems: SelectedItems;
-  selectedCategory: SelectedCategory;
-  settings: Settings;
+  selectedCategory: CategoryType;
+  restricted: boolean;
+  setupCategories(categories: CategoryMap): void;
+  selectCategory(type: CategoryType): void;
+  toggleItem(type: CategoryType, item: Item): void;
+  clearItems(type: CategoryType): void;
+  randomize(): void;
+  reset(): void;
+  toggleRestrictions(): void;
 };
 
-// Returns a random integer between min (included) and max (excluded)
-// Using Math.round() will give you a non-uniform distribution!
-function getRandomInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min)) + min;
-}
+export const useGameState = create<State, any>(
+  persist(
+    (set, get) => ({
+      categories: {},
+      selectedItems: recordFromPairs(CategoryTypes.map(type => [type, {}])),
+      selectedCategory: 'background',
+      restricted: true,
 
-const toCategorySelection = (
-  items: Array<{ [key: string]: CategoryItems }>
-): { [key: string]: CategoryItems } => Object.assign.apply({}, items);
+      setupCategories: categories => {
+        log('Setting categories', categories);
+        set({ categories });
+      },
 
-function getDefaultItems(category: Category): CategoryItems {
-  return toCategoryItems(category.items.filter(i => i.isDefault));
-}
+      selectCategory: selectedCategory => set({ selectedCategory }),
 
-const initialItems: SelectedItems = toCategorySelection(
-  categories.map(c => ({ [c.type]: getDefaultItems(c) }))
-);
-
-const initialSettings: Settings = {
-  restrictions: true,
-};
-
-function getRandomItem(category: Category): CategoryItems {
-  const i = getRandomInt(category.isEssential ? 0 : -1, category.items.length);
-  return i >= 0 ? toCategoryItems([category.items[i]]) : {};
-}
-
-function toCategoryItems(items: Item[]): CategoryItems {
-  return items.length > 0
-    ? Object.assign.apply(
-        {},
-        items.map(i => ({ [i.fileName]: i }))
-      )
-    : {};
-}
-
-function selectedItemsReducer(
-  state: SelectedItems = initialItems,
-  action: Action
-): SelectedItems {
-  switch (action.type) {
-    case 'TOGGLE_ITEM':
-      const category = categories.find(c => c.type === action.category) || {
-        isUnique: false,
-      };
-      const current: CategoryItems = state[action.category] || {};
-      const isAdd = current[action.item.fileName] === undefined;
-      if (isAdd) {
-        const isCategoryUnique =
-          category.isUnique && (action.restricted || category.isBackground);
-        return {
-          ...state,
-          [action.category]: isCategoryUnique
-            ? { [action.item.fileName]: action.item }
-            : { ...current, [action.item.fileName]: action.item },
-        };
-      } else {
-        const { [action.item.fileName]: deleted, ...trimmedItems } = current;
-        if (recordSize(trimmedItems) > 0) {
-          return { ...state, [action.category]: trimmedItems };
+      toggleItem: (type, item) => {
+        const { categories, selectedItems, restricted } = get();
+        const category = categories[type];
+        assertDefined(category);
+        const current: CategoryItems = selectedItems[type] ?? {};
+        const isAdd = current[item.filename] === undefined;
+        if (isAdd) {
+          const isCategoryUnique =
+            category.isUnique && (restricted || category.isBackground);
+          const newItems = isCategoryUnique
+            ? { [item.filename]: item }
+            : { ...current, [item.filename]: item };
+          set({
+            selectedItems: replaceKey(selectedItems, type, newItems),
+          });
+          return;
         } else {
-          return removeFromRecord(state, action.category);
+          const { [item.filename]: deleted, ...trimmedItems } = current;
+          if (recordSize(trimmedItems) > 0) {
+            return set({
+              selectedItems: replaceKey(selectedItems, type, trimmedItems),
+            });
+          } else {
+            return set({ selectedItems: replaceKey(selectedItems, type, {}) });
+          }
         }
-      }
-    case 'REMOVE_ITEM': {
-      return removeFromRecord(state, action.category);
-    }
-    case 'RANDOMIZE': {
-      return toCategorySelection(
-        categories.map(c => ({ [c.type]: getRandomItem(c) }))
-      );
-    }
-    case 'RESET': {
-      return initialItems;
-    }
-    case 'MOVE_ITEM': {
-      console.log('Moving item to', action);
-      const catSel = state[action.category];
-      return {
-        ...state,
-        [action.category]: {
-          ...catSel,
-          [action.item.fileName]: {
-            ...action.item,
-            left: action.x,
-            top: action.y,
-          },
-        },
-      };
-    }
-    default:
-      return state;
-  }
-}
+      },
 
-function selectedCategoryReducer(
-  state: SelectedCategory = null,
-  action: Action
-): SelectedCategory {
-  switch (action.type) {
-    case 'SELECT_CATEGORY':
-      return action.category;
-    default:
-      return state;
-  }
-}
+      clearItems: type =>
+        set({ selectedItems: replaceKey(get().selectedItems, type, {}) }),
 
-function settingsReducer(
-  state: Settings = initialSettings,
-  action: Action
-): Settings {
-  switch (action.type) {
-    case 'TOGGLE_RESTRICTIONS':
-      return { ...state, restrictions: !state.restrictions };
-    default:
-      return state;
-  }
-}
+      randomize: () => {
+        const { categories } = get();
+        set({
+          selectedItems: recordFromPairs(
+            Object.values(categories).map(category => [
+              category.type,
+              getRandomEntriesFor(requireDefined(category)),
+            ])
+          ),
+        });
+      },
 
-const persistedState = localStorage.getItem('reduxState')
-  ? JSON.parse(localStorage.getItem('reduxState') || '')
-  : undefined;
+      reset: () =>
+        set({
+          selectedItems: mapObject(get().categories, getDefaultSelection),
+        }),
 
-export const store = createStore(
-  combineReducers({
-    selectedItems: selectedItemsReducer,
-    selectedCategory: selectedCategoryReducer,
-    settings: settingsReducer,
-  }),
-  persistedState
+      toggleRestrictions: () => set({ restricted: !get().restricted }),
+    }),
+    { name: 'keijupeli-state' }
+  )
 );
 
-store.subscribe(() => {
-  localStorage.setItem('reduxState', JSON.stringify(store.getState()));
-});
+function getDefaultSelection(category: Category): CategoryItems {
+  return recordFromPairs(
+    category.items.filter(i => i.isDefault).map(i => [i.filename, i])
+  );
+}
+
+function getRandomEntriesFor(category: Category): CategoryItems {
+  if (category.items.length < 1) return {};
+  const item = getRandomItem(category);
+  if (!item) return {};
+
+  return { [item.filename]: item };
+}
+
+function getRandomItem(category: Category): Item | undefined {
+  const i = getRandomInt(category.isEssential ? 0 : -1, category.items.length);
+  return i >= 0 ? category.items[i] : undefined;
+}

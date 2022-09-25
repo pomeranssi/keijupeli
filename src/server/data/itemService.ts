@@ -1,7 +1,7 @@
 import { ITask } from 'pg-promise';
 
 import { ObjectId } from 'shared/types';
-import { Category, CategoryMap } from 'shared/types/item';
+import { Category, CategoryMap } from 'shared/types';
 import { groupBy, mapObject } from 'shared/util';
 
 import { BaseCategoryData } from './categoryData';

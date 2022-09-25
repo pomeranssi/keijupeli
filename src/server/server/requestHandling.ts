@@ -4,8 +4,7 @@ import { ITask } from 'pg-promise';
 import { z } from 'zod';
 
 import { timeout } from 'shared/time';
-import { MaybePromise } from 'shared/types';
-import { SessionInfo } from 'shared/types/user';
+import { MaybePromise, SessionInfo } from 'shared/types';
 import { db } from 'server/data/db';
 
 import { readSessionFromRequest, setNoCacheHeaders } from './serverUtil';

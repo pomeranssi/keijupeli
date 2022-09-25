@@ -1,7 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { Category, getThumbPath, Item } from './Items';
+import { Category, Item } from 'shared/types';
+
+import { getThumbPath } from './Items';
 
 interface ItemViewProps {
   item?: Item;
@@ -41,7 +43,7 @@ function getImage(
     <ItemImage
       className={background ? 'background' : undefined}
       style={{
-        backgroundImage: `url("${getThumbPath(item?.fileName ?? thumb)}")`,
+        backgroundImage: `url("${getThumbPath(item?.filename ?? thumb)}")`,
       }}
     />
   ) : (
