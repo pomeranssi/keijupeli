@@ -28,6 +28,7 @@ export const ItemElement: React.FC<ItemElementProps> = ({
       src={getImagePath(item.filename)}
       className={category.type}
       onClick={onClick}
+      draggable={false}
     />
   );
 };

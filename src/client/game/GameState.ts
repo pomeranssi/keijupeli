@@ -1,5 +1,6 @@
 import * as debug from 'debug';
 import create from 'zustand';
+import { persist } from 'zustand/middleware';
 
 import {
   Category,
@@ -40,69 +41,74 @@ export type State = {
   toggleRestrictions(): void;
 };
 
-export const useGameState = create<State>((set, get) => ({
-  categories: {},
-  selectedItems: recordFromPairs(CategoryTypes.map(type => [type, {}])),
-  selectedCategory: 'background',
-  restricted: true,
+export const useGameState = create<State, any>(
+  persist(
+    (set, get) => ({
+      categories: {},
+      selectedItems: recordFromPairs(CategoryTypes.map(type => [type, {}])),
+      selectedCategory: 'background',
+      restricted: true,
 
-  setupCategories: categories => {
-    log('Setting categories', categories);
-    // categories.map(c => `${c.type} (${c.items.length})`).join()
+      setupCategories: categories => {
+        log('Setting categories', categories);
+        set({ categories });
+      },
 
-    set({ categories });
-  },
+      selectCategory: selectedCategory => set({ selectedCategory }),
 
-  selectCategory: selectedCategory => set({ selectedCategory }),
+      toggleItem: (type, item) => {
+        const { categories, selectedItems, restricted } = get();
+        const category = categories[type];
+        assertDefined(category);
+        const current: CategoryItems = selectedItems[type] ?? {};
+        const isAdd = current[item.filename] === undefined;
+        if (isAdd) {
+          const isCategoryUnique =
+            category.isUnique && (restricted || category.isBackground);
+          const newItems = isCategoryUnique
+            ? { [item.filename]: item }
+            : { ...current, [item.filename]: item };
+          set({
+            selectedItems: replaceKey(selectedItems, type, newItems),
+          });
+          return;
+        } else {
+          const { [item.filename]: deleted, ...trimmedItems } = current;
+          if (recordSize(trimmedItems) > 0) {
+            return set({
+              selectedItems: replaceKey(selectedItems, type, trimmedItems),
+            });
+          } else {
+            return set({ selectedItems: replaceKey(selectedItems, type, {}) });
+          }
+        }
+      },
 
-  toggleItem: (type, item) => {
-    const { categories, selectedItems, restricted } = get();
-    const category = categories[type];
-    assertDefined(category);
-    const current: CategoryItems = selectedItems[type] ?? {};
-    const isAdd = current[item.filename] === undefined;
-    if (isAdd) {
-      const isCategoryUnique =
-        category.isUnique && (restricted || category.isBackground);
-      const newItems = isCategoryUnique
-        ? { [item.filename]: item }
-        : { ...current, [item.filename]: item };
-      set({
-        selectedItems: replaceKey(selectedItems, type, newItems),
-      });
-      return;
-    } else {
-      const { [item.filename]: deleted, ...trimmedItems } = current;
-      if (recordSize(trimmedItems) > 0) {
-        return set({
-          selectedItems: replaceKey(selectedItems, type, trimmedItems),
+      clearItems: type =>
+        set({ selectedItems: replaceKey(get().selectedItems, type, {}) }),
+
+      randomize: () => {
+        const { categories } = get();
+        set({
+          selectedItems: recordFromPairs(
+            Object.values(categories).map(category => [
+              category.type,
+              getRandomEntriesFor(requireDefined(category)),
+            ])
+          ),
         });
-      } else {
-        return set({ selectedItems: replaceKey(selectedItems, type, {}) });
-      }
-    }
-  },
+      },
 
-  clearItems: type =>
-    set({ selectedItems: replaceKey(get().selectedItems, type, {}) }),
+      reset: () =>
+        set({
+          selectedItems: mapObject(get().categories, getDefaultSelection),
+        }),
 
-  randomize: () => {
-    const { categories } = get();
-    set({
-      selectedItems: recordFromPairs(
-        Object.values(categories).map(category => [
-          category.type,
-          getRandomEntriesFor(requireDefined(category)),
-        ])
-      ),
-    });
-  },
-
-  reset: () =>
-    set({ selectedItems: mapObject(get().categories, getDefaultSelection) }),
-
-  toggleRestrictions: () => set({ restricted: !get().restricted }),
-}));
+      toggleRestrictions: () => set({ restricted: !get().restricted }),
+    }),
+    { name: 'keijupeli-state' }
+  )
+);
 
 function getDefaultSelection(category: Category): CategoryItems {
   return recordFromPairs(
