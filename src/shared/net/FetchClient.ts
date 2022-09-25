@@ -2,7 +2,24 @@ import debug from 'debug';
 
 import { AuthenticationError, GameError } from 'shared/types';
 
+import { ContentTypes, isJsonContent } from './ContentTypes';
+
 const log = debug('net:fetch-client');
+
+type HttpMethod = 'POST' | 'PUT' | 'GET' | 'PATCH' | 'DELETE';
+
+type MethodInit = {
+  query?: Record<string, any>;
+  body?: any;
+  headers?: Record<string, string>;
+  contentType?: string | null;
+};
+
+type RequestInit = MethodInit & {
+  method: HttpMethod;
+};
+
+type MethodFun = <T>(path: string, params?: MethodInit) => Promise<T>;
 
 export type FetchType = (
   input: RequestInfo,
@@ -39,45 +56,47 @@ export class FetchClient {
 
   async req<T>(
     path: string,
-    {
-      method,
-      query,
-      body,
-      headers,
-    }: {
-      method: string;
-      query?: Record<string, any>;
-      body?: any;
-      headers?: Record<string, string>;
-    }
+    { method, query, body, headers, contentType }: RequestInit
   ): Promise<T> {
     try {
       const queryPath = this.toQuery(path, query);
       log(`${method} ${queryPath} with body`, body);
+      const isJson =
+        contentType === ContentTypes.json || contentType === undefined;
+      const bodyContents = body && isJson ? JSON.stringify(body) : body;
       const options = {
         method,
-        body: body ? JSON.stringify(body) : undefined,
-        headers,
+        body: bodyContents,
+        headers: {
+          ...(contentType !== null
+            ? { 'Content-Type': contentType ?? ContentTypes.json }
+            : {}),
+          ...headers,
+        },
       };
       const res = await this.fetch(queryPath, options);
-      log(`${method} ${queryPath} -> ${res.status}`);
+      const responseType = res.headers.get('content-type') ?? undefined;
+      const resText = await res.text();
+      const resData = isJsonContent(responseType)
+        ? resText
+          ? JSON.parse(resText)
+          : undefined
+        : resText;
+
+      log(`${method} ${queryPath} -> ${res.status} (${resText.length} bytes)`);
       switch (res.status) {
         case 200:
-          return (await res.json()) as T;
+          return resData as T;
         case 401:
         case 403:
-          throw new AuthenticationError(
-            'Unauthorized: ' + res.status,
-            await res.json()
-          );
+          throw new AuthenticationError('Unauthorized: ' + res.status, resData);
         default:
-          const data = await res.json();
-          log('Error received from API', data);
+          log('Error received from API', resData);
           throw new GameError(
-            'code' in data ? data.code : 'ERROR',
+            'code' in resData ? resData.code : 'ERROR',
             `Error ${res.status} from ${method} ${path}`,
             res.status,
-            data
+            resData
           );
       }
     } catch (e: any) {
@@ -99,54 +118,14 @@ export class FetchClient {
     'Content-Type': 'application/json',
   };
 
-  public get<T>(
-    path: string,
-    query?: Record<string, any>,
-    headers?: Record<string, string>
-  ): Promise<T> {
-    return this.req(path, { method: 'GET', query, headers });
-  }
-
-  public put<T>(
-    path: string,
-    body?: any,
-    query?: Record<string, any>,
-    headers?: Record<string, string>
-  ): Promise<T> {
-    return this.req(path, {
-      method: 'PUT',
-      body,
-      query,
-      headers: { ...FetchClient.contentTypeJson, ...headers } as Record<
-        string,
-        string
-      >,
-    });
-  }
-
-  public post<T>(
-    path: string,
-    body?: any,
-    query?: Record<string, any>,
-    headers?: Record<string, string>
-  ): Promise<T> {
-    return this.req(path, {
-      method: 'POST',
-      body,
-      query,
-      headers: { ...FetchClient.contentTypeJson, ...headers } as Record<
-        string,
-        string
-      >,
-    });
-  }
-
-  public del<T>(
-    path: string,
-    data?: any,
-    query?: Record<string, any>,
-    headers?: Record<string, string>
-  ): Promise<T> {
-    return this.req(path, { method: 'DELETE', query, headers, body: data });
-  }
+  public get: MethodFun = (path, params) =>
+    this.req(path, { ...params, method: 'GET' });
+  public put: MethodFun = (path, params) =>
+    this.req(path, { ...params, method: 'PUT' });
+  public post: MethodFun = (path, params) =>
+    this.req(path, { ...params, method: 'POST' });
+  public patch: MethodFun = (path, params) =>
+    this.req(path, { ...params, method: 'PATCH' });
+  public delete: MethodFun = (path, params) =>
+    this.req(path, { ...params, method: 'DELETE' });
 }

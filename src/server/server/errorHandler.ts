@@ -21,7 +21,7 @@ export function createErrorHandler() {
     const status = typeof err.status === 'number' ? err.status : 500;
 
     log(
-      `Error processing ${req.method} ${req.path} -> ${status}: `,
+      `${req.method} ${req.path} -> ${status}:`,
       logUserErrors || !isUserError(status)
         ? JSON.stringify(err, null, 2)
         : err.message
