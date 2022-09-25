@@ -45,11 +45,12 @@ export const UtilityBar: React.FC = () => {
 };
 
 const AppIcon = styled.div`
-  padding: 10px;
-  background-color: rgba(255, 153, 153, 0.8);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
   border-radius: 50%;
-  display: inline-block;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 
   &.reset {
     background-color: rgba(180, 180, 255, 0.8);
@@ -69,8 +70,8 @@ const AppIcon = styled.div`
 `;
 
 const IconImage = styled.img`
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   margin: 0;
   padding: 0;
 `;
