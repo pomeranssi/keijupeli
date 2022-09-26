@@ -15,6 +15,8 @@ class Config {
   public dbUrl =
     process.env.DB_URL || 'postgresql://postgres:postgres@localhost/postgres';
   public dbSSL: boolean = process.env.DB_SSL === 'true';
+
+  public uploadPath: string = process.env.UPLOAD_PATH || './uploads';
 }
 
 export const config = new Config();

@@ -4,9 +4,12 @@ import shallow from 'zustand/shallow';
 
 import { Item } from 'shared/types';
 import { assertDefined } from 'shared/util';
+import { getImagePath } from 'client/layout/Images';
+import { ItemImageView } from 'client/layout/ItemImageView';
 
 import { useGameState } from './GameState';
 import { ItemView } from './ItemView';
+import { UploadImageButton } from './UploadImageButton';
 
 export const ItemList: React.FC = () => {
   const [type, categories, toggle, selected, clear] = useGameState(
@@ -32,7 +35,10 @@ export const ItemList: React.FC = () => {
 
   return cat ? (
     <ListContainer>
-      <ItemView category={cat} onClick={() => clear(cat.type)} />
+      <ItemImageView
+        image={getImagePath('item-unselect.png')}
+        onClick={() => clear(cat.type)}
+      />
       {cat.items.map(i => (
         <ItemView
           key={i.filename}
@@ -42,6 +48,7 @@ export const ItemList: React.FC = () => {
           onClick={selectItem}
         />
       ))}
+      <UploadImageButton />
     </ListContainer>
   ) : null;
 };

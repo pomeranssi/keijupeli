@@ -18,15 +18,22 @@ export const CategoryType = z.enum([
 export type CategoryType = z.infer<typeof CategoryType>;
 export const CategoryTypes = CategoryType.options;
 
-export const Item = z.object({
-  id: ObjectId,
+export const ItemData = z.object({
   category: CategoryType,
-  public: z.boolean(),
   filename: NonEmptyString,
-  width: z.number().int().nonnegative(),
-  height: z.number().int().nonnegative(),
-  offsetX: z.number().int().nonnegative(),
-  offsetY: z.number().int().nonnegative(),
+  originalFilename: NonEmptyString.optional(),
+  thumbnail: NonEmptyString.optional(),
+  width: z.number().nonnegative(),
+  height: z.number().nonnegative(),
+  offsetX: z.number().nonnegative(),
+  offsetY: z.number().nonnegative(),
+});
+export type ItemData = z.infer<typeof ItemData>;
+
+export const Item = ItemData.extend({
+  id: ObjectId,
+  userId: ObjectId.optional(),
+  public: z.boolean(),
   isDefault: z.boolean(),
   zIndex: z.number().int().nonnegative().optional(),
 });

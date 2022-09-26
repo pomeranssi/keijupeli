@@ -1,6 +1,5 @@
-import * as bodyParser from 'body-parser';
 import debug from 'debug';
-import * as express from 'express';
+import express from 'express';
 import * as path from 'path';
 
 import { createApi } from './api/api';
@@ -13,8 +12,6 @@ log(`Server starting at directory: ${curDir}`);
 const app = express();
 
 app.use(express.static('public'));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 app.use('/api', createApi());
 
