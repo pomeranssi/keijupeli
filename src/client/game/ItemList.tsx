@@ -5,12 +5,14 @@ import shallow from 'zustand/shallow';
 import { Item } from 'shared/types';
 import { assertDefined } from 'shared/util';
 import { getImagePath } from 'client/layout/Images';
+import { ItemImageView } from 'client/layout/ItemImageView';
 
 import { useGameState } from './GameState';
-import { ItemImageView, ItemView } from './ItemView';
+import { ItemView } from './ItemView';
+import { UploadImageButton } from './UploadImageButton';
 
 export const ItemList: React.FC = () => {
-  const [type, categories, toggle, selected, clear, upload] = useGameState(
+  const [type, categories, toggle, selected, clear] = useGameState(
     s =>
       [
         s.selectedCategory,
@@ -18,7 +20,6 @@ export const ItemList: React.FC = () => {
         s.toggleItem,
         s.selectedItems,
         s.clearItems,
-        s.startImageUpload,
       ] as const,
     shallow
   );
@@ -47,7 +48,7 @@ export const ItemList: React.FC = () => {
           onClick={selectItem}
         />
       ))}
-      <ItemImageView image={getImagePath('icon-add.png')} onClick={upload} />
+      <UploadImageButton />
     </ListContainer>
   ) : null;
 };
