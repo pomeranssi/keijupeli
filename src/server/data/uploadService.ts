@@ -12,19 +12,6 @@ import { insertItem } from './itemDb';
 
 const log = debug('server:upload');
 
-/*
- File info {
-  fieldname: 'image',
-  originalname: 'chest-shirt.png',
-  encoding: '7bit',
-  mimetype: 'image/png',
-  destination: './public/images/upload',
-  filename: '4101cde0fca475f31a7cea93d9a01a0f',
-  path: 'public/images/upload/4101cde0fca475f31a7cea93d9a01a0f',
-  size: 42384
-} +0ms
-*/
-
 type ProcessResult = {
   filename: string;
   width: number;

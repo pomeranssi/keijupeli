@@ -32,9 +32,6 @@ export type State = {
   selectedItems: SelectedItems;
   selectedCategory: CategoryType;
   restricted: boolean;
-  uploading: boolean;
-  startImageUpload(): void;
-  finishUpload(): void;
   setupCategories(categories: CategoryMap): void;
   selectCategory(type: CategoryType): void;
   toggleItem(type: CategoryType, item: Item): void;
@@ -51,7 +48,6 @@ export const useGameState = create<State, any>(
       selectedItems: recordFromPairs(CategoryTypes.map(type => [type, {}])),
       selectedCategory: 'background',
       restricted: true,
-      uploading: false,
 
       setupCategories: categories => {
         log('Setting categories', categories);
@@ -59,9 +55,6 @@ export const useGameState = create<State, any>(
       },
 
       selectCategory: selectedCategory => set({ selectedCategory }),
-
-      startImageUpload: () => set({ uploading: true }),
-      finishUpload: () => set({ uploading: false }),
 
       toggleItem: (type, item) => {
         const { categories, selectedItems, restricted } = get();

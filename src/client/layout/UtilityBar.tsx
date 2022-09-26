@@ -6,60 +6,35 @@ import { useGameState } from '../game/GameState';
 import { getImagePath } from './Images';
 
 export const UtilityBar: React.FC = () => {
-  const [
-    reset,
-    randomize,
-    toggleRestrictions,
-    restricted,
-    uploading,
-    resetUpload,
-  ] = useGameState(
-    s => [
-      s.reset,
-      s.randomize,
-      s.toggleRestrictions,
-      s.restricted,
-      s.uploading,
-      s.finishUpload,
-    ],
+  const [reset, randomize, toggleRestrictions, restricted] = useGameState(
+    s => [s.reset, s.randomize, s.toggleRestrictions, s.restricted],
     shallow
   );
   return (
     <Container>
-      {uploading ? (
-        <AppIcon className="reset" onClick={resetUpload}>
-          <IconImage src={getImagePath('icon-reset.png')} title="Peruuta" />
-        </AppIcon>
-      ) : (
-        <>
-          <AppIcon className="reset" onClick={reset}>
-            <IconImage
-              src={getImagePath('icon-reset.png')}
-              title="Aloita alusta"
-            />
-          </AppIcon>
-          <AppIcon className="randomize" onClick={randomize}>
-            <IconImage
-              src={getImagePath('icon-random.png')}
-              title="Kokeile onneasi!"
-            />
-          </AppIcon>
-          <AppIcon className="restrictions" onClick={toggleRestrictions}>
-            <IconImage
-              src={getImagePath(
-                restricted
-                  ? 'icon-restrictions-on.png'
-                  : 'icon-restrictions-off.png'
-              )}
-              title={
-                restricted
-                  ? 'Asut lukittu paikalleen'
-                  : 'Asut vapaasti liikutettavissa'
-              }
-            />
-          </AppIcon>
-        </>
-      )}
+      <AppIcon className="reset" onClick={reset}>
+        <IconImage src={getImagePath('icon-reset.png')} title="Aloita alusta" />
+      </AppIcon>
+      <AppIcon className="randomize" onClick={randomize}>
+        <IconImage
+          src={getImagePath('icon-random.png')}
+          title="Kokeile onneasi!"
+        />
+      </AppIcon>
+      <AppIcon className="restrictions" onClick={toggleRestrictions}>
+        <IconImage
+          src={getImagePath(
+            restricted
+              ? 'icon-restrictions-on.png'
+              : 'icon-restrictions-off.png'
+          )}
+          title={
+            restricted
+              ? 'Asut lukittu paikalleen'
+              : 'Asut vapaasti liikutettavissa'
+          }
+        />
+      </AppIcon>
     </Container>
   );
 };

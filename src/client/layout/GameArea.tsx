@@ -7,7 +7,6 @@ import { useGameState } from 'client/game/GameState';
 
 import { useWindowSize } from '../hooks/useWindowSize';
 import { Size } from '../util/size';
-import { ImageUploader } from './ImageUploader';
 import { ItemElement } from './ItemElement';
 
 const desiredSize = new Size(TargetImageSize, TargetImageSize);
@@ -23,11 +22,9 @@ export const GameArea: React.FC = ({}) => {
   );
   const scale = availableSpace.getScale(desiredSize);
 
-  const uploading = useGameState(s => s.uploading);
-
   return (
     <Container>
-      {uploading ? <ImageUploader /> : <DollImages scale={scale} />}
+      <DollImages scale={scale} />
     </Container>
   );
 };
