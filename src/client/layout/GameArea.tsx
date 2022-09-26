@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 
+import { TargetImageSize } from 'shared/types/images';
 import { useGameState } from 'client/game/GameState';
 
 import { useWindowSize } from '../hooks/useWindowSize';
@@ -9,7 +10,7 @@ import { Size } from '../util/size';
 import { ImageUploader } from './ImageUploader';
 import { ItemElement } from './ItemElement';
 
-const desiredSize = new Size(1024, 1024);
+const desiredSize = new Size(TargetImageSize, TargetImageSize);
 
 const areaPadding = { landscape: new Size(200, 0), portrait: new Size(0, 200) };
 
@@ -67,8 +68,8 @@ const Container = styled.div`
 
 type ContentProps = { scale: number };
 const Content = styled.div`
-  width: 1024px;
-  height: 1024px;
+  width: ${TargetImageSize}px;
+  height: ${TargetImageSize}px;
   display: block;
   transform-origin: top left;
 

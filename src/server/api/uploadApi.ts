@@ -1,10 +1,13 @@
-import debug from 'debug';
 import { Router } from 'express';
 import multer from 'multer';
+import { z } from 'zod';
 
-const upload = multer({ dest: 'uploads/' });
+import { CategoryType } from 'shared/types';
+import { config } from 'server/config';
+import { uploadFile } from 'server/data/uploadService';
+import { Requests } from 'server/server/requestHandling';
 
-const log = debug('server:upload');
+const upload = multer({ dest: config.uploadPath });
 
 /**
  * File upload API router.
@@ -15,18 +18,12 @@ export function createUploadApi() {
 
   api.post(
     '/',
-    upload.fields([
-      { name: 'image', maxCount: 1 },
-      { name: 'left', maxCount: 1 },
-      { name: 'top', maxCount: 1 },
-      { name: 'width', maxCount: 1 },
-      { name: 'height', maxCount: 1 },
-    ]),
-    (req, res) => {
-      log('Uploading', req.body);
-      log('Files', req.files);
-      res.json({ status: 'OK' });
-    }
+    upload.fields([{ name: 'image', maxCount: 1 }]),
+    Requests.validatedTxRequest(
+      { body: z.object({ category: CategoryType }) },
+      (tx, { body }, req) =>
+        uploadFile(tx, body.category, req.files?.['image'][0])
+    )
   );
 
   return api;

@@ -6,6 +6,7 @@ import styled, { css } from 'styled-components';
 
 import { ContentTypes } from 'shared/net/ContentTypes';
 import { CategoryType } from 'shared/types';
+import { TargetImageSize } from 'shared/types/images';
 import { apiClient } from 'client/game/apiCient';
 import { useGameState } from 'client/game/GameState';
 
@@ -49,7 +50,7 @@ export const ImageUploader: React.FC = () => {
         ref={cropperRef}
         guides={true}
         src={file}
-        style={{ height: 1024, width: 1024 }}
+        style={{ height: TargetImageSize, width: TargetImageSize }}
         zoomTo={0.5}
         initialAspectRatio={1}
         viewMode={1}

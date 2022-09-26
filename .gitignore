@@ -13,3 +13,5 @@ yarn-debug.log*
 yarn-error.log*
 /.env*
 /uploads
+/public/images/upload
+/public/images/items

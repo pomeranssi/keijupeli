@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { Category, Item } from 'shared/types';
 
-import { getItemImagePath } from '../game/Items';
+import { getItemImagePath } from './Images';
 
 type ItemElementProps = {
   item: Item;
@@ -24,6 +24,8 @@ export const ItemElement: React.FC<ItemElementProps> = ({
         left: item.offsetX,
         top: item.offsetY,
         zIndex: item.zIndex,
+        width: item.width,
+        height: item.height,
       }}
       src={getItemImagePath(item.filename)}
       className={category.type}

@@ -7,7 +7,7 @@ export const BaseCategoryData: Record<
   background: {
     title: 'Taustat',
     isBackground: true,
-    imageFileName: 'category-background.jpg',
+    imageFileName: 'images/category/category-background.jpg',
     isEssential: false,
     isUnique: true,
     isMovable: false,
@@ -18,7 +18,7 @@ export const BaseCategoryData: Record<
     isEssential: true,
     isUnique: true,
     isMovable: false,
-    imageFileName: 'category-body.png',
+    imageFileName: 'images/category/category-body.png',
   },
   crown: {
     title: 'Hatut',
@@ -26,7 +26,7 @@ export const BaseCategoryData: Record<
     isEssential: false,
     isUnique: false,
     isMovable: true,
-    imageFileName: 'category-crown.png',
+    imageFileName: 'images/category/category-crown.png',
   },
   hair: {
     title: 'Hiukset',
@@ -34,7 +34,7 @@ export const BaseCategoryData: Record<
     isEssential: true,
     isUnique: true,
     isMovable: false,
-    imageFileName: 'category-hair.png',
+    imageFileName: 'images/category/category-hair.png',
   },
   eyes: {
     title: 'Silmät',
@@ -42,7 +42,7 @@ export const BaseCategoryData: Record<
     isEssential: true,
     isUnique: true,
     isMovable: true,
-    imageFileName: 'category-eyes.png',
+    imageFileName: 'images/category/category-eyes.png',
   },
   necklace: {
     title: 'Kaulakorut',
@@ -50,7 +50,7 @@ export const BaseCategoryData: Record<
     isEssential: false,
     isUnique: false,
     isMovable: false,
-    imageFileName: 'category-necklace.png',
+    imageFileName: 'images/category/category-necklace.png',
   },
   wings: {
     title: 'Siivet',
@@ -58,7 +58,7 @@ export const BaseCategoryData: Record<
     isEssential: false,
     isUnique: true,
     isMovable: false,
-    imageFileName: 'category-wings.png',
+    imageFileName: 'images/category/category-wings.png',
   },
   chest: {
     title: 'Paidat',
@@ -66,7 +66,7 @@ export const BaseCategoryData: Record<
     isEssential: false,
     isUnique: false,
     isMovable: false,
-    imageFileName: 'category-chest.png',
+    imageFileName: 'images/category/category-chest.png',
   },
   legs: {
     title: 'Housut',
@@ -74,7 +74,7 @@ export const BaseCategoryData: Record<
     isEssential: false,
     isUnique: false,
     isMovable: false,
-    imageFileName: 'category-leg.png',
+    imageFileName: 'images/category/category-leg.png',
   },
   shoes: {
     title: 'Kengät',
@@ -82,7 +82,7 @@ export const BaseCategoryData: Record<
     isEssential: false,
     isUnique: true,
     isMovable: false,
-    imageFileName: 'category-shoes.png',
+    imageFileName: 'images/category/category-shoes.png',
   },
   other: {
     title: 'Asusteet',
@@ -90,6 +90,6 @@ export const BaseCategoryData: Record<
     isEssential: false,
     isUnique: false,
     isMovable: true,
-    imageFileName: 'category-other.png',
+    imageFileName: 'images/category/category-other.png',
   },
 };

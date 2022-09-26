@@ -59,3 +59,8 @@ export function ucFirst(str: any): string {
     ? str.charAt(0).toUpperCase() + str.substring(1)
     : '';
 }
+
+export function getFileExt(file: string) {
+  const nameParts = file.split('.');
+  return nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
+}

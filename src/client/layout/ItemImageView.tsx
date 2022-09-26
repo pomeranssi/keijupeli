@@ -2,7 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { Item } from 'shared/types';
-import { getItemThumbPath } from 'client/game/Items';
+
+import { getItemImagePath } from './Images';
 
 interface ItemImageViewProps {
   image: React.ReactNode | string;
@@ -13,16 +14,7 @@ interface ItemImageViewProps {
 export const ItemImageView: React.FC<
   React.PropsWithChildren<ItemImageViewProps>
 > = ({ image, children, selected, onClick }) => {
-  const img =
-    typeof image === 'string' ? (
-      <ItemImage
-        style={{
-          backgroundImage: `url("${image}")`,
-        }}
-      />
-    ) : (
-      image
-    );
+  const img = typeof image === 'string' ? <ItemImage image={image} /> : image;
   return (
     <Container className={selected ? 'selected' : ''} onClick={onClick}>
       {img}
@@ -39,7 +31,7 @@ export function getThumbForItem(
   return item || fallback ? (
     <ItemImage
       className={background ? 'background' : undefined}
-      image={getItemThumbPath(item?.filename ?? fallback)}
+      image={getItemImagePath(item?.thumbnail) ?? fallback}
     />
   ) : null;
 }
@@ -51,8 +43,8 @@ const ItemImage = styled.div`
   z-index: 1;
   left: 10px;
   top: 10px;
-  width: 70px;
-  height: 70px;
+  width: 72px;
+  height: 72px;
 
   ${(props: { image?: string }) =>
     props.image ? `background-image: url("${props.image}");` : ''}
