@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 
@@ -18,25 +18,27 @@ export const UtilityBar: React.FC = () => {
       ],
       shallow
     );
+  const location = useLocation();
+  const loginTarget = location.pathname.includes('/login') ? '/' : '/login';
   return (
     <Container>
-      {session ? (
-        <AppIcon className="reset" onClick={reset}>
-          <IconImage
-            src={getImagePath('icon-reset.png')}
-            title="Aloita alusta"
-          />
-        </AppIcon>
-      ) : (
-        <Link to="/login">
-          <AppIcon className="login" onClick={reset}>
+      <Link to={loginTarget}>
+        {session ? (
+          <AppIcon className="logout">
+            <IconImage
+              src={getImagePath('icon-profile.png')}
+              title="Kirjaudu ulos"
+            />
+          </AppIcon>
+        ) : (
+          <AppIcon className="login">
             <IconImage
               src={getImagePath('icon-login.png')}
               title="Kirjaudu sisään"
             />
           </AppIcon>
-        </Link>
-      )}
+        )}
+      </Link>
       <AppIcon className="reset" onClick={reset}>
         <IconImage src={getImagePath('icon-reset.png')} title="Aloita alusta" />
       </AppIcon>
@@ -75,7 +77,8 @@ const AppIcon = styled.div`
   &.reset {
     background-color: rgba(180, 180, 255, 0.8);
   }
-  &.login {
+  &.login,
+  &.logout {
     background-color: rgba(163, 243, 219, 0.8);
   }
   &.randomize {

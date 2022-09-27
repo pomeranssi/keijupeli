@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { LoginData } from 'shared/types';
+import { LoginData, Session } from 'shared/types';
 import {
   loginUser,
   logoutUser,
@@ -17,7 +17,7 @@ export function createSessionApi() {
 
   // Login user
   // PUT /api/session
-  api.putTx('/', { body: LoginData }, (tx, { body }) =>
+  api.putTx('/', { body: LoginData, response: Session }, (tx, { body }) =>
     loginUser(tx, body.username, body.password)
   );
 
