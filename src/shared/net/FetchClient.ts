@@ -3,6 +3,7 @@ import debug from 'debug';
 import { AuthenticationError, GameError } from 'shared/types';
 
 import { ContentTypes, isJsonContent } from './ContentTypes';
+import { uri } from './UrlUtils';
 
 const log = debug('net:fetch-client');
 
@@ -12,6 +13,7 @@ type MethodInit = {
   query?: Record<string, any>;
   body?: any;
   headers?: Record<string, string>;
+  sessionId?: string;
   contentType?: string | null;
 };
 
@@ -56,7 +58,7 @@ export class FetchClient {
 
   async req<T>(
     path: string,
-    { method, query, body, headers, contentType }: RequestInit
+    { method, query, body, headers, contentType, sessionId }: RequestInit
   ): Promise<T> {
     try {
       const queryPath = this.toQuery(path, query);
@@ -64,15 +66,19 @@ export class FetchClient {
       const isJson =
         contentType === ContentTypes.json || contentType === undefined;
       const bodyContents = body && isJson ? JSON.stringify(body) : body;
+      const requestHeaders = {
+        ...(contentType !== null
+          ? { 'Content-Type': contentType ?? ContentTypes.json }
+          : {}),
+        ...headers,
+        ...(sessionId
+          ? { Authorization: uri`Bearer ${sessionId}` }
+          : undefined),
+      };
       const options = {
         method,
         body: bodyContents,
-        headers: {
-          ...(contentType !== null
-            ? { 'Content-Type': contentType ?? ContentTypes.json }
-            : {}),
-          ...headers,
-        },
+        headers: requestHeaders,
       };
       const res = await this.fetch(queryPath, options);
       const responseType = res.headers.get('content-type') ?? undefined;

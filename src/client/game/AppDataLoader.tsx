@@ -11,11 +11,11 @@ import { Loader } from './Loader';
 export const AppDataLoader: React.FC<{
   component: React.ComponentType;
 }> = ({ component: Component }) => {
-  const [categories, setupCategories] = useGameState(
-    s => [s.categories, s.setupCategories],
+  const [categories, setupCategories, session] = useGameState(
+    s => [s.categories, s.setupCategories, s.session],
     shallow
   );
-  const data = useAsyncData(getCategories, true);
+  const data = useAsyncData(getCategories, true, session?.id);
   if (data.type === 'loaded') {
     setTimeout(() => setupCategories(data.value), 0);
   }
@@ -26,4 +26,5 @@ export const AppDataLoader: React.FC<{
   );
 };
 
-const getCategories = () => apiClient.get<CategoryMap>('/item/categories');
+const getCategories = (sessionId?: string) =>
+  apiClient.get<CategoryMap>('/item/categories', { sessionId });
