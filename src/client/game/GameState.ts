@@ -8,6 +8,7 @@ import {
   CategoryType,
   CategoryTypes,
   Item,
+  Session,
 } from 'shared/types';
 import {
   assertDefined,
@@ -32,6 +33,7 @@ export type State = {
   selectedItems: SelectedItems;
   selectedCategory: CategoryType;
   restricted: boolean;
+  session?: Session;
   setupCategories(categories: CategoryMap): void;
   selectCategory(type: CategoryType): void;
   toggleItem(type: CategoryType, item: Item): void;
@@ -48,6 +50,7 @@ export const useGameState = create<State, any>(
       selectedItems: recordFromPairs(CategoryTypes.map(type => [type, {}])),
       selectedCategory: 'background',
       restricted: true,
+      session: undefined,
 
       setupCategories: categories => {
         log('Setting categories', categories);

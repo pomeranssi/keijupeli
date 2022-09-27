@@ -1,21 +1,15 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { AppDataLoader } from 'client/game/AppDataLoader';
-
 import { CategoryList } from '../game/CategoryList';
 import { ItemList } from '../game/ItemList';
-import { GameArea } from './GameArea';
 import { LogoView } from './LogoView';
 import { Toolbar } from './Toolbar';
 import { UtilityBar } from './UtilityBar';
 
-const AppView: React.FC = () => (
+export const GameLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <Container>
-    <AppMain>
-      <GameArea />
-      <br />
-    </AppMain>
+    <AppMain>{children}</AppMain>
     <Toolbar className="primary">
       <LogoView />
       <CategoryList />
@@ -28,8 +22,6 @@ const AppView: React.FC = () => (
     </Toolbar>
   </Container>
 );
-
-export const App = () => <AppDataLoader component={AppView} />;
 
 const AppMain = styled.div`
   position: fixed;

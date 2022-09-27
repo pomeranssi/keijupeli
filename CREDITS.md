@@ -8,3 +8,6 @@
   created by Catalin Fertu - Flaticon
 - Plus icon: [Plus icons](https://www.flaticon.com/free-icons/plus)
   created by Freepik - Flaticon
+- Login icon: [Login icons](https://www.flaticon.com/free-icons/login)
+  created by Freepik - Flaticon
+

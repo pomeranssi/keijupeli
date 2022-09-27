@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
 import * as React from 'react';
 
-import { App } from './App';
+import { MainPage } from './MainPage';
 
 it('renders without crashing', () => {
-  render(<App />);
+  render(<MainPage />);
 });

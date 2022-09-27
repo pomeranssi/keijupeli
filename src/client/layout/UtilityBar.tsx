@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 
@@ -6,12 +7,36 @@ import { useGameState } from '../game/GameState';
 import { getImagePath } from './Images';
 
 export const UtilityBar: React.FC = () => {
-  const [reset, randomize, toggleRestrictions, restricted] = useGameState(
-    s => [s.reset, s.randomize, s.toggleRestrictions, s.restricted],
-    shallow
-  );
+  const [reset, randomize, toggleRestrictions, restricted, session] =
+    useGameState(
+      s => [
+        s.reset,
+        s.randomize,
+        s.toggleRestrictions,
+        s.restricted,
+        s.session,
+      ],
+      shallow
+    );
   return (
     <Container>
+      {session ? (
+        <AppIcon className="reset" onClick={reset}>
+          <IconImage
+            src={getImagePath('icon-reset.png')}
+            title="Aloita alusta"
+          />
+        </AppIcon>
+      ) : (
+        <Link to="/login">
+          <AppIcon className="login" onClick={reset}>
+            <IconImage
+              src={getImagePath('icon-login.png')}
+              title="Kirjaudu sisään"
+            />
+          </AppIcon>
+        </Link>
+      )}
       <AppIcon className="reset" onClick={reset}>
         <IconImage src={getImagePath('icon-reset.png')} title="Aloita alusta" />
       </AppIcon>
@@ -49,6 +74,9 @@ const AppIcon = styled.div`
 
   &.reset {
     background-color: rgba(180, 180, 255, 0.8);
+  }
+  &.login {
+    background-color: rgba(163, 243, 219, 0.8);
   }
   &.randomize {
     background-color: rgba(255, 153, 153, 0.8);
