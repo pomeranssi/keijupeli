@@ -1,7 +1,7 @@
 import debug = require('debug');
 import { ITask } from 'pg-promise';
 
-import { AuthenticationError, SessionInfo, UUID } from 'shared/types';
+import { AuthenticationError, Session, SessionInfo, UUID } from 'shared/types';
 
 import { createSession, deleteSession } from './sessionDb';
 import { getUserByCredentials } from './userDb';
@@ -12,7 +12,7 @@ export async function loginUser(
   tx: ITask<any>,
   username: string,
   password: string
-) {
+): Promise<Session> {
   const user = await getUserByCredentials(tx, username, password);
   if (!user) {
     throw new AuthenticationError(
