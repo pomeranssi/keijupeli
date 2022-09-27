@@ -4,7 +4,7 @@ import path from 'path';
 import { ITask } from 'pg-promise';
 import sharp from 'sharp';
 
-import { CategoryType } from 'shared/types';
+import { AuthenticationError, CategoryType, User } from 'shared/types';
 import { TargetImageSize } from 'shared/types/images';
 import { getFileExt } from 'shared/util';
 
@@ -22,9 +22,13 @@ type ProcessResult = {
 
 export async function uploadFile(
   tx: ITask<any>,
+  user: User | undefined,
   category: CategoryType,
   file: Express.Multer.File
 ) {
+  if (!user) {
+    throw new AuthenticationError('AUTHENTICATION_REQUIRED', 'Not logged in');
+  }
   if (!file) return;
   log(`Uploading new file to ${category}`);
   log('File info', file);
@@ -40,18 +44,19 @@ export async function uploadFile(
     path.join(file.destination, data.filename),
     path.join(file.destination, thumbnail)
   );
-  await insertImageData(tx, category, file, data, scale, thumbnail);
+  await insertImageData(tx, user, category, file, data, scale, thumbnail);
 }
 
 async function insertImageData(
   tx: ITask<any>,
+  user: User,
   category: CategoryType,
   file: Express.Multer.File,
   data: ProcessResult,
   scale: number,
   thumbnail: string
 ) {
-  await insertItem(tx, undefined, {
+  await insertItem(tx, user.id, {
     category,
     filename: data.filename,
     thumbnail,

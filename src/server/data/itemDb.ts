@@ -1,6 +1,6 @@
 import { ITask } from 'pg-promise';
 
-import { Item, ItemData, ObjectId, UUID } from 'shared/types';
+import { Item, ItemData, ObjectId } from 'shared/types';
 import { nullsToUndefined } from 'shared/util';
 
 const ItemFields = `--sql
@@ -25,7 +25,7 @@ export async function getItems(
 
 export async function insertItem(
   tx: ITask<any>,
-  userId: UUID | undefined,
+  userId: ObjectId | undefined,
   data: ItemData
 ): Promise<Item> {
   const res = await tx.one(

@@ -21,8 +21,8 @@ export function createUploadApi() {
     upload.fields([{ name: 'image', maxCount: 1 }]),
     Requests.validatedTxRequest(
       { body: z.object({ category: CategoryType }) },
-      (tx, { body }, req) =>
-        uploadFile(tx, body.category, req.files?.['image'][0])
+      (tx, { body, session }, req) =>
+        uploadFile(tx, session?.user, body.category, req.files?.['image'][0])
     )
   );
 

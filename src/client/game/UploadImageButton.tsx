@@ -1,7 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import shallow from 'zustand/shallow';
 
-import { CategoryType } from 'shared/types';
+import { CategoryType, Session } from 'shared/types';
 import { getImagePath } from 'client/layout/Images';
 import { ItemImageView } from 'client/layout/ItemImageView';
 
@@ -10,13 +11,17 @@ import { useGameState } from './GameState';
 
 export const UploadImageButton: React.FC = ({}) => {
   const ref = React.useRef<HTMLInputElement | null>(null);
-  const category = useGameState(s => s.selectedCategory);
+  const [category, session] = useGameState(
+    s => [s.selectedCategory, s.session] as const,
+    shallow
+  );
 
   const selectFile = async (e: any) => {
     e.preventDefault();
+    if (!session) return;
     const files = e.dataTransfer?.files ?? e.target?.files;
     if (!files || !files[0]) return;
-    await uploadImage(category, files[0], files[0].name);
+    await uploadImage(session, category, files[0], files[0].name);
     const input = ref.current;
     if (input) {
       input.value = '';
@@ -34,6 +39,7 @@ export const UploadImageButton: React.FC = ({}) => {
 };
 
 async function uploadImage(
+  session: Session,
   category: CategoryType,
   file: any,
   filename: string
@@ -41,13 +47,14 @@ async function uploadImage(
   const formData = new FormData();
   formData.append('category', category);
   formData.append('image', file, filename);
-  await sendImageData(formData);
+  await sendImageData(session.id, formData);
 }
 
-const sendImageData = (formData: FormData) =>
+const sendImageData = (sessionId: string, formData: FormData) =>
   apiClient.post('/upload', {
     body: formData,
     contentType: null,
+    sessionId,
   });
 
 const FileInput = styled.input`
