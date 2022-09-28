@@ -74,7 +74,7 @@ export const useGameState = create<State, any>(
 
       selectCategory: selectedCategory => set({ selectedCategory }),
 
-      setSession: session => set({ session }),
+      setSession: session => set({ session, allowDelete: false }),
 
       toggleItem: (type, item) => {
         const { categories, selectedItems, restricted } = get();
