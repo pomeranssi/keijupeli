@@ -75,10 +75,11 @@ async function renameAndProcessFile(
   const ext = getFileExt(file.originalname).toLowerCase() || 'image';
   if (category === 'background') {
     // Do not trim background images
-    if (ext !== 'jpg' && ext !== 'jpeg') {
+    if (ext === 'jpg' || ext === 'jpeg') {
+      return renameWithExt(category, file, ext);
+    } else {
       return convertToJpg(category, file);
     }
-    return renameWithExt(category, file, ext);
   }
   // Trim to new name
   return trimImage(category, file, ext);

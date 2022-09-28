@@ -47,6 +47,7 @@ export async function deleteItem(
   if (!item) {
     throw new GameError(`NOT_FOUND`, 'Item not found', 404);
   }
+  log(`Deleting item ${item.id}...`);
   await deleteItemImages(item);
   await deleteItemById(tx, item.id, session.user.id, session.user.admin);
 }
