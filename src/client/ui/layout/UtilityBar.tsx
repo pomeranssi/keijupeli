@@ -77,12 +77,14 @@ export const UtilityBar: React.FC = () => {
           }
         />
       ) : null}
-      <AppIcon
-        className={`delete ${del ? 'allow-delete' : ''}`}
-        onClick={toggleDel}
-        icon="icon-delete.png"
-        title={del ? 'Peruuta' : 'Poista kuvia'}
-      />
+      {session ? (
+        <AppIcon
+          className={`delete ${del ? 'allow-delete' : ''}`}
+          onClick={toggleDel}
+          icon="icon-delete.png"
+          title={del ? 'Peruuta' : 'Poista kuvia'}
+        />
+      ) : null}
     </Container>
   );
 };

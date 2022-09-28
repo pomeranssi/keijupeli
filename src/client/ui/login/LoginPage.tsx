@@ -50,6 +50,7 @@ export const LoginPage: React.FC = () => {
                   type="text"
                   value={username}
                   onChange={setUsername}
+                  onEnter={doLogin}
                 />
               </Row>
               <Row>
@@ -59,6 +60,7 @@ export const LoginPage: React.FC = () => {
                   type="password"
                   value={password}
                   onChange={setPassword}
+                  onEnter={doLogin}
                 />
               </Row>
               <Row>

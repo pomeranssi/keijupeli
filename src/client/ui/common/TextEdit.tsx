@@ -6,14 +6,27 @@ type TextEditProps = Omit<
   'onChange'
 > & {
   onChange?: (value: string) => void;
+  onEnter?: () => void;
 };
 
-export const TextEdit: React.FC<TextEditProps> = ({ onChange, ...props }) => {
+export const TextEdit: React.FC<TextEditProps> = ({
+  onChange,
+  onEnter,
+  ...props
+}) => {
   const changeHandler = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => onChange?.(e.target.value),
     [onChange]
   );
-  return <Input {...props} onChange={changeHandler} />;
+  const keyHandler = React.useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.code === 'Enter') {
+        onEnter?.();
+      }
+    },
+    [onEnter]
+  );
+  return <Input {...props} onChange={changeHandler} onKeyUp={keyHandler} />;
 };
 
 const Input = styled.input`
