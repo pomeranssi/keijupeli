@@ -10,7 +10,7 @@ assertDefined(container);
 const root = createRoot(container);
 
 root.render(
-  <React.StrictMode>
-    <AppDataLoader component={AppRouter} />
-  </React.StrictMode>
+  <AppDataLoader>
+    <AppRouter />
+  </AppDataLoader>
 );
