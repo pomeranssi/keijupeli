@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { Item } from 'shared/types';
+import { spaced } from 'shared/util';
 
 import { getItemImagePath } from '../images';
 
@@ -9,14 +10,18 @@ interface ItemImageViewProps {
   image: React.ReactNode | string;
   selected?: boolean;
   onClick?: () => void;
+  className?: string;
 }
 
 export const ItemImageView: React.FC<
   React.PropsWithChildren<ItemImageViewProps>
-> = ({ image, children, selected, onClick }) => {
+> = ({ image, children, selected, onClick, className }) => {
   const img = typeof image === 'string' ? <ItemImage image={image} /> : image;
   return (
-    <Container className={selected ? 'selected' : ''} onClick={onClick}>
+    <Container
+      className={spaced`${className} ${selected ? 'selected' : ''}`}
+      onClick={onClick}
+    >
       {img}
       {children}
     </Container>
@@ -60,13 +65,15 @@ const ItemImage = styled.div`
 const Container = styled.div`
   width: 90px;
   height: 90px;
-  -webkit-border-radius: 0.4em;
-  -moz-border-radius: 0.4em;
   border-radius: 0.4em;
   background: rgba(255, 255, 255, 0.35);
   position: relative;
   overflow: hidden;
   display: inline-block;
+
+  &.dim {
+    filter: grayscale(0.6);
+  }
 
   &.selected,
   &.selected > .background {

@@ -12,3 +12,5 @@
   created by Freepik - Flaticon
 - Profile icon: [User icons](https://www.flaticon.com/free-icons/user)
   created by Vectors Market - Flaticon
+- Delete icon: [Delete icons](https://www.flaticon.com/free-icons/delete)
+  created by Good Ware - Flaticon

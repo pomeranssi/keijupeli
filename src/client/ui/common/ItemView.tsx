@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styled from 'styled-components';
 
 import { Category, Item } from 'shared/types';
 
@@ -10,6 +11,8 @@ interface ItemViewProps {
   missingImage?: string;
   selected?: boolean;
   onClick?: (item?: Item) => void;
+  cornerIcon?: any;
+  className?: string;
 }
 
 export const ItemView: React.FC<React.PropsWithChildren<ItemViewProps>> = ({
@@ -19,6 +22,8 @@ export const ItemView: React.FC<React.PropsWithChildren<ItemViewProps>> = ({
   children,
   selected,
   onClick,
+  cornerIcon,
+  className,
 }) => {
   const image = getThumbForItem(item, missingImage, category.isBackground);
   return (
@@ -26,8 +31,19 @@ export const ItemView: React.FC<React.PropsWithChildren<ItemViewProps>> = ({
       image={image}
       onClick={onClick ? () => onClick?.(item) : undefined}
       selected={selected}
+      className={className}
     >
       {children}
+      {cornerIcon ? <Corner>{cornerIcon}</Corner> : null}
     </ItemImageView>
   );
 };
+
+const Corner = styled.div`
+  position: absolute;
+  transform: scale(0.5);
+  transform-origin: right top;
+  right: 4px;
+  top: 4px;
+  z-index: 1;
+`;

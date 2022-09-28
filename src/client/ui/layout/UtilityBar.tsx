@@ -5,107 +5,87 @@ import shallow from 'zustand/shallow';
 
 import { useGameState } from 'client/game/state';
 
-import { getImagePath } from '../images';
+import { AppIcon } from '../common/AppIcon';
 
 const allowRestrictions = false;
 
 export const UtilityBar: React.FC = () => {
-  const [reset, randomize, toggleRestrictions, restricted, session] =
-    useGameState(
-      s => [
-        s.reset,
-        s.randomize,
-        s.toggleRestrictions,
-        s.restricted,
-        s.session,
-      ],
-      shallow
-    );
+  const [
+    reset,
+    randomize,
+    toggleRestrictions,
+    restricted,
+    session,
+    del,
+    toggleDel,
+  ] = useGameState(
+    s => [
+      s.reset,
+      s.randomize,
+      s.toggleRestrictions,
+      s.restricted,
+      s.session,
+      s.allowDelete,
+      s.toggleDelete,
+    ],
+    shallow
+  );
   const location = useLocation();
   const loginTarget = location.pathname.includes('/login') ? '/' : '/login';
   return (
     <Container>
       <Link to={loginTarget}>
         {session ? (
-          <AppIcon className="logout">
-            <IconImage
-              src={getImagePath('icon-profile.png')}
-              title="Kirjaudu ulos"
-            />
-          </AppIcon>
+          <AppIcon
+            className="logout"
+            icon="icon-profile.png"
+            title="Kirjaudu ulos"
+          />
         ) : (
-          <AppIcon className="login">
-            <IconImage
-              src={getImagePath('icon-login.png')}
-              title="Kirjaudu sisään"
-            />
-          </AppIcon>
+          <AppIcon
+            className="login"
+            icon="icon-login.png"
+            title="Kirjaudu sisään"
+          />
         )}
       </Link>
-      <AppIcon className="reset" onClick={reset}>
-        <IconImage src={getImagePath('icon-reset.png')} title="Aloita alusta" />
-      </AppIcon>
-      <AppIcon className="randomize" onClick={randomize}>
-        <IconImage
-          src={getImagePath('icon-random.png')}
-          title="Kokeile onneasi!"
-        />
-      </AppIcon>
+      <AppIcon
+        className="reset"
+        onClick={reset}
+        icon="icon-reset.png"
+        title="Aloita alusta"
+      />
+      <AppIcon
+        className="randomize"
+        onClick={randomize}
+        icon="icon-random.png"
+        title="Kokeile onneasi!"
+      />
       {allowRestrictions ? (
-        <AppIcon className="restrictions" onClick={toggleRestrictions}>
-          <IconImage
-            src={getImagePath(
-              restricted
-                ? 'icon-restrictions-on.png'
-                : 'icon-restrictions-off.png'
-            )}
-            title={
-              restricted
-                ? 'Asut lukittu paikalleen'
-                : 'Asut vapaasti liikutettavissa'
-            }
-          />
-        </AppIcon>
+        <AppIcon
+          className="restrictions"
+          onClick={toggleRestrictions}
+          icon={
+            restricted
+              ? 'icon-restrictions-on.png'
+              : 'icon-restrictions-off.png'
+          }
+          title={
+            restricted
+              ? 'Asut lukittu paikalleen'
+              : 'Asut vapaasti liikutettavissa'
+          }
+        />
       ) : null}
+      <AppIcon
+        className={`delete ${del ? 'allow-delete' : ''}`}
+        onClick={toggleDel}
+        icon="icon-delete.png"
+        title={del ? 'Peruuta' : 'Poista kuvia'}
+      />
     </Container>
   );
 };
-
-const AppIcon = styled.div`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
-  border-radius: 50%;
-  margin-bottom: 8px;
-
-  &.reset {
-    background-color: rgba(180, 180, 255, 0.8);
-  }
-  &.login,
-  &.logout {
-    background-color: rgba(163, 243, 219, 0.8);
-  }
-  &.randomize {
-    background-color: rgba(255, 153, 153, 0.8);
-  }
-  &.restrictions {
-    background-color: rgba(126, 208, 126, 0.8);
-  }
-
-  @media all and (orientation: portrait) {
-    text-align: center;
-    margin-bottom: 0;
-    margin-right: 10px;
-  }
-`;
-
-const IconImage = styled.img`
-  width: 64px;
-  height: 64px;
-  margin: 0;
-  padding: 0;
-`;
 
 const Container = styled.div`
   text-align: center;

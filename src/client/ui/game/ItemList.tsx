@@ -8,11 +8,12 @@ import { useGameState } from 'client/game/state';
 import { ItemImageView } from 'client/ui/common/ItemImageView';
 import { getImagePath } from 'client/ui/images';
 
+import { AppIcon } from '../common/AppIcon';
 import { ItemView } from '../common/ItemView';
 import { UploadImageButton } from '../upload/UploadImageButton';
 
 export const ItemList: React.FC = () => {
-  const [type, categories, toggle, selected, clear] = useGameState(
+  const [type, categories, toggle, selected, clear, allowDelete] = useGameState(
     s =>
       [
         s.selectedCategory,
@@ -20,6 +21,7 @@ export const ItemList: React.FC = () => {
         s.toggleItem,
         s.selectedItems,
         s.clearItems,
+        s.allowDelete,
       ] as const,
     shallow
   );
@@ -46,6 +48,16 @@ export const ItemList: React.FC = () => {
           category={cat}
           item={i}
           onClick={selectItem}
+          cornerIcon={
+            allowDelete ? (
+              <AppIcon
+                icon="icon-delete.png"
+                title="Poista"
+                className="delete allow-delete"
+                onClick={e => deleteItem(e, i)}
+              />
+            ) : undefined
+          }
         />
       ))}
       <UploadImageButton />
@@ -61,3 +73,10 @@ const ListContainer = styled.div`
     margin: 0.3em 0;
   }
 `;
+
+const deleteItem = (e: React.SyntheticEvent, _item: Item) => {
+  e.preventDefault();
+  e.stopPropagation();
+  console.log('Poistetaas}!');
+  confirm('Haluatko varmasti poistaa tämän kuvan?');
+};

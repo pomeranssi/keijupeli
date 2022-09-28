@@ -47,6 +47,8 @@ export type State = {
   message?: UIMessage;
   showMessage(message: UIMessage): void;
   clearMessage(): void;
+  allowDelete: boolean;
+  toggleDelete: () => void;
 };
 
 export const useGameState = create<State, any>(
@@ -57,6 +59,9 @@ export const useGameState = create<State, any>(
       selectedCategory: 'background',
       restricted: true,
       session: undefined,
+
+      allowDelete: false,
+      toggleDelete: () => set({ allowDelete: !get().allowDelete }),
 
       message: undefined,
       showMessage: message => set({ message }),
