@@ -10,6 +10,7 @@ import { initializeCategories } from 'client/game/dataInit';
 import { useGameState } from 'client/game/state';
 import { ItemImageView } from 'client/ui/common/ItemImageView';
 import { getImagePath } from 'client/ui/images';
+import { executeOperation } from 'client/util/executeOperation';
 
 import { AppIcon } from '../common/AppIcon';
 import { ItemView } from '../common/ItemView';
@@ -83,10 +84,11 @@ const deleteItem = async (e: React.SyntheticEvent, item: Item) => {
   const sessionId = useGameState.getState().session?.id;
   if (!sessionId) return;
 
-  if (!confirm('Haluatko varmasti poistaa tämän kuvan?')) return;
-
-  await deleteItemFromServer(sessionId, item.id);
-  await initializeCategories(sessionId);
+  await executeOperation(() => deleteItemFromServer(sessionId, item.id), {
+    confirm: 'Haluatko varmasti poistaa tämän kuvan?',
+    success: 'Kuva poistettu',
+    postProcess: initializeCategories,
+  });
 };
 
 const deleteItemFromServer = (sessionId: UUID, itemId: ObjectId) =>

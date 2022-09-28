@@ -8,6 +8,7 @@ import { initializeCategories } from 'client/game/dataInit';
 import { useGameState } from 'client/game/state';
 import { ItemImageView } from 'client/ui/common/ItemImageView';
 import { getImagePath } from 'client/ui/images';
+import { executeOperation } from 'client/util/executeOperation';
 
 export const UploadImageButton: React.FC = ({}) => {
   const ref = React.useRef<HTMLInputElement | null>(null);
@@ -47,8 +48,10 @@ async function uploadImage(
   const formData = new FormData();
   formData.append('category', category);
   formData.append('image', file, filename);
-  await sendImageData(session.id, formData);
-  await initializeCategories(session.id);
+  await executeOperation(sendImageData(session.id, formData), {
+    success: 'Kuva lisätty!',
+    postProcess: initializeCategories,
+  });
 }
 
 const sendImageData = (sessionId: string, formData: FormData) =>
