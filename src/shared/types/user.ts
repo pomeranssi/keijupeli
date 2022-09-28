@@ -31,6 +31,11 @@ export const LoginData = z.object({
 });
 export type LoginData = z.infer<typeof LoginData>;
 
+export const SessionExtendRequest = z.object({
+  refreshToken: UUID,
+});
+export type SessionExtendRequest = z.infer<typeof SessionExtendRequest>;
+
 export const SessionInfo = z.object({
   user: User,
   session: Session,

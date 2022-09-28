@@ -30,12 +30,31 @@ export async function getSession(
   sessionId: UUID
 ): Promise<Session | undefined> {
   const row = await tx.oneOrNone(
-    `SELECT ${SessionFields} FROM sessions WHERE id=$/sessionId/`,
+    `SELECT ${SessionFields} FROM sessions
+      WHERE id=$/sessionId/
+      AND expiry_time > NOW()`,
     { sessionId }
+  );
+  return row ? Session.parse(row) : undefined;
+}
+
+export async function getSessionByRefreshToken(
+  tx: ITask<any>,
+  refreshToken: UUID
+): Promise<Session | undefined> {
+  const row = await tx.oneOrNone(
+    `SELECT ${SessionFields} FROM sessions
+      WHERE refresh_token=$/refreshToken/
+      AND refresh_token_expiry > NOW()`,
+    { refreshToken }
   );
   return row ? Session.parse(row) : undefined;
 }
 
 export async function deleteSession(tx: ITask<any>, sessionId: UUID) {
   await tx.none(`DELETE FROM sessions WHERE id=$/sessionId/`, { sessionId });
+}
+
+export async function deleteExpiredSessions(tx: ITask<any>) {
+  await tx.none(`DELETE FROM sessions WHERE refresh_token_expiry < NOW()`);
 }

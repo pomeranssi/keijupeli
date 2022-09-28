@@ -1,7 +1,8 @@
 import { Router } from 'express';
 
-import { LoginData, Session } from 'shared/types';
+import { LoginData, Session, SessionExtendRequest } from 'shared/types';
 import {
+  extendSession,
   loginUser,
   logoutUser,
   requireSession,
@@ -19,6 +20,14 @@ export function createSessionApi() {
   // PUT /api/session
   api.putTx('/', { body: LoginData, response: Session }, (tx, { body }) =>
     loginUser(tx, body.username, body.password)
+  );
+
+  // Extend session
+  // POST /api/session/extend
+  api.postTx(
+    '/extend',
+    { body: SessionExtendRequest, response: Session },
+    (tx, { body }) => extendSession(tx, body.refreshToken)
   );
 
   // Logout user

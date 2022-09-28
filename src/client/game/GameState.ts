@@ -28,6 +28,8 @@ export type CategoryItems = Record<Filename, Item>;
 
 export type SelectedItems = Record<CategoryType, CategoryItems>;
 
+export type UIMessage = { message: string; type: 'error' | 'notification' };
+
 export type State = {
   categories: CategoryMap;
   selectedItems: SelectedItems;
@@ -42,6 +44,9 @@ export type State = {
   randomize(): void;
   reset(): void;
   toggleRestrictions(): void;
+  message?: UIMessage;
+  showMessage(message: UIMessage): void;
+  clearMessage(): void;
 };
 
 export const useGameState = create<State, any>(
@@ -52,6 +57,10 @@ export const useGameState = create<State, any>(
       selectedCategory: 'background',
       restricted: true,
       session: undefined,
+
+      message: undefined,
+      showMessage: message => set({ message }),
+      clearMessage: () => set({ message: undefined }),
 
       setupCategories: categories => {
         log('Setting categories', categories);

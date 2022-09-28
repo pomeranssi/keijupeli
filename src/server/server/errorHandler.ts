@@ -1,7 +1,7 @@
 import debug from 'debug';
-import * as express from 'express';
 
 import { config } from '../config';
+import { ExpressErrorMiddleware } from './middleware';
 
 const log = debug('server:api:error');
 
@@ -11,13 +11,8 @@ function isUserError(status: number) {
   return status >= 400 && status < 500;
 }
 
-export function createErrorHandler() {
-  return (
-    err: any,
-    req: express.Request,
-    res: express.Response,
-    _: express.NextFunction
-  ) => {
+export function createErrorHandler(): ExpressErrorMiddleware {
+  return (err, req, res, _next) => {
     const status = typeof err.status === 'number' ? err.status : 500;
 
     log(

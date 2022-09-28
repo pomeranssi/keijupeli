@@ -6,6 +6,7 @@ import { CategoryType } from 'shared/types';
 import { config } from 'server/config';
 import { uploadFile } from 'server/data/uploadService';
 import { Requests } from 'server/server/requestHandling';
+import { requireSessionMiddleware } from 'server/server/sessionMiddleware';
 
 const upload = multer({ dest: config.uploadPath });
 
@@ -15,6 +16,9 @@ const upload = multer({ dest: config.uploadPath });
  */
 export function createUploadApi() {
   const api = Router();
+
+  // Require session for all requests
+  api.use(requireSessionMiddleware);
 
   api.post(
     '/',

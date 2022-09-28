@@ -1,4 +1,4 @@
-import { uri } from 'shared/net/UrlUtils';
+import { uri } from 'shared/net/urlUtils';
 import { baseUrl } from 'client/common';
 
 export function getImagePath(path: string) {

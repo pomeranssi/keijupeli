@@ -2,14 +2,14 @@ import debug from 'debug';
 
 import { AuthenticationError, GameError } from 'shared/types';
 
-import { ContentTypes, isJsonContent } from './ContentTypes';
-import { uri } from './UrlUtils';
+import { ContentTypes, isJsonContent } from './contentTypes';
+import { uri } from './urlUtils';
 
 const log = debug('net:fetch-client');
 
-type HttpMethod = 'POST' | 'PUT' | 'GET' | 'PATCH' | 'DELETE';
+export type HttpMethod = 'POST' | 'PUT' | 'GET' | 'PATCH' | 'DELETE';
 
-type MethodInit = {
+export type MethodInit = {
   query?: Record<string, any>;
   body?: any;
   headers?: Record<string, string>;
@@ -21,7 +21,7 @@ type RequestInit = MethodInit & {
   method: HttpMethod;
 };
 
-type MethodFun = <T>(path: string, params?: MethodInit) => Promise<T>;
+export type MethodFun = <T>(path: string, params?: MethodInit) => Promise<T>;
 
 export type FetchType = (
   input: RequestInfo,
@@ -95,11 +95,14 @@ export class FetchClient {
           return resData as T;
         case 401:
         case 403:
-          throw new AuthenticationError('Unauthorized: ' + res.status, resData);
+          throw new AuthenticationError(
+            'Unauthorized: ' + res.status,
+            resData?.cause ?? 'Authentication error'
+          );
         default:
           log('Error received from API', resData);
           throw new GameError(
-            'code' in resData ? resData.code : 'ERROR',
+            resData?.code ?? 'ERROR',
             `Error ${res.status} from ${method} ${path}`,
             res.status,
             resData
@@ -112,9 +115,9 @@ export class FetchClient {
       log('Error in fetch client:', e);
       const data = { ...e };
       throw new GameError(
-        'code' in data ? data.code : 'ERROR',
-        'cause' in data ? data.cause : e.message,
-        'status' in data ? data.status : 500,
+        data?.code ?? 'ERROR',
+        data?.cause ? JSON.stringify(data.cause) : e.message,
+        data?.status ?? 500,
         data
       );
     }
