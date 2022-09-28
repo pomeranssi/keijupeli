@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Password, Session, Username } from 'shared/types';
 import { apiClient } from 'client/game/apiCient';
-import { useGameState } from 'client/game/GameState';
+import { useGameState } from 'client/game/state';
 
 const log = debug('client:login');
 

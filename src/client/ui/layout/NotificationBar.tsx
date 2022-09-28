@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { useGameState } from 'client/game/GameState';
+import { useGameState } from 'client/game/state';
 
 export const NotificationBar: React.FC = () => {
   const [message, dismiss] = useGameState(s => [s.message, s.clearMessage]);

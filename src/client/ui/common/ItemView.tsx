@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { Category, Item } from 'shared/types';
-import { getThumbForItem, ItemImageView } from 'client/layout/ItemImageView';
+
+import { getThumbForItem, ItemImageView } from './ItemImageView';
 
 interface ItemViewProps {
   item?: Item;

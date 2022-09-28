@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { getImagePath } from './Images';
+import { getImagePath } from '../images';
 
 export const LogoView: React.FC = () => (
   <LogoArea>

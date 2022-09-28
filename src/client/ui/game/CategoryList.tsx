@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 
 import { Item } from 'shared/types';
+import { CategoryItems, useGameState } from 'client/game/state';
 
-import { CategoryItems, useGameState } from './GameState';
-import { ItemView } from './ItemView';
+import { ItemView } from '../common/ItemView';
 
 function findItem(selection: CategoryItems): Item | undefined {
   const fn = Object.keys(selection || {}).find(() => true);

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { AsyncData, UninitializedData } from 'client/util/AsyncData';
+import { AsyncData, UninitializedData } from 'client/util/asyncData';
 
 export function useAsyncData<T, P extends any[]>(
   dataSource: (...params: P) => Promise<T>,

@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 
-import { useGameState } from 'client/game/GameState';
+import { useGameState } from 'client/game/state';
 import { useLogin } from 'client/hooks/useLogin';
 
-import { Dialog } from './Dialog';
-import { GameLayout } from './GameLayout';
-import { TextEdit } from './TextEdit';
+import { Dialog } from '../common/Dialog';
+import { TextEdit } from '../common/TextEdit';
+import { GameLayout } from '../layout/GameLayout';
 
 export const LoginPage: React.FC = () => {
   const {

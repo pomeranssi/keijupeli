@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 
 import { TargetImageSize } from 'shared/types/images';
-import { useGameState } from 'client/game/GameState';
+import { useGameState } from 'client/game/state';
+import { useWindowSize } from 'client/hooks/useWindowSize';
+import { Size } from 'client/util/size';
 
-import { useWindowSize } from '../hooks/useWindowSize';
-import { Size } from '../util/size';
-import { ItemElement } from './ItemElement';
+import { ItemElement } from '../common/ItemElement';
 
 const desiredSize = new Size(TargetImageSize, TargetImageSize);
 

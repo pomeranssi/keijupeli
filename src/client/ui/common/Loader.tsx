@@ -1,10 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-export const Loader: React.FC<{ size?: string; color?: string }> = ({
-  size,
-  color,
-}) => (
+type LoaderProps = { size?: string; color?: string };
+
+export const Loader: React.FC<LoaderProps> = ({ size, color }) => (
   <Container>
     <Spinner size={size ?? '10px'} color={color ?? '#0dc5c1'} />
   </Container>

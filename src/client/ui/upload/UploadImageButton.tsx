@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 
 import { CategoryType, Session } from 'shared/types';
-import { getImagePath } from 'client/layout/Images';
-import { ItemImageView } from 'client/layout/ItemImageView';
-
-import { apiClient } from './apiCient';
-import { useGameState } from './GameState';
+import { apiClient } from 'client/game/apiCient';
+import { useGameState } from 'client/game/state';
+import { ItemImageView } from 'client/ui/common/ItemImageView';
+import { getImagePath } from 'client/ui/images';
 
 export const UploadImageButton: React.FC = ({}) => {
   const ref = React.useRef<HTMLInputElement | null>(null);

@@ -3,8 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 
-import { useGameState } from '../game/GameState';
-import { getImagePath } from './Images';
+import { useGameState } from 'client/game/state';
+
+import { getImagePath } from '../images';
 
 export const UtilityBar: React.FC = () => {
   const [reset, randomize, toggleRestrictions, restricted, session] =

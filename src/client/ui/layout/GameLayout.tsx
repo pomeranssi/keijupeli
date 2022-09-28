@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { LogoView } from '../common/LogoView';
+import { Toolbar } from '../common/Toolbar';
 import { CategoryList } from '../game/CategoryList';
 import { ItemList } from '../game/ItemList';
-import { LogoView } from './LogoView';
 import { NotificationBar } from './NotificationBar';
-import { Toolbar } from './Toolbar';
 import { UtilityBar } from './UtilityBar';
 
 export const GameLayout: React.FC<React.PropsWithChildren> = ({ children }) => (

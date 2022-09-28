@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { Item } from 'shared/types';
 
-import { getItemImagePath } from './Images';
+import { getItemImagePath } from '../images';
 
 interface ItemImageViewProps {
   image: React.ReactNode | string;

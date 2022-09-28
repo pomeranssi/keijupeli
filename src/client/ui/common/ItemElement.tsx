@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { Category, Item } from 'shared/types';
 
-import { getItemImagePath } from './Images';
+import { getItemImagePath } from '../images';
 
 type ItemElementProps = {
   item: Item;

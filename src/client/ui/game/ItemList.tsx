@@ -4,12 +4,12 @@ import shallow from 'zustand/shallow';
 
 import { Item } from 'shared/types';
 import { assertDefined } from 'shared/util';
-import { getImagePath } from 'client/layout/Images';
-import { ItemImageView } from 'client/layout/ItemImageView';
+import { useGameState } from 'client/game/state';
+import { ItemImageView } from 'client/ui/common/ItemImageView';
+import { getImagePath } from 'client/ui/images';
 
-import { useGameState } from './GameState';
-import { ItemView } from './ItemView';
-import { UploadImageButton } from './UploadImageButton';
+import { ItemView } from '../common/ItemView';
+import { UploadImageButton } from '../upload/UploadImageButton';
 
 export const ItemList: React.FC = () => {
   const [type, categories, toggle, selected, clear] = useGameState(

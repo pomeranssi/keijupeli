@@ -1,5 +1,5 @@
 import { AuthenticationError, GameError, Session } from 'shared/types';
-import { useGameState } from 'client/game/GameState';
+import { useGameState } from 'client/game/state';
 
 import { FetchClient, HttpMethod, MethodInit } from './fetchClient';
 
