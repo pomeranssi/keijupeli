@@ -7,6 +7,8 @@ import { useGameState } from 'client/game/state';
 
 import { getImagePath } from '../images';
 
+const allowRestrictions = false;
+
 export const UtilityBar: React.FC = () => {
   const [reset, randomize, toggleRestrictions, restricted, session] =
     useGameState(
@@ -49,20 +51,22 @@ export const UtilityBar: React.FC = () => {
           title="Kokeile onneasi!"
         />
       </AppIcon>
-      <AppIcon className="restrictions" onClick={toggleRestrictions}>
-        <IconImage
-          src={getImagePath(
-            restricted
-              ? 'icon-restrictions-on.png'
-              : 'icon-restrictions-off.png'
-          )}
-          title={
-            restricted
-              ? 'Asut lukittu paikalleen'
-              : 'Asut vapaasti liikutettavissa'
-          }
-        />
-      </AppIcon>
+      {allowRestrictions ? (
+        <AppIcon className="restrictions" onClick={toggleRestrictions}>
+          <IconImage
+            src={getImagePath(
+              restricted
+                ? 'icon-restrictions-on.png'
+                : 'icon-restrictions-off.png'
+            )}
+            title={
+              restricted
+                ? 'Asut lukittu paikalleen'
+                : 'Asut vapaasti liikutettavissa'
+            }
+          />
+        </AppIcon>
+      ) : null}
     </Container>
   );
 };
