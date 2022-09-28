@@ -1,7 +1,8 @@
 import { Router } from 'express';
 
 import { getItems } from 'server/data/itemDb';
-import { getItemsByCategory } from 'server/data/itemService';
+import { deleteItem, getItemsByCategory } from 'server/data/itemService';
+import { requireSessionMiddleware } from 'server/server/sessionMiddleware';
 import { createValidatingRouter } from 'server/server/validatingRouter';
 
 /**
@@ -19,6 +20,15 @@ export function createItemApi() {
   // GET /api/item/list
   api.getTx('/categories', {}, (tx, { session }) =>
     getItemsByCategory(tx, session?.user.id)
+  );
+
+  // Session required after this point
+  api.router.use(requireSessionMiddleware);
+
+  // Delete item
+  // DELETE /api/item/:itemId
+  api.deleteTx('/:itemId', {}, (tx, { params, session }) =>
+    deleteItem(tx, params.itemId, session)
   );
 
   return api.router;

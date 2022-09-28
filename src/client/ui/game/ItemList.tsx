@@ -2,8 +2,11 @@ import * as React from 'react';
 import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 
-import { Item } from 'shared/types';
+import { uri } from 'shared/net/urlUtils';
+import { Item, ObjectId, UUID } from 'shared/types';
 import { assertDefined } from 'shared/util';
+import { apiClient } from 'client/game/apiCient';
+import { initializeCategories } from 'client/game/dataInit';
 import { useGameState } from 'client/game/state';
 import { ItemImageView } from 'client/ui/common/ItemImageView';
 import { getImagePath } from 'client/ui/images';
@@ -74,9 +77,17 @@ const ListContainer = styled.div`
   }
 `;
 
-const deleteItem = (e: React.SyntheticEvent, _item: Item) => {
+const deleteItem = async (e: React.SyntheticEvent, item: Item) => {
   e.preventDefault();
   e.stopPropagation();
-  console.log('Poistetaas}!');
-  confirm('Haluatko varmasti poistaa tämän kuvan?');
+  const sessionId = useGameState.getState().session?.id;
+  if (!sessionId) return;
+
+  if (!confirm('Haluatko varmasti poistaa tämän kuvan?')) return;
+
+  await deleteItemFromServer(sessionId, item.id);
+  await initializeCategories(sessionId);
 };
+
+const deleteItemFromServer = (sessionId: UUID, itemId: ObjectId) =>
+  apiClient.delete(uri`/item/${itemId}`, { sessionId });

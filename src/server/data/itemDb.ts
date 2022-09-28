@@ -23,6 +23,36 @@ export async function getItems(
   return rows.map(r => Item.parse(nullsToUndefined(r)));
 }
 
+export async function getItemById(
+  tx: ITask<any>,
+  itemId: ObjectId,
+  userId: ObjectId | undefined,
+  allowOthersImages: boolean
+): Promise<Item | undefined> {
+  const row = await tx.oneOrNone(
+    `SELECT ${ItemFields} FROM items
+      WHERE id=$/itemId/
+        ${allowOthersImages ? '' : `AND user_id=$/userId/ AND user_id`}`,
+    { itemId, userId }
+  );
+
+  return row ? Item.parse(nullsToUndefined(row)) : undefined;
+}
+
+export async function deleteItemById(
+  tx: ITask<any>,
+  itemId: ObjectId,
+  userId: ObjectId | undefined,
+  allowOthersImages: boolean
+): Promise<void> {
+  await tx.none(
+    `DELETE FROM items
+      WHERE id=$/itemId/
+        ${allowOthersImages ? '' : `AND user_id=$/userId/ AND user_id`}`,
+    { itemId, userId }
+  );
+}
+
 export async function insertItem(
   tx: ITask<any>,
   userId: ObjectId | undefined,

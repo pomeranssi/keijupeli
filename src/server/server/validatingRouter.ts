@@ -22,9 +22,7 @@ export type RouteMethod = typeof RouteMethods[number];
 const TypeMap = {
   id: ObjectIdString,
   userId: ObjectIdString,
-  sourceId: ObjectIdString,
-  categoryId: ObjectIdString,
-  expenseId: ObjectIdString,
+  itemId: ObjectIdString,
 };
 type TypeMap = typeof TypeMap;
 type KnownParamNames = keyof typeof TypeMap;
