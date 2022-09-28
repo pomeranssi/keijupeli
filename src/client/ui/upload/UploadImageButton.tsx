@@ -4,6 +4,7 @@ import shallow from 'zustand/shallow';
 
 import { CategoryType, Session } from 'shared/types';
 import { apiClient } from 'client/game/apiCient';
+import { initializeCategories } from 'client/game/dataInit';
 import { useGameState } from 'client/game/state';
 import { ItemImageView } from 'client/ui/common/ItemImageView';
 import { getImagePath } from 'client/ui/images';
@@ -47,6 +48,7 @@ async function uploadImage(
   formData.append('category', category);
   formData.append('image', file, filename);
   await sendImageData(session.id, formData);
+  await initializeCategories(session.id);
 }
 
 const sendImageData = (sessionId: string, formData: FormData) =>
