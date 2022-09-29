@@ -1,6 +1,13 @@
 import * as React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  createHashRouter,
+  RouteObject,
+  RouterProvider,
+} from 'react-router-dom';
 import styled from 'styled-components';
+
+import { isStandaloneApp } from 'client/util/appState';
 
 import { MainPage } from './layout/MainPage';
 import { LoginPage } from './login/LoginPage';
@@ -11,7 +18,7 @@ const ErrorContainer = styled.div`
 
 const Error = <ErrorContainer>Nyt kävi köpelösti</ErrorContainer>;
 
-const router = createBrowserRouter([
+const routes: RouteObject[] = [
   {
     path: '/',
     element: <MainPage />,
@@ -22,6 +29,10 @@ const router = createBrowserRouter([
     element: <LoginPage />,
     errorElement: Error,
   },
-]);
+];
+
+const router = isStandaloneApp()
+  ? createHashRouter(routes)
+  : createBrowserRouter(routes);
 
 export const AppRouter: React.FC = () => <RouterProvider router={router} />;
