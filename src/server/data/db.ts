@@ -4,7 +4,7 @@ import pgp from 'pg-promise';
 import { identity } from 'shared/util';
 
 import { config } from '../config';
-const log = debug('bookkeeper:sql');
+const log = debug('server:sql');
 
 const logSql = process.env.LOG_SQL === 'true';
 

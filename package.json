@@ -9,6 +9,8 @@
     "watch-client": "react-scripts start",
     "watch-server": "nodemon",
     "build-client": "react-scripts build",
+    "build-server": "tsc",
+    "clean": "rm -rf build/ dist/ build-server/",
     "lint": "yarn lint-es",
     "lint-es": "eslint \"src/**/*.ts\" \"src/**/*.tsx\"",
     "test": "react-scripts test --env=jsdom",

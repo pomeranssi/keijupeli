@@ -10,7 +10,7 @@ import { db } from 'server/data/db';
 import { readSessionFromRequest, setNoCacheHeaders } from './serverUtil';
 import { validateOr } from './validation';
 
-const log = debug('bookkeeper:server');
+const log = debug('server:requests');
 
 const requestDelayMs = process.env.DELAY
   ? parseInt(process.env.DELAY, 10)
