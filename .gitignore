@@ -1,6 +1,5 @@
 /node_modules
 /coverage
-/build
 .idea
 *.iml
 .DS_Store
@@ -15,3 +14,8 @@ yarn-error.log*
 /uploads
 /public/images/upload
 /public/images/items
+/deploy
+/log
+/build
+/build-server
+/dist
