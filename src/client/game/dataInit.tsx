@@ -1,11 +1,15 @@
+import debug from 'debug';
+
 import { CategoryMap } from 'shared/types';
 
 import { apiClient } from './apiCient';
 import { useGameState } from './state';
 
+const log = debug('client:init');
+
 export async function initializeCategories() {
   const sessionId = useGameState.getState().session?.id;
-  if (!sessionId) return;
+  log(`Initializing data for session ${sessionId}`);
   const categories = await getCategories(sessionId);
   useGameState.getState().setupCategories(categories);
 }

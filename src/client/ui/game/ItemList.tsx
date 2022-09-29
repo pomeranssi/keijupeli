@@ -4,7 +4,6 @@ import shallow from 'zustand/shallow';
 
 import { uri } from 'shared/net/urlUtils';
 import { Item, ObjectId, UUID } from 'shared/types';
-import { assertDefined } from 'shared/util';
 import { apiClient } from 'client/game/apiCient';
 import { initializeCategories } from 'client/game/dataInit';
 import { useGameState } from 'client/game/state';
@@ -30,10 +29,9 @@ export const ItemList: React.FC = () => {
     shallow
   );
   const cat = categories[type];
-  assertDefined(cat);
 
   const selectItem = React.useCallback(
-    (item: Item) => toggle(cat.type, item),
+    (item: Item) => (cat ? toggle(cat.type, item) : undefined),
     [toggle, cat]
   );
 
