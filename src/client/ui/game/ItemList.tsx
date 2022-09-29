@@ -16,18 +16,20 @@ import { ItemView } from '../common/ItemView';
 import { UploadImageButton } from '../upload/UploadImageButton';
 
 export const ItemList: React.FC = () => {
-  const [type, categories, toggle, selected, clear, allowDelete] = useGameState(
-    s =>
-      [
-        s.selectedCategory,
-        s.categories,
-        s.toggleItem,
-        s.selectedItems,
-        s.clearItems,
-        s.allowDelete,
-      ] as const,
-    shallow
-  );
+  const [type, categories, toggle, selected, clear, allowDelete, session] =
+    useGameState(
+      s =>
+        [
+          s.selectedCategory,
+          s.categories,
+          s.toggleItem,
+          s.selectedItems,
+          s.clearItems,
+          s.allowDelete,
+          s.session,
+        ] as const,
+      shallow
+    );
   const cat = categories[type];
 
   const selectItem = React.useCallback(
@@ -62,7 +64,7 @@ export const ItemList: React.FC = () => {
           }
         />
       ))}
-      <UploadImageButton />
+      {session ? <UploadImageButton /> : null}
     </ListContainer>
   ) : null;
 };
