@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { colors } from '../colors';
 import { Icon, IconProps } from './Icon';
 
 export const AppIcon: React.FC<IconProps> = ({
@@ -22,23 +23,23 @@ const AppIconView = styled.div`
   margin-bottom: 8px;
 
   &.reset {
-    background-color: rgba(180, 180, 255, 0.8);
+    background-color: ${colors.analogous1[200]}cc;
   }
   &.login,
   &.logout {
-    background-color: rgba(163, 243, 219, 0.8);
+    background-color: ${colors.complementary[200]}cc;
   }
   &.randomize {
-    background-color: rgba(255, 153, 153, 0.8);
+    background-color: ${colors.analogous2[200]}cc;
   }
   &.restrictions {
-    background-color: rgba(126, 208, 126, 0.8);
+    background-color: ${colors.analogous1[400]}cc;
   }
   &.delete {
-    background-color: rgba(125, 78, 78, 0.8);
+    background-color: ${colors.primary[200]}cc;
   }
   &.delete.allow-delete {
-    background-color: rgba(255, 78, 78, 0.8);
+    background-color: ${colors.primary[600]}cc;
   }
 
   @media all and (orientation: portrait) {

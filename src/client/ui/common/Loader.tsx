@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { almostBlack } from '../colors';
+
 type LoaderProps = { size?: string; color?: string };
 
 export const Loader: React.FC<LoaderProps> = ({ size, color }) => (
@@ -15,7 +17,7 @@ const Container = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: #222;
+  background-color: ${almostBlack};
   display: flex;
   flex-direction: row;
   align-items: center;

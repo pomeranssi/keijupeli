@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { almostBlack } from '../colors';
+
 export const Toolbar = styled.div`
   position: fixed;
   top: 0;
@@ -7,7 +9,7 @@ export const Toolbar = styled.div`
   width: 100px;
   overflow: auto;
   overflow-x: hidden;
-  background-color: #222;
+  background-color: ${almostBlack};
   color: white;
   vertical-align: top;
   text-align: center;

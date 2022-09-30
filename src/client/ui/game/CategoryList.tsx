@@ -5,6 +5,7 @@ import shallow from 'zustand/shallow';
 import { Item } from 'shared/types';
 import { CategoryItems, useGameState } from 'client/game/state';
 
+import { colors } from '../colors';
 import { ItemView } from '../common/ItemView';
 
 function findItem(selection: CategoryItems): Item | undefined {
@@ -64,7 +65,7 @@ const CategoryItem = styled.div`
   }
 
   &.selected .category-title {
-    background: rgba(255, 153, 153, 0.7);
+    background: ${colors.primary[200]}aa;
   }
 
   @media all and (orientation: portrait) {

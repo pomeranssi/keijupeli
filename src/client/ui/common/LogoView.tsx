@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { colors } from '../colors';
 import { getImagePath } from '../images';
 
 export const LogoView: React.FC = () => (
@@ -42,7 +43,7 @@ const LogoArea = styled.div`
 `;
 
 const AppLogo = styled.div`
-  background-color: #ff9999;
+  background-color: ${colors.primary[200]};
   border-radius: 50%;
   width: 80px;
   height: 80px;

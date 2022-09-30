@@ -6,6 +6,7 @@ import shallow from 'zustand/shallow';
 import { useGameState } from 'client/game/state';
 import { useLogin } from 'client/hooks/useLogin';
 
+import { colors } from '../colors';
 import { Dialog } from '../common/Dialog';
 import { TextEdit } from '../common/TextEdit';
 import { GameLayout } from '../layout/GameLayout';
@@ -113,7 +114,7 @@ const Label = styled.label`
 
 const Button = styled.button`
   padding: 4px 24px;
-  background-color: #83b3a4;
+  background-color: ${colors.complementary[900]};
   color: white;
   font-size: 12pt;
   border: none;
@@ -121,11 +122,11 @@ const Button = styled.button`
   height: 40px;
 
   &:active {
-    background-color: #89c8b5;
+    background-color: ${colors.complementary[700]};
   }
 
   &:disabled {
-    background-color: #bbb;
+    background-color: ${colors.gray[500]};
   }
 `;
 

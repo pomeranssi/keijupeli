@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import { useGameState } from 'client/game/state';
 
+import { colors } from '../colors';
+
 export const NotificationBar: React.FC = () => {
   const [message, dismiss] = useGameState(s => [s.message, s.clearMessage]);
   if (!message) return null;
@@ -18,7 +20,7 @@ export const NotificationBar: React.FC = () => {
 
 const MessageArea = styled.div`
   position: relative;
-  background-color: #777;
+  background-color: ${colors.gray[700]};
   min-width: 380px;
   max-width: 960px;
   padding: 32px;
@@ -26,12 +28,12 @@ const MessageArea = styled.div`
   border-top-right-radius: 16px;
 
   &.error {
-    background-color: #903647;
+    background-color: ${colors.primary[900]};
     color: white;
   }
 
   &.notification {
-    background-color: #369083;
+    background-color: ${colors.complementary[900]};
     color: white;
   }
 `;
@@ -40,7 +42,7 @@ const CloseIcon = styled.div`
   position: absolute;
   right: 8px;
   top: 8px;
-  background-color: #888;
+  background-color: ${colors.gray[900]};
   width: 32px;
   height: 32px;
   border-radius: 16px;
@@ -51,7 +53,7 @@ const CloseIcon = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: #666;
+    background-color: ${colors.gray[800]};
   }
 `;
 

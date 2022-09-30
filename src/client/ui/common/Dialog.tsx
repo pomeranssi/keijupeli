@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { colors } from '../colors';
+
 export const Dialog: React.FC<
   React.PropsWithChildren<{ title: string; className?: string }>
 > = ({ title, children, className }) => (
@@ -12,7 +14,7 @@ export const Dialog: React.FC<
 
 const Header = styled.div`
   padding: 24px 32px;
-  background-color: #8484a1;
+  background-color: ${colors.primary[700]}77;
   color: white;
   font-size: 14pt;
 `;
@@ -22,5 +24,5 @@ const Content = styled.div`
 `;
 
 const DialogView = styled.div`
-  background-color: #e8e2dd;
+  background-color: ${colors.gray[300]};
 `;

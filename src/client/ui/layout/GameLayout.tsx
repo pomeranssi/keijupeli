@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { almostBlack } from '../colors';
 import { LogoView } from '../common/LogoView';
 import { Toolbar } from '../common/Toolbar';
 import { CategoryList } from '../game/CategoryList';
@@ -32,7 +33,7 @@ const AppMain = styled.div`
   left: 200px;
   right: 0;
   overflow: hidden;
-  background-color: #222;
+  background-color: ${almostBlack};
 
   @media all and (orientation: portrait) {
     top: 200px;
