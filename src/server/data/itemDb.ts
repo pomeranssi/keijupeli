@@ -40,6 +40,18 @@ export async function getItemById(
   return row ? Item.parse(nullsToUndefined(row)) : undefined;
 }
 
+export async function linkItemsById(tx: ITask<any>, itemIds: ObjectId[]) {
+  await Promise.all(
+    itemIds.map((itemId, idx) => {
+      const linkId = itemIds[(idx + 1) % itemIds.length];
+      return tx.none(
+        `UPDATE items SET linked_item=$/linkId/ WHERE id=$/itemId/`,
+        { itemId, linkId }
+      );
+    })
+  );
+}
+
 export async function deleteItemById(
   tx: ITask<any>,
   itemId: ObjectId,

@@ -6,6 +6,7 @@ import { uri } from 'shared/net/urlUtils';
 import { Item, ObjectId, UUID } from 'shared/types';
 import { apiClient } from 'client/game/apiCient';
 import { initializeCategories } from 'client/game/dataInit';
+import { requestLinking } from 'client/game/linkItems';
 import { useGameState } from 'client/game/state';
 import { ItemImageView } from 'client/ui/common/ItemImageView';
 import { getImagePath } from 'client/ui/images';
@@ -16,25 +17,52 @@ import { ItemView } from '../common/ItemView';
 import { UploadImageButton } from '../upload/UploadImageButton';
 
 export const ItemList: React.FC = () => {
-  const [type, categories, toggle, selected, clear, mode, session] =
-    useGameState(
-      s =>
-        [
-          s.selectedCategory,
-          s.categories,
-          s.toggleItem,
-          s.selectedItems,
-          s.clearItems,
-          s.mode,
-          s.session,
-        ] as const,
-      shallow
-    );
+  const [
+    type,
+    categories,
+    toggle,
+    selected,
+    clear,
+    mode,
+    session,
+    linkS,
+    setLinkS,
+  ] = useGameState(
+    s =>
+      [
+        s.selectedCategory,
+        s.categories,
+        s.toggleItem,
+        s.selectedItems,
+        s.clearItems,
+        s.mode,
+        s.session,
+        s.linkSource,
+        s.selectLinkSource,
+      ] as const,
+    shallow
+  );
   const cat = categories[type];
 
   const selectItem = React.useCallback(
-    (item: Item) => (cat ? toggle(cat.type, item) : undefined),
-    [toggle, cat]
+    (item: Item) => {
+      if (!cat) return;
+      if (mode === 'link') {
+        if (
+          linkS &&
+          item.id !== linkS.id &&
+          cat.items.find(i => i.id === linkS.id)
+        ) {
+          // Link
+          return requestLinking(linkS, item);
+        }
+        setLinkS(item.id === linkS?.id ? undefined : item);
+      } else {
+        toggle(cat.type, item);
+      }
+      return;
+    },
+    [toggle, cat, mode, setLinkS, linkS]
   );
 
   const selections = selected[type];
@@ -49,6 +77,7 @@ export const ItemList: React.FC = () => {
         <ItemView
           key={i.id}
           selected={selections?.[i.filename] !== undefined}
+          linkSource={i.id === linkS?.id}
           category={cat}
           item={i}
           onClick={selectItem}

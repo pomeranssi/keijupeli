@@ -12,12 +12,14 @@ import {
 } from 'shared/types';
 import {
   assertDefined,
+  filterObj,
   getRandomInt,
   mapObject,
   recordFromPairs,
   recordSize,
   replaceKey,
   requireDefined,
+  typedKeys,
 } from 'shared/util';
 
 import { GroupedCategoryMap, groupLinkedImages, LinkedItem } from './items';
@@ -46,7 +48,9 @@ export type State = {
   reset(): void;
   toggleRestrictions(): void;
   mode: GameMode;
-  setMode: (mode: GameMode) => void;
+  linkSource?: Item;
+  selectLinkSource(item?: Item): void;
+  setMode(mode: GameMode): void;
 };
 
 export const useGameState = create<State, any>(
@@ -59,12 +63,27 @@ export const useGameState = create<State, any>(
       session: undefined,
 
       mode: 'play',
-      setMode: mode => set({ mode }),
+      setMode: mode => {
+        if (mode === 'play') {
+          set({ mode, linkSource: undefined });
+        } else {
+          set({ mode });
+        }
+      },
+
+      linkSource: undefined,
+      selectLinkSource: linkSource => set({ linkSource }),
 
       setupCategories: categories => {
         const grouped = groupLinkedImages(categories);
         log('Setting categories', grouped);
-        set({ categories: grouped, mode: 'play' });
+        const selections = get().selectedItems;
+        set({
+          categories: grouped,
+          mode: 'play',
+          linkSource: undefined,
+          selectedItems: cleanSelections(selections, grouped),
+        });
       },
 
       selectCategory: selectedCategory => set({ selectedCategory }),
@@ -142,4 +161,19 @@ function getRandomEntriesFor(category: Category): CategoryItems {
 function getRandomItem(category: Category): Item | undefined {
   const i = getRandomInt(category.isEssential ? 0 : -1, category.items.length);
   return i >= 0 ? category.items[i] : undefined;
+}
+
+function cleanSelections(
+  selections: SelectedItems,
+  categories: GroupedCategoryMap
+): SelectedItems {
+  return recordFromPairs(
+    typedKeys(selections).map(k => [
+      k,
+      filterObj(
+        selections[k],
+        item => categories[k]?.items.find(i => i.id === item.id) !== undefined
+      ),
+    ])
+  );
 }

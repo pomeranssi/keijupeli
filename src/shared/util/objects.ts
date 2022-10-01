@@ -46,6 +46,17 @@ export function mapObject<O extends object, V>(
   return res;
 }
 
+export function objectToPairs<O extends object>(o: O): [keyof O, O[keyof O]][] {
+  return typedKeys(o).map(k => [k, o[k]]);
+}
+
+export function filterObj<O extends object>(
+  o: O,
+  f: (v: O[keyof O], key: keyof O) => boolean
+): O {
+  return recordFromPairs(objectToPairs(o).filter(([k, v]) => f(v, k))) as any;
+}
+
 export function removeFromRecord<T, K extends keyof T>(
   o: T,
   key: K

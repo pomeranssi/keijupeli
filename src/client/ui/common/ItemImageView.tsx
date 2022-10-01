@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { Item } from 'shared/types';
 
+import { colors } from '../colors';
 import { getItemImagePath } from '../images';
 
 interface ItemImageViewProps {
@@ -81,7 +82,12 @@ const Container = styled.div`
 
   &.selected,
   &.selected > .background {
-    box-shadow: inset 0 0 0 5px rgba(255, 153, 153, 0.7);
+    box-shadow: inset 0 0 0 5px ${colors.primary[200]}bb;
+  }
+
+  &.link-source,
+  &.link-source > .background {
+    box-shadow: inset 0 0 0 5px ${colors.complementary[400]}bb;
   }
 
   @media all and (orientation: portrait) {

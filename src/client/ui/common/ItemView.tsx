@@ -10,6 +10,7 @@ interface ItemViewProps {
   category: Category;
   missingImage?: string;
   selected?: boolean;
+  linkSource?: boolean;
   onClick?: (item?: Item) => void;
   cornerIcon?: any;
   className?: string;
@@ -24,6 +25,7 @@ export const ItemView: React.FC<React.PropsWithChildren<ItemViewProps>> = ({
   onClick,
   cornerIcon,
   className,
+  linkSource,
 }) => {
   const image = getThumbForItem(item, missingImage, category.isBackground);
   return (
@@ -31,7 +33,7 @@ export const ItemView: React.FC<React.PropsWithChildren<ItemViewProps>> = ({
       image={image}
       onClick={onClick ? () => onClick?.(item) : undefined}
       selected={selected}
-      className={`ItemView ${className}`}
+      className={`ItemView ${className} ${linkSource ? 'link-source' : ''}`}
     >
       {children}
       {cornerIcon ? <Corner>{cornerIcon}</Corner> : null}

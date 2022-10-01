@@ -1,6 +1,8 @@
 import { Router } from 'express';
 
+import { ItemLinkingBody } from 'shared/types';
 import { getItems } from 'server/data/itemDb';
+import { linkItems } from 'server/data/itemLinkingService';
 import { deleteItem, getItemsByCategory } from 'server/data/itemService';
 import { requireSessionMiddleware } from 'server/server/sessionMiddleware';
 import { createValidatingRouter } from 'server/server/validatingRouter';
@@ -24,6 +26,12 @@ export function createItemApi() {
 
   // Session required after this point
   api.router.use(requireSessionMiddleware);
+
+  // Link item
+  // POST /api/item/link
+  api.postTx('/link', { body: ItemLinkingBody }, (tx, { body, session }) =>
+    linkItems(tx, session, body.items)
+  );
 
   // Delete item
   // DELETE /api/item/:itemId

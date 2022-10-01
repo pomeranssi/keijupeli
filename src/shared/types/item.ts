@@ -55,3 +55,6 @@ export type Category = z.infer<typeof Category>;
 
 export const CategoryMap = z.record(CategoryType, Category);
 export type CategoryMap = z.infer<typeof CategoryMap>;
+
+export const ItemLinkingBody = z.object({ items: z.array(ObjectId) });
+export type ItemLinkingBody = z.infer<typeof ItemLinkingBody>;
