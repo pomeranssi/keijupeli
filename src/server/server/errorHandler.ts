@@ -18,7 +18,7 @@ export function createErrorHandler(): ExpressErrorMiddleware {
     log(
       `${req.method} ${req.path} -> ${status}:`,
       logUserErrors || !isUserError(status)
-        ? JSON.stringify(err, null, 2)
+        ? JSON.stringify({ ...err, message: err.message }, null, 2)
         : err.message
     );
     const data: ErrorInfo = {

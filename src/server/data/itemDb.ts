@@ -40,13 +40,19 @@ export async function getItemById(
   return row ? Item.parse(nullsToUndefined(row)) : undefined;
 }
 
-export async function linkItemsById(tx: ITask<any>, itemIds: ObjectId[]) {
+export async function linkItemsById(
+  tx: ITask<any>,
+  itemIds: ObjectId[],
+  thumbnail: string
+) {
   await Promise.all(
     itemIds.map((itemId, idx) => {
       const linkId = itemIds[(idx + 1) % itemIds.length];
       return tx.none(
-        `UPDATE items SET linked_item=$/linkId/ WHERE id=$/itemId/`,
-        { itemId, linkId }
+        `UPDATE items
+          SET linked_item=$/linkId/, thumbnail=$/thumbnail/
+          WHERE id=$/itemId/`,
+        { itemId, linkId, thumbnail }
       );
     })
   );

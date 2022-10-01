@@ -1,13 +1,17 @@
 import debug from 'debug';
+import path from 'path';
 import { ITask } from 'pg-promise';
+import sharp from 'sharp';
 
 import {
   AuthenticationError,
   GameError,
+  Item,
   ObjectId,
   SessionInfo,
 } from 'shared/types';
 import { assertDefined } from 'shared/util';
+import { config } from 'server/config';
 
 import { getItemById, linkItemsById } from './itemDb';
 
@@ -43,5 +47,53 @@ export async function linkItems(
   }
 
   log('Linking images', i1, i2);
-  await linkItemsById(tx, [i1.id, i2.id]);
+  const thumbnail = i1.thumbnail ?? `${i1.category}-${i1.id}-tn.png`;
+  const thumbpath = path.join(config.uploadPath, thumbnail);
+  await createLinkedThumbnail([i1, i2], thumbpath);
+  await linkItemsById(tx, [i1.id, i2.id], thumbnail);
+}
+
+async function createLinkedThumbnail(items: Item[], thumbfile: string) {
+  const combined = await sharp({
+    create: {
+      width: 1024,
+      height: 1024,
+      channels: 4,
+      background: 'transparent',
+    },
+  })
+    .composite(
+      await Promise.all(
+        items.map(async i => ({
+          input: await getAlignedImage(i),
+          gravity: 'northwest',
+        }))
+      )
+    )
+    .png()
+    .toBuffer();
+  await sharp(combined)
+    .trim()
+    .resize({
+      width: 144,
+      height: 144,
+      fit: 'contain',
+      background: 'transparent',
+    })
+    .png()
+    .toFile(thumbfile);
+}
+
+function getAlignedImage(item: Item) {
+  return sharp(path.join(config.uploadPath, item.filename))
+    .resize({
+      width: item.width,
+      height: item.height,
+    })
+    .extend({
+      top: item.offsetY,
+      left: item.offsetX,
+      background: 'transparent',
+    })
+    .toBuffer();
 }
