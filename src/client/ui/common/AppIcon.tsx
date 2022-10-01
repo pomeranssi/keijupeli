@@ -36,12 +36,30 @@ const AppIconView = styled.div`
     background-color: ${colors.analogous1[400]}cc;
   }
   &.delete {
-    background-color: ${colors.primary[200]}cc;
+    background-color: ${colors.gray[800]}cc;
+    & > .Icon {
+      filter: grayscale(1);
+    }
   }
   &.delete.allow-delete {
     background-color: ${colors.primary[600]}cc;
+    & > .Icon {
+      filter: initial;
+    }
   }
 
+  &.link {
+    background-color: ${colors.gray[800]}cc;
+    & > .Icon {
+      filter: grayscale(1);
+    }
+  }
+  &.link.linking {
+    background-color: ${colors.complementary[200]}cc;
+    & > .Icon {
+      filter: initial;
+    }
+  }
   @media all and (orientation: portrait) {
     text-align: center;
     margin-bottom: 0;

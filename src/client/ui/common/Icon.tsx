@@ -10,8 +10,12 @@ export type IconProps = {
   onClick?: (e: React.SyntheticEvent) => void;
 };
 
-export const Icon: React.FC<IconProps> = ({ icon, ...rest }) => (
-  <IconImage src={getImagePath(icon)} {...rest} />
+export const Icon: React.FC<IconProps> = ({ icon, className, ...rest }) => (
+  <IconImage
+    src={getImagePath(icon)}
+    className={`Icon ${className}`}
+    {...rest}
+  />
 );
 
 export const IconImage = styled.img`

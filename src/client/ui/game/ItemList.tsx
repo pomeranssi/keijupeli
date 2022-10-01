@@ -16,7 +16,7 @@ import { ItemView } from '../common/ItemView';
 import { UploadImageButton } from '../upload/UploadImageButton';
 
 export const ItemList: React.FC = () => {
-  const [type, categories, toggle, selected, clear, allowDelete, session] =
+  const [type, categories, toggle, selected, clear, mode, session] =
     useGameState(
       s =>
         [
@@ -25,7 +25,7 @@ export const ItemList: React.FC = () => {
           s.toggleItem,
           s.selectedItems,
           s.clearItems,
-          s.allowDelete,
+          s.mode,
           s.session,
         ] as const,
       shallow
@@ -53,7 +53,7 @@ export const ItemList: React.FC = () => {
           item={i}
           onClick={selectItem}
           cornerIcon={
-            allowDelete ? (
+            mode === 'delete' ? (
               <AppIcon
                 icon="icon-delete.png"
                 title="Poista"

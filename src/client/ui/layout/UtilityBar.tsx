@@ -16,8 +16,8 @@ export const UtilityBar: React.FC = () => {
     toggleRestrictions,
     restricted,
     session,
-    del,
-    toggleDel,
+    mode,
+    setMode,
   ] = useGameState(
     s => [
       s.reset,
@@ -25,8 +25,8 @@ export const UtilityBar: React.FC = () => {
       s.toggleRestrictions,
       s.restricted,
       s.session,
-      s.allowDelete,
-      s.toggleDelete,
+      s.mode,
+      s.setMode,
     ],
     shallow
   );
@@ -78,12 +78,20 @@ export const UtilityBar: React.FC = () => {
         />
       ) : null}
       {session ? (
-        <AppIcon
-          className={`delete ${del ? 'allow-delete' : ''}`}
-          onClick={toggleDel}
-          icon="icon-delete.png"
-          title={del ? 'Peruuta' : 'Poista kuvia'}
-        />
+        <>
+          <AppIcon
+            className={`link ${mode === 'link' ? 'linking' : ''}`}
+            onClick={() => setMode(mode === 'link' ? 'play' : 'link')}
+            icon="icon-link.png"
+            title="Yhdistä kuvia"
+          />
+          <AppIcon
+            className={`delete ${mode === 'delete' ? 'allow-delete' : ''}`}
+            onClick={() => setMode(mode === 'delete' ? 'play' : 'delete')}
+            icon="icon-delete.png"
+            title="Poista kuvia"
+          />
+        </>
       ) : null}
     </Container>
   );

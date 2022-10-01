@@ -25,6 +25,7 @@ import { GroupedCategoryMap, groupLinkedImages, LinkedItem } from './items';
 const log = debug('client:state');
 
 type Filename = string;
+export type GameMode = 'play' | 'delete' | 'link';
 
 export type CategoryItems = Record<Filename, LinkedItem>;
 
@@ -44,8 +45,8 @@ export type State = {
   randomize(): void;
   reset(): void;
   toggleRestrictions(): void;
-  allowDelete: boolean;
-  toggleDelete: () => void;
+  mode: GameMode;
+  setMode: (mode: GameMode) => void;
 };
 
 export const useGameState = create<State, any>(
@@ -57,18 +58,18 @@ export const useGameState = create<State, any>(
       restricted: true,
       session: undefined,
 
-      allowDelete: false,
-      toggleDelete: () => set({ allowDelete: !get().allowDelete }),
+      mode: 'play',
+      setMode: mode => set({ mode }),
 
       setupCategories: categories => {
         const grouped = groupLinkedImages(categories);
         log('Setting categories', grouped);
-        set({ categories: grouped });
+        set({ categories: grouped, mode: 'play' });
       },
 
       selectCategory: selectedCategory => set({ selectedCategory }),
 
-      setSession: session => set({ session, allowDelete: false }),
+      setSession: session => set({ session, mode: 'play' }),
 
       toggleItem: (type, item) => {
         const { categories, selectedItems, restricted } = get();
