@@ -1,4 +1,5 @@
 import { AuthenticationError, GameError, Session } from 'shared/types';
+import { useNotifications } from 'client/game/notifications';
 import { useGameState } from 'client/game/state';
 
 import { FetchClient, HttpMethod, MethodInit } from './fetchClient';
@@ -29,9 +30,7 @@ export class ApiClient {
             return this[type](path, params, step + 1);
           }
         } else {
-          useGameState
-            .getState()
-            .showMessage({ message: `Virhe: ${e.message}`, type: 'error' });
+          useNotifications.getState().error(`Virhe: ${e.message}`);
         }
         throw e;
       }
@@ -65,10 +64,9 @@ async function tryToExtendSession(client: FetchClient) {
       // Refresh token was not valid
       // Clear old session data from state
       useGameState.getState().setSession(undefined);
-      useGameState.getState().showMessage({
-        message: `Istuntosi vanheni ja sinut on kirjattu ulos`,
-        type: 'error',
-      });
+      useNotifications
+        .getState()
+        .error(`Istuntosi vanheni ja sinut on kirjattu ulos`, 5);
     }
     // Some other error, not related to authentication?
     throw e;

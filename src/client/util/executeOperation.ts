@@ -1,5 +1,5 @@
 import { MaybePromise } from 'shared/types';
-import { useGameState } from 'client/game/state';
+import { useNotifications } from 'client/game/notifications';
 
 type ExecutionOptions<T> = {
   progress?: string;
@@ -21,9 +21,7 @@ export async function executeOperation<T>(
 
     // Show notification during operation
     if (options.progress) {
-      useGameState
-        .getState()
-        .showMessage({ message: options.progress, type: 'notification' });
+      useNotifications.getState().notify(options.progress);
     }
     const res: T = await (typeof f === 'function' ? f() : f);
 
@@ -34,22 +32,19 @@ export async function executeOperation<T>(
 
     // Show success notification
     if (options.success) {
-      useGameState.getState().showMessage({
-        message:
+      useNotifications
+        .getState()
+        .notify(
           typeof options.success === 'function'
             ? options.success(res)
-            : options.success,
-        type: 'notification',
-      });
+            : options.success
+        );
     }
 
     return res;
   } catch (e: any) {
     // Show error notification
-    useGameState.getState().showMessage({
-      message: `Hups! Joku meni vikaan`,
-      type: 'error',
-    });
+    useNotifications.getState().error(`Hups! Joku meni vikaan`);
 
     if (options.throw) {
       throw e;

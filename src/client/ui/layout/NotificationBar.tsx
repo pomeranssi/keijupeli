@@ -1,12 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { useGameState } from 'client/game/state';
+import { useNotifications } from 'client/game/notifications';
 
 import { colors } from '../colors';
 
 export const NotificationBar: React.FC = () => {
-  const [message, dismiss] = useGameState(s => [s.message, s.clearMessage]);
+  const [message, dismiss] = useNotifications(s => [s.message, s.clearMessage]);
   if (!message) return null;
   return (
     <Container>
