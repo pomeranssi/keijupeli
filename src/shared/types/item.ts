@@ -37,6 +37,7 @@ export const Item = ItemData.extend({
   public: z.boolean(),
   isDefault: z.boolean(),
   zIndex: z.number().int().nonnegative().optional(),
+  linkedItem: ObjectId.optional(),
 });
 export type Item = z.infer<typeof Item>;
 

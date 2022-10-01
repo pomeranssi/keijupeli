@@ -20,16 +20,18 @@ import {
   requireDefined,
 } from 'shared/util';
 
+import { GroupedCategoryMap, groupLinkedImages, LinkedItem } from './items';
+
 const log = debug('client:state');
 
 type Filename = string;
 
-export type CategoryItems = Record<Filename, Item>;
+export type CategoryItems = Record<Filename, LinkedItem>;
 
 export type SelectedItems = Record<CategoryType, CategoryItems>;
 
 export type State = {
-  categories: CategoryMap;
+  categories: GroupedCategoryMap;
   selectedItems: SelectedItems;
   selectedCategory: CategoryType;
   restricted: boolean;
@@ -59,8 +61,9 @@ export const useGameState = create<State, any>(
       toggleDelete: () => set({ allowDelete: !get().allowDelete }),
 
       setupCategories: categories => {
-        log('Setting categories', categories);
-        set({ categories });
+        const grouped = groupLinkedImages(categories);
+        log('Setting categories', grouped);
+        set({ categories: grouped });
       },
 
       selectCategory: selectedCategory => set({ selectedCategory }),

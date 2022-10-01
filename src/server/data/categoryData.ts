@@ -21,7 +21,7 @@ export const BaseCategoryData: Record<
     imageFileName: 'images/category/category-body.png',
   },
   crown: {
-    title: 'Hatut',
+    title: 'Päähineet',
     isBackground: false,
     isEssential: false,
     isUnique: false,
@@ -77,7 +77,7 @@ export const BaseCategoryData: Record<
     imageFileName: 'images/category/category-legs.png',
   },
   shoes: {
-    title: 'Kengät',
+    title: 'Jalkineet',
     isBackground: false,
     isEssential: false,
     isUnique: true,

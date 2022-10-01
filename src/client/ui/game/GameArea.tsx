@@ -42,14 +42,26 @@ const DollImages: React.FC<{ scale: number }> = ({ scale }) => {
           Object.keys(selectedItems[category.type] ?? {}).map(fn => {
             const item = selectedItems[category.type]?.[fn];
             return item ? (
-              <ItemElement
-                key={item.filename}
-                item={item}
-                category={category}
-                scale={scale}
-                onClick={() => toggleItem(category.type, item)}
-                restricted={restricted}
-              />
+              <>
+                <ItemElement
+                  key={item.id}
+                  item={item}
+                  category={category}
+                  scale={scale}
+                  onClick={() => toggleItem(category.type, item)}
+                  restricted={restricted}
+                />
+                {item.linked?.map(l => (
+                  <ItemElement
+                    key={l.id}
+                    item={l}
+                    category={category}
+                    scale={scale}
+                    onClick={() => toggleItem(category.type, item)}
+                    restricted={restricted}
+                  />
+                )) ?? null}
+              </>
             ) : undefined;
           })
         )

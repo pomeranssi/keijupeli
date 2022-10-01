@@ -7,6 +7,7 @@ const ItemFields = `--sql
   id, user_id AS "userId", category, public,
   is_default AS "isDefault", filename, thumbnail, original_filename AS "originalFilename",
   width, height, offset_x as "offsetX", offset_y as "offsetY",
+  linked_item as "linkedItem",
   z_index as "zIndex"
 `;
 

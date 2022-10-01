@@ -47,7 +47,7 @@ export const ItemList: React.FC = () => {
       />
       {cat.items.map(i => (
         <ItemView
-          key={i.filename}
+          key={i.id}
           selected={selections?.[i.filename] !== undefined}
           category={cat}
           item={i}
