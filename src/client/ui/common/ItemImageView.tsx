@@ -2,7 +2,6 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { Item } from 'shared/types';
-import { spaced } from 'shared/util';
 
 import { getItemImagePath } from '../images';
 
@@ -16,10 +15,15 @@ interface ItemImageViewProps {
 export const ItemImageView: React.FC<
   React.PropsWithChildren<ItemImageViewProps>
 > = ({ image, children, selected, onClick, className }) => {
-  const img = typeof image === 'string' ? <ItemImage image={image} /> : image;
+  const img =
+    typeof image === 'string' ? (
+      <ItemImage className="ItemImage" image={image} />
+    ) : (
+      image
+    );
   return (
     <Container
-      className={spaced`${className} ${selected ? 'selected' : ''}`}
+      className={`ItemImageView ${className} ${selected ? 'selected' : ''}`}
       onClick={onClick}
     >
       {img}
@@ -35,7 +39,7 @@ export function getThumbForItem(
 ): React.ReactNode {
   return item || fallback ? (
     <ItemImage
-      className={background ? 'background' : undefined}
+      className={`ItemImage ${background ? 'background' : ''}`}
       image={getItemImagePath(item?.thumbnail) ?? fallback}
     />
   ) : null;

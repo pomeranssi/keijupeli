@@ -31,7 +31,7 @@ export const ItemView: React.FC<React.PropsWithChildren<ItemViewProps>> = ({
       image={image}
       onClick={onClick ? () => onClick?.(item) : undefined}
       selected={selected}
-      className={className}
+      className={`ItemView ${className}`}
     >
       {children}
       {cornerIcon ? <Corner>{cornerIcon}</Corner> : null}
