@@ -42,9 +42,8 @@ const DollImages: React.FC<{ scale: number }> = ({ scale }) => {
           Object.keys(selectedItems[category.type] ?? {}).map(fn => {
             const item = selectedItems[category.type]?.[fn];
             return item ? (
-              <>
+              <React.Fragment key={item.id}>
                 <ItemElement
-                  key={item.id}
                   item={item}
                   category={category}
                   scale={scale}
@@ -61,8 +60,8 @@ const DollImages: React.FC<{ scale: number }> = ({ scale }) => {
                     restricted={restricted}
                   />
                 )) ?? null}
-              </>
-            ) : undefined;
+              </React.Fragment>
+            ) : null;
           })
         )
         .filter(i => i !== undefined)}
