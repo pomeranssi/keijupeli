@@ -26,6 +26,7 @@ const MessageArea = styled.div`
   padding: 32px;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
+  pointer-events: auto;
 
   &.error {
     background-color: ${colors.primary[900]};
@@ -65,4 +66,5 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  pointer-events: none;
 `;
