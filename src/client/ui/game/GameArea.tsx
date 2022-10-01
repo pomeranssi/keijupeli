@@ -39,8 +39,8 @@ const DollImages: React.FC<{ scale: number }> = ({ scale }) => {
     <Content scale={scale}>
       {Object.values(categories)
         .map(category =>
-          Object.keys(selectedItems[category.type]).map(fn => {
-            const item = selectedItems[category.type][fn];
+          Object.keys(selectedItems[category.type] ?? {}).map(fn => {
+            const item = selectedItems[category.type]?.[fn];
             return item ? (
               <ItemElement
                 key={item.filename}

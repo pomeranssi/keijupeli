@@ -29,7 +29,9 @@ export const CategoryList: React.FC = () => {
       {Object.values(categories).map(category => (
         <CategoryItem
           className={
-            (selectedItems[category.type] ? 'has-item' : 'missing') +
+            (Object.keys(selectedItems[category.type] ?? {}).length > 0
+              ? 'has-item'
+              : 'missing') +
             (selectedCategory === category.type ? ' selected' : '')
           }
           key={category.type}
@@ -58,7 +60,8 @@ const CategoryItem = styled.div`
     background: rgba(255, 255, 255, 0.2);
   }
   &.missing > .ItemView > .ItemImage {
-    opacity: 0.5;
+    opacity: 0.8;
+    filter: grayscale(0.9);
   }
   &.missing > .ItemView > .ItemImage.background {
     opacity: 0.3;

@@ -7,7 +7,7 @@ export const BaseCategoryData: Record<
   background: {
     title: 'Taustat',
     isBackground: true,
-    imageFileName: 'images/category/category-background.jpg',
+    imageFileName: 'images/category/category-background.png',
     isEssential: false,
     isUnique: true,
     isMovable: false,
@@ -74,7 +74,7 @@ export const BaseCategoryData: Record<
     isEssential: false,
     isUnique: false,
     isMovable: false,
-    imageFileName: 'images/category/category-leg.png',
+    imageFileName: 'images/category/category-legs.png',
   },
   shoes: {
     title: 'Kengät',
@@ -91,5 +91,13 @@ export const BaseCategoryData: Record<
     isUnique: false,
     isMovable: true,
     imageFileName: 'images/category/category-other.png',
+  },
+  pets: {
+    title: 'Lemmikit',
+    isBackground: false,
+    isEssential: false,
+    isUnique: false,
+    isMovable: true,
+    imageFileName: 'images/category/category-pets.png',
   },
 };

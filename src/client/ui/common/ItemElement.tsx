@@ -59,16 +59,19 @@ const Image = styled.img`
   &.necklace {
     z-index: 8;
   }
+  &.eyes {
+    z-index: 20;
+  }
   &.hair {
     z-index: 30;
-  }
-  &.eyes {
-    z-index: 40;
   }
   &.crown {
     z-index: 50;
   }
   &.other {
     z-index: 60;
+  }
+  &.pets {
+    z-index: 70;
   }
 `;

@@ -14,6 +14,7 @@ export const CategoryType = z.enum([
   'legs',
   'shoes',
   'other',
+  'pets',
 ]);
 export type CategoryType = z.infer<typeof CategoryType>;
 export const CategoryTypes = CategoryType.options;
