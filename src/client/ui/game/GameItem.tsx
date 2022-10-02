@@ -45,11 +45,11 @@ const CornerItem: React.FC<{
 }> = ({ mode, item, category }) => {
   switch (mode) {
     case 'delete':
-      return item.linkedItem ? null : (
+      return (
         <AppIcon
           icon="icon-delete.png"
           title="Poista"
-          className="delete active"
+          className={`delete ${item.linkedItem ? 'inactive' : 'active'}`}
           onClick={e => clickCorner(e, item)}
         />
       );
@@ -121,6 +121,10 @@ function clickSelect(item: LinkedItem) {
 }
 
 const deleteItem = async (item: LinkedItem) => {
+  if (item.linked) {
+    alert('Ei voida poistaa yhdistettyjä kuvia. Pura yhdistys ensin!');
+    return;
+  }
   const sessionId = useGameState.getState().session?.id;
   if (!sessionId) return;
 
