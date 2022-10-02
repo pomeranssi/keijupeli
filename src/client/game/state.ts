@@ -40,7 +40,7 @@ export type State = {
   restricted: boolean;
   session?: Session;
   setSession(s: Session | undefined): void;
-  setupCategories(categories: CategoryMap): void;
+  setupCategories(categories: CategoryMap, resetMode?: boolean): void;
   selectCategory(type: CategoryType): void;
   toggleItem(type: CategoryType, item: Item): void;
   clearItems(type: CategoryType): void;
@@ -74,13 +74,14 @@ export const useGameState = create<State, any>(
       linkSource: undefined,
       selectLinkSource: linkSource => set({ linkSource }),
 
-      setupCategories: categories => {
+      setupCategories: (categories, resetMode = false) => {
         const grouped = groupLinkedImages(categories);
         log('Setting categories', grouped);
-        const selections = get().selectedItems;
+        const state = get();
+        const selections = state.selectedItems;
         set({
           categories: grouped,
-          mode: 'play',
+          mode: resetMode ? 'play' : state.mode,
           linkSource: undefined,
           selectedItems: cleanSelections(selections, grouped),
         });

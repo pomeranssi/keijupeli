@@ -114,3 +114,16 @@ export async function insertItem(
   );
   return Item.parse(nullsToUndefined(res));
 }
+
+export async function setItemZIndex(
+  tx: ITask<any>,
+  itemId: ObjectId,
+  zIndex: number | undefined
+): Promise<void> {
+  await tx.none(
+    `UPDATE items
+      SET z_index=$/zIndex/
+      WHERE id=$/itemId/`,
+    { itemId, zIndex }
+  );
+}

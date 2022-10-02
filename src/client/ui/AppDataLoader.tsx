@@ -9,7 +9,7 @@ export const AppDataLoader: React.FC<React.PropsWithChildren> = ({
   const session = useGameState(s => s.session);
   React.useEffect(() => {
     // Reload whenever categories change
-    void initializeCategories();
+    void initializeCategories(true);
   }, [session?.id]);
   return <>{children}</>;
 };

@@ -1,9 +1,13 @@
 import { Router } from 'express';
 
-import { ItemLinkingBody } from 'shared/types';
+import { ItemLinkingBody, ItemZIndexBoxy } from 'shared/types';
 import { getItems } from 'server/data/itemDb';
 import { linkItems, unlinkItem } from 'server/data/itemLinkingService';
-import { deleteItem, getItemsByCategory } from 'server/data/itemService';
+import {
+  deleteItem,
+  getItemsByCategory,
+  setZIndex,
+} from 'server/data/itemService';
 import { requireSessionMiddleware } from 'server/server/sessionMiddleware';
 import { createValidatingRouter } from 'server/server/validatingRouter';
 
@@ -28,6 +32,15 @@ export function createItemApi() {
   api.router.use(requireSessionMiddleware);
 
   // Link item
+  // POST /api/item/zindex/:itemId
+  api.postTx(
+    '/zindex/:itemId',
+    { body: ItemZIndexBoxy },
+    (tx, { body, session, params }) =>
+      setZIndex(tx, session, params.itemId, body.zIndex)
+  );
+
+  // Link item
   // POST /api/item/link
   api.postTx('/link', { body: ItemLinkingBody }, (tx, { body, session }) =>
     linkItems(tx, session, body.items)
@@ -42,7 +55,7 @@ export function createItemApi() {
   // Delete item
   // DELETE /api/item/:itemId
   api.deleteTx('/:itemId', {}, (tx, { params, session }) =>
-    deleteItem(tx, params.itemId, session)
+    deleteItem(tx, session, params.itemId)
   );
 
   return api.router;

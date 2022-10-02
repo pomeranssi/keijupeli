@@ -63,3 +63,8 @@ export type CategoryMap = z.infer<typeof CategoryMap>;
 
 export const ItemLinkingBody = z.object({ items: z.array(ObjectId) });
 export type ItemLinkingBody = z.infer<typeof ItemLinkingBody>;
+
+export const ItemZIndexBoxy = z.object({
+  zIndex: z.number().int().nonnegative().optional(),
+});
+export type ItemZIndexBoxy = z.infer<typeof ItemZIndexBoxy>;

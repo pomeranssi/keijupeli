@@ -7,11 +7,11 @@ import { useGameState } from './state';
 
 const log = debug('client:init');
 
-export async function initializeCategories() {
+export async function initializeCategories(resetMode?: boolean) {
   const sessionId = useGameState.getState().session?.id;
   log(`Initializing data for session ${sessionId}`);
   const categories = await getCategories(sessionId);
-  useGameState.getState().setupCategories(categories);
+  useGameState.getState().setupCategories(categories, resetMode);
 }
 
 const getCategories = (sessionId?: string) =>

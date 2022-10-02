@@ -50,7 +50,7 @@ const CornerItem: React.FC<{
           icon="icon-delete.png"
           title="Poista"
           className={`delete ${item.linkedItem ? 'inactive' : 'active'}`}
-          onClick={e => clickCorner(e, item)}
+          onClick={e => clickCorner(e, item, category)}
         />
       );
     case 'link':
@@ -78,12 +78,18 @@ function clickItem(item: LinkedItem, category: Category) {
   switch (mode) {
     case 'link':
       return clickLink(item, category, linkSource);
+    case 'layers':
+      return adjustLayers(item, category);
     default:
       return clickSelect(item);
   }
 }
 
-function clickCorner(e: React.SyntheticEvent<any>, item: LinkedItem) {
+function clickCorner(
+  e: React.SyntheticEvent<any>,
+  item: LinkedItem,
+  category: Category
+) {
   e.preventDefault();
   e.stopPropagation();
 
@@ -93,7 +99,7 @@ function clickCorner(e: React.SyntheticEvent<any>, item: LinkedItem) {
     case 'delete':
       return deleteItem(item);
     default:
-      return;
+      return clickItem(item, category);
   }
 }
 
@@ -135,8 +141,25 @@ const deleteItem = async (item: LinkedItem) => {
   });
 };
 
-const deleteItemFromServer = (sessionId: UUID, itemId: ObjectId) =>
-  apiClient.delete(uri`/item/${itemId}`, { sessionId });
+const adjustLayers = async (item: LinkedItem, category: Category) => {
+  const sessionId = useGameState.getState().session?.id;
+  if (!sessionId) return;
+
+  const zIndex = prompt(
+    `Mihin kerrokseen kuva siirretään? Nykyinen taso on ${
+      item.zIndex ?? category.zIndex
+    }`
+  );
+  if (!zIndex) return;
+
+  await executeOperation(
+    () => setItemLayer(sessionId, item.id, Number(zIndex)),
+    {
+      success: 'Taso muutettu',
+      postProcess: initializeCategories,
+    }
+  );
+};
 
 const CustomIcon = styled(AppIconView)`
   width: 64px;
@@ -144,3 +167,9 @@ const CustomIcon = styled(AppIconView)`
   font-size: 40px;
   color: black;
 `;
+
+const deleteItemFromServer = (sessionId: UUID, itemId: ObjectId) =>
+  apiClient.delete(uri`/item/${itemId}`, { sessionId });
+
+const setItemLayer = (sessionId: UUID, itemId: ObjectId, zIndex: number) =>
+  apiClient.post(uri`/item/zindex/${itemId}`, { sessionId, body: { zIndex } });
