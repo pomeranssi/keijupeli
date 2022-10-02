@@ -12,9 +12,10 @@ import {
 } from 'shared/types';
 import {
   assertDefined,
-  filterObj,
   getRandomInt,
+  isDefined,
   mapObject,
+  objectToPairs,
   recordFromPairs,
   recordSize,
   replaceKey,
@@ -171,9 +172,13 @@ function cleanSelections(
   return recordFromPairs(
     typedKeys(selections).map(k => [
       k,
-      filterObj(
-        selections[k],
-        item => categories[k]?.items.find(i => i.id === item.id) !== undefined
+      recordFromPairs(
+        objectToPairs(selections[k])
+          .map<[string, LinkedItem] | undefined>(([x, item]) => {
+            const mapped = categories[k]?.items.find(i => i.id === item.id);
+            return mapped ? [x, mapped] : undefined;
+          })
+          .filter(isDefined)
       ),
     ])
   );
