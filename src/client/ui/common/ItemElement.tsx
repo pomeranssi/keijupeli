@@ -17,23 +17,21 @@ export const ItemElement: React.FC<ItemElementProps> = ({
   item,
   category,
   onClick,
-}) => {
-  return (
-    <Image
-      style={{
-        left: item.offsetX,
-        top: item.offsetY,
-        zIndex: item.zIndex,
-        width: item.width,
-        height: item.height,
-      }}
-      src={getItemImagePath(item.filename)}
-      className={category.type}
-      onClick={onClick}
-      draggable={false}
-    />
-  );
-};
+}) => (
+  <Image
+    style={{
+      left: item.offsetX,
+      top: item.offsetY,
+      zIndex: item.zIndex,
+      width: item.width,
+      height: item.height,
+    }}
+    src={getItemImagePath(item.filename)}
+    className={category.type}
+    onClick={onClick}
+    draggable={false}
+  />
+);
 
 const Image = styled.img`
   position: absolute;

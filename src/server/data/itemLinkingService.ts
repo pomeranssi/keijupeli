@@ -13,10 +13,15 @@ import {
 import { assertDefined } from 'shared/util';
 import { config } from 'server/config';
 
-import { unlinkImage } from './images';
-import { getItemById, linkItemsById, unlinkItemsById } from './itemDb';
+import { deleteImageFile } from './images';
+import {
+  getItemById,
+  linkItemsById,
+  setItemThumbnail,
+  unlinkItemsById,
+} from './itemDb';
 import { requireItem } from './itemService';
-import { writeThumbnail } from './thumbnailService';
+import { resetThumbnail, writeThumbnail } from './thumbnailService';
 
 const log = debug('server:item-linking');
 
@@ -51,11 +56,14 @@ export async function linkItems(
 
   log('Linking images', i1, i2);
   const thumbnail = `${i1.category}-${i1.id}-${i2.id}-tn.png`;
+  await linkItemsById(tx, [i1.id, i2.id]);
+
   await createLinkedThumbnail([i1, i2], thumbnail);
-  await linkItemsById(tx, [i1.id, i2.id], thumbnail);
+  await setItemThumbnail(tx, i1.id, thumbnail);
+  await setItemThumbnail(tx, i2.id, thumbnail);
   // Delete old thumbnails
-  await unlinkImage(thumbnail !== i1.thumbnail ? i1.thumbnail : undefined);
-  await unlinkImage(thumbnail !== i2.thumbnail ? i2.thumbnail : undefined);
+  await deleteImageFile(thumbnail !== i1.thumbnail ? i1.thumbnail : undefined);
+  await deleteImageFile(thumbnail !== i2.thumbnail ? i2.thumbnail : undefined);
 }
 
 async function createLinkedThumbnail(items: Item[], thumbnail: string) {
@@ -121,4 +129,6 @@ export async function unlinkItem(
   requireItem(linked);
 
   await unlinkItemsById(tx, [item.id, linked.id]);
+  await resetThumbnail(tx, item);
+  await resetThumbnail(tx, linked);
 }

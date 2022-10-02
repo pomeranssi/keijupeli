@@ -13,12 +13,14 @@ export function getFullImagePath(filename: string) {
 /**
  * @param filename just the filename, or may be a full path
  */
-export async function unlinkImage(filename: string | undefined) {
+export async function deleteImageFile(filename: string | undefined) {
   if (!filename) return;
   try {
-    await unlink(
-      filename.includes('/') ? filename : path.join(config.uploadPath, filename)
-    );
+    const fullPath = filename.includes('/')
+      ? filename
+      : path.join(config.uploadPath, filename);
+    log(`Deleting image ${fullPath}`);
+    await unlink(fullPath);
   } catch (e) {
     log(`Warning: Could not delete image file ${filename}`, e);
   }

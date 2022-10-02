@@ -40,28 +40,37 @@ export async function getItemById(
   return row ? Item.parse(nullsToUndefined(row)) : undefined;
 }
 
-export async function linkItemsById(
-  tx: ITask<any>,
-  itemIds: ObjectId[],
-  thumbnail: string
-) {
+export async function linkItemsById(tx: ITask<any>, itemIds: ObjectId[]) {
   await Promise.all(
     itemIds.map((itemId, idx) => {
       const linkId = itemIds[(idx + 1) % itemIds.length];
       return tx.none(
         `UPDATE items
-          SET linked_item=$/linkId/, thumbnail=$/thumbnail/
+          SET linked_item=$/linkId/
           WHERE id=$/itemId/`,
-        { itemId, linkId, thumbnail }
+        { itemId, linkId }
       );
     })
   );
 }
 
+export async function setItemThumbnail(
+  tx: ITask<any>,
+  itemId: ObjectId,
+  thumbnail: string
+) {
+  await tx.none(`UPDATE items SET thumbnail=$/thumbnail/ WHERE id=$/itemId/`, {
+    itemId,
+    thumbnail,
+  });
+}
+
 export async function unlinkItemsById(tx: ITask<any>, itemIds: ObjectId[]) {
   if (itemIds.length < 1) return;
   await tx.none(
-    `UPDATE items SET linked_item = NULL WHERE id IN ($/itemIds:csv/)`,
+    `UPDATE items
+      SET linked_item = NULL
+      WHERE id IN ($/itemIds:csv/)`,
     { itemIds }
   );
 }

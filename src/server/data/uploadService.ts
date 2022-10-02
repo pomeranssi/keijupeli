@@ -1,5 +1,5 @@
 import debug from 'debug';
-import { rename, unlink } from 'fs/promises';
+import { rename } from 'fs/promises';
 import path from 'path';
 import { ITask } from 'pg-promise';
 import sharp from 'sharp';
@@ -8,7 +8,7 @@ import { AuthenticationError, CategoryType, User } from 'shared/types';
 import { TargetImageSize } from 'shared/types/images';
 import { getFileExt } from 'shared/util';
 
-import { unlinkImage } from './images';
+import { deleteImageFile } from './images';
 import { insertItem } from './itemDb';
 import { getThumbnailName, writeThumbnail } from './thumbnailService';
 
@@ -93,7 +93,7 @@ async function convertToJpg(
   const result = await sharp(file.path)
     .jpeg({ quality: 93 })
     .toFile(path.join(file.destination, filename));
-  await unlinkImage(file.path);
+  await deleteImageFile(file.path);
   return {
     filename,
     width: result.width,
@@ -132,7 +132,7 @@ async function trimImage(
   const result = await sharp(file.path)
     .trim()
     .toFile(path.join(file.destination, filename));
-  await unlink(file.path);
+  await deleteImageFile(file.path);
   log('Trimmed', result);
   return {
     filename,

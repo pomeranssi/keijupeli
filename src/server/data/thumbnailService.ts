@@ -1,10 +1,12 @@
 import path from 'path';
+import { ITask } from 'pg-promise';
 import sharp from 'sharp';
 
 import { Item } from 'shared/types';
 import { getFileExt } from 'shared/util';
 
-import { getFullImagePath } from './images';
+import { deleteImageFile, getFullImagePath } from './images';
+import { setItemThumbnail } from './itemDb';
 
 type HasFilename = Pick<Item, 'filename'>;
 
@@ -16,6 +18,16 @@ export function hasFilename(x: any): x is HasFilename {
     typeof x.filename === 'string' &&
     x.filename
   );
+}
+
+export async function resetThumbnail(tx: ITask<any>, item: Item) {
+  await deleteImageFile(item.thumbnail);
+  const thumbnail = path.basename(
+    item.filename,
+    `.${getFileExt(item.filename)}`
+  );
+  await writeThumbnail(item, thumbnail);
+  await setItemThumbnail(tx, item.id, thumbnail);
 }
 
 /**

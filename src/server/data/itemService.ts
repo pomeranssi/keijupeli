@@ -1,6 +1,4 @@
 import debug from 'debug';
-import { unlink } from 'fs/promises';
-import path from 'path';
 import { ITask } from 'pg-promise';
 
 import {
@@ -12,9 +10,9 @@ import {
 } from 'shared/types';
 import { Category, CategoryMap } from 'shared/types';
 import { assertDefined, groupBy, mapObject } from 'shared/util';
-import { config } from 'server/config';
 
 import { BaseCategoryData } from './categoryData';
+import { deleteImageFile } from './images';
 import { deleteItemById, getItemById, getItems } from './itemDb';
 
 const log = debug('server:items');
@@ -62,16 +60,8 @@ export async function deleteItem(
 }
 
 async function deleteItemImages(item: Item) {
-  if (item.thumbnail) {
-    const file = path.join(config.uploadPath, item.thumbnail);
-    log(`Deleting thumbnail ${file}`);
-    await unlink(file);
-  }
-  if (item.filename) {
-    const file = path.join(config.uploadPath, item.filename);
-    log(`Deleting image ${file}`);
-    await unlink(file);
-  }
+  await deleteImageFile(item.thumbnail);
+  await deleteImageFile(item.filename);
 }
 
 export function requireItem(item: Item | undefined): asserts item is Item {

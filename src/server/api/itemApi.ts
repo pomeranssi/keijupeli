@@ -35,7 +35,7 @@ export function createItemApi() {
 
   // Unlink item
   // DELETE /api/item/link/:itemId
-  api.postTx('/link/:itemId', {}, (tx, { params, session }) =>
+  api.deleteTx('/link/:itemId', {}, (tx, { params, session }) =>
     unlinkItem(tx, session, params.itemId)
   );
 
