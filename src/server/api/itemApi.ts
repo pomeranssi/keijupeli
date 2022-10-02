@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import { ItemLinkingBody } from 'shared/types';
 import { getItems } from 'server/data/itemDb';
-import { linkItems } from 'server/data/itemLinkingService';
+import { linkItems, unlinkItem } from 'server/data/itemLinkingService';
 import { deleteItem, getItemsByCategory } from 'server/data/itemService';
 import { requireSessionMiddleware } from 'server/server/sessionMiddleware';
 import { createValidatingRouter } from 'server/server/validatingRouter';
@@ -31,6 +31,12 @@ export function createItemApi() {
   // POST /api/item/link
   api.postTx('/link', { body: ItemLinkingBody }, (tx, { body, session }) =>
     linkItems(tx, session, body.items)
+  );
+
+  // Unlink item
+  // DELETE /api/item/link/:itemId
+  api.postTx('/link/:itemId', {}, (tx, { params, session }) =>
+    unlinkItem(tx, session, params.itemId)
   );
 
   // Delete item

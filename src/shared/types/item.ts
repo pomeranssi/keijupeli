@@ -41,6 +41,10 @@ export const Item = ItemData.extend({
 });
 export type Item = z.infer<typeof Item>;
 
+export function isItem(x: any): x is Item {
+  return x && typeof x === 'object' && Item.safeParse(x).success;
+}
+
 export const Category = z.object({
   title: NonEmptyString,
   type: CategoryType,

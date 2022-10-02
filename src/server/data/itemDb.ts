@@ -58,6 +58,14 @@ export async function linkItemsById(
   );
 }
 
+export async function unlinkItemsById(tx: ITask<any>, itemIds: ObjectId[]) {
+  if (itemIds.length < 1) return;
+  await tx.none(
+    `UPDATE items SET linked_item = NULL WHERE id IN ($/itemIds:csv/)`,
+    { itemIds }
+  );
+}
+
 export async function deleteItemById(
   tx: ITask<any>,
   itemId: ObjectId,

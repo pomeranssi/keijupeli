@@ -8,7 +8,9 @@ import { AuthenticationError, CategoryType, User } from 'shared/types';
 import { TargetImageSize } from 'shared/types/images';
 import { getFileExt } from 'shared/util';
 
+import { unlinkImage } from './images';
 import { insertItem } from './itemDb';
+import { getThumbnailName, writeThumbnail } from './thumbnailService';
 
 const log = debug('server:upload');
 
@@ -39,11 +41,8 @@ export async function uploadFile(
     TargetImageSize;
   log('Scale ratio', scale);
   log('Process result', data);
-  const thumbnail = `${category}-${file.filename}-tn.png`;
-  await createThumbnail(
-    path.join(file.destination, data.filename),
-    path.join(file.destination, thumbnail)
-  );
+  const thumbnail = getThumbnailName(data.filename);
+  await writeThumbnail(data, thumbnail);
   await insertImageData(tx, user, category, file, data, scale, thumbnail);
 }
 
@@ -94,7 +93,7 @@ async function convertToJpg(
   const result = await sharp(file.path)
     .jpeg({ quality: 93 })
     .toFile(path.join(file.destination, filename));
-  await unlink(file.path);
+  await unlinkImage(file.path);
   return {
     filename,
     width: result.width,
@@ -142,16 +141,4 @@ async function trimImage(
     offsetX: -(result.trimOffsetLeft ?? 0),
     offsetY: -(result.trimOffsetTop ?? 0),
   };
-}
-
-async function createThumbnail(file: string, thumbFile: string) {
-  await sharp(file)
-    .resize({
-      width: 144,
-      height: 144,
-      fit: 'contain',
-      background: 'transparent',
-    })
-    .png()
-    .toFile(thumbFile);
 }

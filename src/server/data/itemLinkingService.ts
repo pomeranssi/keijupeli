@@ -13,7 +13,10 @@ import {
 import { assertDefined } from 'shared/util';
 import { config } from 'server/config';
 
-import { getItemById, linkItemsById } from './itemDb';
+import { unlinkImage } from './images';
+import { getItemById, linkItemsById, unlinkItemsById } from './itemDb';
+import { requireItem } from './itemService';
+import { writeThumbnail } from './thumbnailService';
 
 const log = debug('server:item-linking');
 
@@ -47,13 +50,15 @@ export async function linkItems(
   }
 
   log('Linking images', i1, i2);
-  const thumbnail = i1.thumbnail ?? `${i1.category}-${i1.id}-tn.png`;
-  const thumbpath = path.join(config.uploadPath, thumbnail);
-  await createLinkedThumbnail([i1, i2], thumbpath);
+  const thumbnail = `${i1.category}-${i1.id}-${i2.id}-tn.png`;
+  await createLinkedThumbnail([i1, i2], thumbnail);
   await linkItemsById(tx, [i1.id, i2.id], thumbnail);
+  // Delete old thumbnails
+  await unlinkImage(thumbnail !== i1.thumbnail ? i1.thumbnail : undefined);
+  await unlinkImage(thumbnail !== i2.thumbnail ? i2.thumbnail : undefined);
 }
 
-async function createLinkedThumbnail(items: Item[], thumbfile: string) {
+async function createLinkedThumbnail(items: Item[], thumbnail: string) {
   const combined = await sharp({
     create: {
       width: 1024,
@@ -72,16 +77,7 @@ async function createLinkedThumbnail(items: Item[], thumbfile: string) {
     )
     .png()
     .toBuffer();
-  await sharp(combined)
-    .trim()
-    .resize({
-      width: 144,
-      height: 144,
-      fit: 'contain',
-      background: 'transparent',
-    })
-    .png()
-    .toFile(thumbfile);
+  await writeThumbnail(combined, thumbnail);
 }
 
 function getAlignedImage(item: Item) {
@@ -96,4 +92,33 @@ function getAlignedImage(item: Item) {
       background: 'transparent',
     })
     .toBuffer();
+}
+
+export async function unlinkItem(
+  tx: ITask<any>,
+  session: SessionInfo | undefined,
+  itemId: ObjectId
+) {
+  assertDefined(session);
+  const item = await getItemById(
+    tx,
+    itemId,
+    session.user.id,
+    session.user.admin
+  );
+  requireItem(item);
+
+  if (!item.linkedItem) {
+    throw new GameError(`INVALID_ITEM`, `Item is not linked`, 400);
+  }
+
+  const linked = await getItemById(
+    tx,
+    item.linkedItem,
+    session.user.id,
+    session.user.admin
+  );
+  requireItem(linked);
+
+  await unlinkItemsById(tx, [item.id, linked.id]);
 }

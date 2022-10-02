@@ -3,7 +3,13 @@ import { unlink } from 'fs/promises';
 import path from 'path';
 import { ITask } from 'pg-promise';
 
-import { GameError, Item, ObjectId, SessionInfo } from 'shared/types';
+import {
+  AuthenticationError,
+  GameError,
+  Item,
+  ObjectId,
+  SessionInfo,
+} from 'shared/types';
 import { Category, CategoryMap } from 'shared/types';
 import { assertDefined, groupBy, mapObject } from 'shared/util';
 import { config } from 'server/config';
@@ -47,6 +53,9 @@ export async function deleteItem(
   if (!item) {
     throw new GameError(`NOT_FOUND`, 'Item not found', 404);
   }
+  if (item.linkedItem) {
+    throw new GameError(`LINKED_IMAGE`, 'Cannot delete linked image', 400);
+  }
   log(`Deleting item ${item.id}...`);
   await deleteItemImages(item);
   await deleteItemById(tx, item.id, session.user.id, session.user.admin);
@@ -62,5 +71,14 @@ async function deleteItemImages(item: Item) {
     const file = path.join(config.uploadPath, item.filename);
     log(`Deleting image ${file}`);
     await unlink(file);
+  }
+}
+
+export function requireItem(item: Item | undefined): asserts item is Item {
+  if (!item) {
+    throw new AuthenticationError(
+      `ACCESS_DENIED`,
+      'No access to requested image'
+    );
   }
 }
