@@ -10,7 +10,7 @@ import { getFileExt } from 'shared/util';
 
 import { deleteImageFile } from './images';
 import { insertItem } from './itemDb';
-import { getThumbnailName, writeThumbnail } from './thumbnailService';
+import { resetThumbnail } from './thumbnailService';
 
 const log = debug('server:upload');
 
@@ -41,9 +41,8 @@ export async function uploadFile(
     TargetImageSize;
   log('Scale ratio', scale);
   log('Process result', data);
-  const thumbnail = getThumbnailName(data.filename);
-  await writeThumbnail(data, thumbnail);
-  await insertImageData(tx, user, category, file, data, scale, thumbnail);
+  const item = await insertImageData(tx, user, category, file, data, scale);
+  await resetThumbnail(tx, item);
 }
 
 async function insertImageData(
@@ -52,13 +51,11 @@ async function insertImageData(
   category: CategoryType,
   file: Express.Multer.File,
   data: ProcessResult,
-  scale: number,
-  thumbnail: string
+  scale: number
 ) {
-  await insertItem(tx, user.id, {
+  return await insertItem(tx, user.id, {
     category,
     filename: data.filename,
-    thumbnail,
     originalFilename: file.originalname,
     width: data.width / scale,
     height: data.height / scale,

@@ -22,10 +22,7 @@ export function hasFilename(x: any): x is HasFilename {
 
 export async function resetThumbnail(tx: ITask<any>, item: Item) {
   await deleteImageFile(item.thumbnail);
-  const thumbnail = path.basename(
-    item.filename,
-    `.${getFileExt(item.filename)}`
-  );
+  const thumbnail = getThumbnailName(item.filename);
   await writeThumbnail(item, thumbnail);
   await setItemThumbnail(tx, item.id, thumbnail);
 }
