@@ -22,25 +22,31 @@ export const AppIconView = styled.div`
   border-radius: 50%;
   margin-bottom: 8px;
 
-  &.reset {
+  background-color: ${colors.gray[800]}cc;
+
+  & > .Icon {
+    filter: grayscale(1);
+  }
+
+  &:hover,
+  &:active {
+    & > .Icon {
+      filter: inherit;
+    }
+  }
+
+  &.reset:active {
     background-color: ${colors.analogous1[200]}cc;
   }
-  &.login,
-  &.logout {
+  &.login:active,
+  &.logout:active {
     background-color: ${colors.complementary[200]}cc;
   }
-  &.randomize {
+  &.randomize:active {
     background-color: ${colors.analogous2[200]}cc;
   }
   &.restrictions {
     background-color: ${colors.analogous1[400]}cc;
-  }
-
-  &.inactive {
-    background-color: ${colors.gray[800]}cc;
-    & > .Icon {
-      filter: grayscale(1);
-    }
   }
 
   &.delete.active {
