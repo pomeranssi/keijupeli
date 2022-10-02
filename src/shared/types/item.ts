@@ -54,6 +54,7 @@ export const Category = z.object({
   isMovable: z.boolean(),
   imageFileName: z.string(),
   items: z.array(Item),
+  zIndex: z.number().int().nonnegative(),
 });
 export type Category = z.infer<typeof Category>;
 

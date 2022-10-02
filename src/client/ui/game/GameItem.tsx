@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 
 import { uri } from 'shared/net/urlUtils';
@@ -10,7 +11,7 @@ import { requestLinking, requestUnlink } from 'client/game/linkItems';
 import { GameMode, useGameState } from 'client/game/state';
 import { executeOperation } from 'client/util/executeOperation';
 
-import { AppIcon } from '../common/AppIcon';
+import { AppIcon, AppIconView } from '../common/AppIcon';
 import { ItemView } from '../common/ItemView';
 
 export type GameItemProps = {
@@ -32,22 +33,23 @@ export const GameItem: React.FC<GameItemProps> = ({
       category={category}
       item={item}
       onClick={() => clickItem(item, category)}
-      cornerIcon={<CornerItem mode={mode} item={item} />}
+      cornerIcon={<CornerItem mode={mode} item={item} category={category} />}
     />
   );
 };
 
-const CornerItem: React.FC<{ mode: GameMode; item: LinkedItem }> = ({
-  mode,
-  item,
-}) => {
+const CornerItem: React.FC<{
+  mode: GameMode;
+  item: LinkedItem;
+  category: Category;
+}> = ({ mode, item, category }) => {
   switch (mode) {
     case 'delete':
       return item.linkedItem ? null : (
         <AppIcon
           icon="icon-delete.png"
           title="Poista"
-          className="delete allow-delete"
+          className="delete active"
           onClick={e => clickCorner(e, item)}
         />
       );
@@ -56,9 +58,15 @@ const CornerItem: React.FC<{ mode: GameMode; item: LinkedItem }> = ({
         <AppIcon
           icon="icon-link.png"
           title="Linkitetty"
-          className="link linking"
+          className="link active"
         />
       ) : null;
+    case 'layers':
+      return (
+        <CustomIcon className="layers active">
+          {item.zIndex ?? category.zIndex}
+        </CustomIcon>
+      );
     default:
       return null;
   }
@@ -125,3 +133,10 @@ const deleteItem = async (item: LinkedItem) => {
 
 const deleteItemFromServer = (sessionId: UUID, itemId: ObjectId) =>
   apiClient.delete(uri`/item/${itemId}`, { sessionId });
+
+const CustomIcon = styled(AppIconView)`
+  width: 64px;
+  height: 64px;
+  font-size: 40px;
+  color: black;
+`;

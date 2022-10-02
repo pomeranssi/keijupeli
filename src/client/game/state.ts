@@ -27,7 +27,7 @@ import { GroupedCategoryMap, groupLinkedImages, LinkedItem } from './items';
 const log = debug('client:state');
 
 type Filename = string;
-export type GameMode = 'play' | 'delete' | 'link';
+export type GameMode = 'play' | 'delete' | 'link' | 'layers';
 
 export type CategoryItems = Record<Filename, LinkedItem>;
 

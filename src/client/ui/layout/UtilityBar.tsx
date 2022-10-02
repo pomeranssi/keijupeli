@@ -80,13 +80,19 @@ export const UtilityBar: React.FC = () => {
       {session ? (
         <>
           <AppIcon
-            className={`link ${mode === 'link' ? 'linking' : ''}`}
+            className={`layers ${mode === 'layers' ? 'active' : 'inactive'}`}
+            onClick={() => setMode(mode === 'layers' ? 'play' : 'layers')}
+            icon="icon-layers.png"
+            title="Vaihda kerroksia"
+          />
+          <AppIcon
+            className={`link ${mode === 'link' ? 'active' : 'inactive'}`}
             onClick={() => setMode(mode === 'link' ? 'play' : 'link')}
             icon="icon-link.png"
             title="Yhdistä kuvia"
           />
           <AppIcon
-            className={`delete ${mode === 'delete' ? 'allow-delete' : ''}`}
+            className={`delete ${mode === 'delete' ? 'active' : 'inactive'}`}
             onClick={() => setMode(mode === 'delete' ? 'play' : 'delete')}
             icon="icon-delete.png"
             title="Poista kuvia"

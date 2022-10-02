@@ -22,7 +22,7 @@ export const ItemElement: React.FC<ItemElementProps> = ({
     style={{
       left: item.offsetX,
       top: item.offsetY,
-      zIndex: item.zIndex,
+      zIndex: item.zIndex ?? category.zIndex,
       width: item.width,
       height: item.height,
     }}
@@ -35,41 +35,4 @@ export const ItemElement: React.FC<ItemElementProps> = ({
 
 const Image = styled.img`
   position: absolute;
-
-  &.background {
-    z-index: 0;
-  }
-  &.wings {
-    z-index: 1;
-  }
-  &.body {
-    z-index: 2;
-  }
-  &.shoes {
-    z-index: 3;
-  }
-  &.legs {
-    z-index: 4;
-  }
-  &.chest {
-    z-index: 6;
-  }
-  &.necklace {
-    z-index: 8;
-  }
-  &.eyes {
-    z-index: 20;
-  }
-  &.hair {
-    z-index: 30;
-  }
-  &.crown {
-    z-index: 50;
-  }
-  &.other {
-    z-index: 60;
-  }
-  &.pets {
-    z-index: 70;
-  }
 `;

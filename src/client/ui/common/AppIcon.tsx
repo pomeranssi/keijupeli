@@ -14,7 +14,7 @@ export const AppIcon: React.FC<IconProps> = ({
   </AppIconView>
 );
 
-const AppIconView = styled.div`
+export const AppIconView = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -35,31 +35,26 @@ const AppIconView = styled.div`
   &.restrictions {
     background-color: ${colors.analogous1[400]}cc;
   }
-  &.delete {
+
+  &.inactive {
     background-color: ${colors.gray[800]}cc;
     & > .Icon {
       filter: grayscale(1);
-    }
-  }
-  &.delete.allow-delete {
-    background-color: ${colors.primary[600]}cc;
-    & > .Icon {
-      filter: initial;
     }
   }
 
-  &.link {
-    background-color: ${colors.gray[800]}cc;
-    & > .Icon {
-      filter: grayscale(1);
-    }
+  &.delete.active {
+    background-color: ${colors.primary[600]}cc;
   }
-  &.link.linking {
+
+  &.link.active {
     background-color: ${colors.complementary[200]}cc;
-    & > .Icon {
-      filter: initial;
-    }
   }
+
+  &.layers.active {
+    background-color: ${colors.analogous1[200]}cc;
+  }
+
   @media all and (orientation: portrait) {
     text-align: center;
     margin-bottom: 0;
