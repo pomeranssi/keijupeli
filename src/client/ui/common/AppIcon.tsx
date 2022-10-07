@@ -67,3 +67,10 @@ export const AppIconView = styled.div`
     margin-right: 10px;
   }
 `;
+
+export const TextIcon = styled(AppIconView)`
+  width: 64px;
+  height: 64px;
+  font-size: 40px;
+  color: black;
+`;

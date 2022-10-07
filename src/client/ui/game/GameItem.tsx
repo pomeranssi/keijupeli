@@ -1,5 +1,4 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import shallow from 'zustand/shallow';
 
 import { uri } from 'shared/net/urlUtils';
@@ -11,7 +10,7 @@ import { requestLinking, requestUnlink } from 'client/game/linkItems';
 import { GameMode, useGameState } from 'client/game/state';
 import { executeOperation } from 'client/util/executeOperation';
 
-import { AppIcon, AppIconView } from '../common/AppIcon';
+import { AppIcon, TextIcon } from '../common/AppIcon';
 import { ItemView } from '../common/ItemView';
 
 export type GameItemProps = {
@@ -63,9 +62,9 @@ const CornerItem: React.FC<{
       ) : null;
     case 'layers':
       return (
-        <CustomIcon className="layers active">
+        <TextIcon className="layers active">
           {item.zIndex ?? category.zIndex}
-        </CustomIcon>
+        </TextIcon>
       );
     default:
       return null;
@@ -160,13 +159,6 @@ const adjustLayers = async (item: LinkedItem, category: Category) => {
     }
   );
 };
-
-const CustomIcon = styled(AppIconView)`
-  width: 64px;
-  height: 64px;
-  font-size: 40px;
-  color: black;
-`;
 
 const deleteItemFromServer = (sessionId: UUID, itemId: ObjectId) =>
   apiClient.delete(uri`/item/${itemId}`, { sessionId });

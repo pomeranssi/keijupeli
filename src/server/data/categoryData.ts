@@ -20,7 +20,7 @@ export const BaseCategoryData: Record<
     isUnique: true,
     isMovable: false,
     imageFileName: 'images/category/category-body.png',
-    zIndex: 2,
+    zIndex: 7,
   },
   crown: {
     title: 'Päähineet',
@@ -29,7 +29,7 @@ export const BaseCategoryData: Record<
     isUnique: false,
     isMovable: true,
     imageFileName: 'images/category/category-crown.png',
-    zIndex: 50,
+    zIndex: 18,
   },
   hair: {
     title: 'Hiukset',
@@ -38,7 +38,7 @@ export const BaseCategoryData: Record<
     isUnique: true,
     isMovable: false,
     imageFileName: 'images/category/category-hair.png',
-    zIndex: 30,
+    zIndex: 14,
   },
   eyes: {
     title: 'Silmät',
@@ -47,7 +47,7 @@ export const BaseCategoryData: Record<
     isUnique: true,
     isMovable: true,
     imageFileName: 'images/category/category-eyes.png',
-    zIndex: 20,
+    zIndex: 9,
   },
   necklace: {
     title: 'Kaulakorut',
@@ -56,7 +56,7 @@ export const BaseCategoryData: Record<
     isUnique: false,
     isMovable: false,
     imageFileName: 'images/category/category-necklace.png',
-    zIndex: 8,
+    zIndex: 14,
   },
   wings: {
     title: 'Siivet',
@@ -65,7 +65,7 @@ export const BaseCategoryData: Record<
     isUnique: true,
     isMovable: false,
     imageFileName: 'images/category/category-wings.png',
-    zIndex: 1,
+    zIndex: 5,
   },
   chest: {
     title: 'Paidat',
@@ -74,7 +74,7 @@ export const BaseCategoryData: Record<
     isUnique: false,
     isMovable: false,
     imageFileName: 'images/category/category-chest.png',
-    zIndex: 6,
+    zIndex: 12,
   },
   legs: {
     title: 'Housut',
@@ -83,7 +83,7 @@ export const BaseCategoryData: Record<
     isUnique: false,
     isMovable: false,
     imageFileName: 'images/category/category-legs.png',
-    zIndex: 4,
+    zIndex: 10,
   },
   shoes: {
     title: 'Jalkineet',
@@ -92,7 +92,7 @@ export const BaseCategoryData: Record<
     isUnique: true,
     isMovable: false,
     imageFileName: 'images/category/category-shoes.png',
-    zIndex: 3,
+    zIndex: 9,
   },
   other: {
     title: 'Asusteet',
@@ -101,7 +101,7 @@ export const BaseCategoryData: Record<
     isUnique: false,
     isMovable: true,
     imageFileName: 'images/category/category-other.png',
-    zIndex: 60,
+    zIndex: 20,
   },
   pets: {
     title: 'Lemmikit',
@@ -110,6 +110,6 @@ export const BaseCategoryData: Record<
     isUnique: false,
     isMovable: true,
     imageFileName: 'images/category/category-pets.png',
-    zIndex: 70,
+    zIndex: 22,
   },
 };

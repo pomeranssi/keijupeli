@@ -6,6 +6,7 @@ import { Item } from 'shared/types';
 import { CategoryItems, useGameState } from 'client/game/state';
 
 import { colors } from '../colors';
+import { TextIcon } from '../common/AppIcon';
 import { ItemView } from '../common/ItemView';
 
 function findItem(selection: CategoryItems): Item | undefined {
@@ -14,13 +15,14 @@ function findItem(selection: CategoryItems): Item | undefined {
 }
 
 export const CategoryList: React.FC = () => {
-  const [selectedCategory, categories, selectedItems, selectCategory] =
+  const [selectedCategory, categories, selectedItems, selectCategory, mode] =
     useGameState(
       s => [
         s.selectedCategory,
         s.categories,
         s.selectedItems,
         s.selectCategory,
+        s.mode,
       ],
       shallow
     );
@@ -41,6 +43,11 @@ export const CategoryList: React.FC = () => {
             item={findItem(selectedItems[category.type])}
             missingImage={category.imageFileName}
             onClick={() => selectCategory(category.type)}
+            cornerIcon={
+              mode === 'layers' ? (
+                <TextIcon className="layers active">{category.zIndex}</TextIcon>
+              ) : null
+            }
           >
             <CategoryTitle className="category-title">
               {category.title}
