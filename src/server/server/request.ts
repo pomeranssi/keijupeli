@@ -12,7 +12,7 @@ export type WithSessionInfo<T> = T & {
   session?: SessionInfo | null;
 };
 
-export function hasSessionInfo<T>(
+export function hasSessionInfo<T extends object>(
   req: T
 ): req is T & { session: SessionInfo | null } {
   return (

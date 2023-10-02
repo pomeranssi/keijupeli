@@ -26,7 +26,12 @@ export function createUploadApi() {
     Requests.validatedTxRequest(
       { body: z.object({ category: CategoryType }) },
       (tx, { body, session }, req) =>
-        uploadFile(tx, session?.user, body.category, req.files?.['image'][0])
+        uploadFile(
+          tx,
+          session?.user,
+          body.category,
+          ((req.files as any)?.['image'] as any)[0]
+        )
     )
   );
 

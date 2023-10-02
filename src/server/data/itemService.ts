@@ -60,7 +60,7 @@ export async function setZIndex(
 ) {
   assertDefined(session);
   const item = await getItemForUser(tx, itemId, session.user);
-  const defaultZIndex = CategoryMap[item.category]?.zIndex ?? 0;
+  const defaultZIndex = (CategoryMap as any)[item.category]?.zIndex ?? 0;
   await setItemZIndex(
     tx,
     itemId,
