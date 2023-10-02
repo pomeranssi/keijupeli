@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -euo pipefail
+
 pushd . >/dev/null
 cd `dirname $0`/..
 

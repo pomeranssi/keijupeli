@@ -42,7 +42,7 @@ export function mapObject<O extends object, V>(
   f: (v: O[keyof O], key: keyof O) => V
 ): Record<keyof O, V> {
   const res: Record<keyof O, V> = {} as any;
-  typedKeys(o).forEach(k => (res[k] = f(o[k as any], k)));
+  typedKeys(o).forEach(k => (res[k] = f((o as any)[k as any], k)));
   return res;
 }
 
