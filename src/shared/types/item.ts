@@ -5,6 +5,7 @@ import { NonEmptyString, ObjectId } from './primitives';
 export const CategoryType = z.enum([
   'background',
   'body',
+  'face',
   'crown',
   'hair',
   'eyes',

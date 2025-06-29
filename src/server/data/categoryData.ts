@@ -49,6 +49,15 @@ export const BaseCategoryData: Record<
     imageFileName: 'images/category/category-eyes.png',
     zIndex: 9,
   },
+  face: {
+    title: 'Kasvot',
+    isBackground: false,
+    isEssential: false,
+    isUnique: false,
+    isMovable: false,
+    imageFileName: 'images/category/category-face.png',
+    zIndex: 8,
+  },
   necklace: {
     title: 'Kaulakorut',
     isBackground: false,
