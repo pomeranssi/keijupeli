@@ -15,6 +15,8 @@ app.use(express.static('public'));
 
 app.use('/api', createApi());
 
+app.use('/images/items', express.static('upload/images/items'));
+
 app.get(/\/p\/.*/, (_, res) =>
   res.sendFile(path.join(curDir + '/public/index.html'))
 );
