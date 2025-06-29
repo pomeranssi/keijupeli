@@ -7,7 +7,6 @@ import {
   CategoryMap,
   CategoryType,
   CategoryTypes,
-  Item,
   Session,
 } from 'shared/types';
 import {
@@ -176,9 +175,16 @@ function getRandomEntriesFor(category: Category): CategoryItems {
   return { [item.filename]: item };
 }
 
-function getRandomItem(category: Category): Item | undefined {
+function getRandomItem(category: Category): ItemOnScreen | undefined {
   const i = getRandomInt(category.isEssential ? 0 : -1, category.items.length);
-  return i >= 0 ? category.items[i] : undefined;
+  return i >= 0
+    ? { ...category.items[i], hueOffset: randomHue(category) }
+    : undefined;
+}
+
+function randomHue(category: Category) {
+  if (Math.random() < 0.5 || category.type === 'background') return undefined;
+  return getRandomInt(0, 360);
 }
 
 function cleanSelections(
