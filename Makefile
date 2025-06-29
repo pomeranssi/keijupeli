@@ -14,6 +14,10 @@ start-server:
 start-client:
 	yarn watch-client
 
+.PHONY: deploy
+deploy:
+	./script/deploy.sh
+
 .PHONY: copy-prod-db
 copy-prod-db:
 	./script/copy-prod-db.sh
