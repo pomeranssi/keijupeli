@@ -12,8 +12,12 @@ import {
   typedKeys,
 } from 'shared/util';
 
-export type LinkedItem = Item & {
-  linked?: Item[];
+export type ItemOnScreen = Item & {
+  hueOffset?: number;
+};
+
+export type LinkedItem = ItemOnScreen & {
+  linked?: ItemOnScreen[];
 };
 
 export type LinkedCategory = Omit<Category, 'items'> & {
@@ -35,15 +39,15 @@ function groupItems(category: Category): LinkedCategory {
   const imageMap: Record<ObjectId, Item> = recordFromPairs(
     category.items.map(i => [i.id, i])
   );
-  const encontered = new Set<ObjectId>();
+  const encountered = new Set<ObjectId>();
   const items: LinkedItem[] = [];
   for (const item of category.items) {
-    if (encontered.has(item.id)) continue;
+    if (encountered.has(item.id)) continue;
     const newItem = { ...item, linked: gatherLinks(item, imageMap) };
     items.push(newItem);
     // Mark item and links as encountered so that they will be skipped
-    encontered.add(newItem.id);
-    newItem.linked?.forEach(l => encontered.add(l.id));
+    encountered.add(newItem.id);
+    newItem.linked?.forEach(l => encountered.add(l.id));
   }
   return { ...category, items };
 }

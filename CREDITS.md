@@ -16,6 +16,8 @@
   created by Good Ware - Flaticon
 - Link icon: <a href="https://www.flaticon.com/free-icons/link" title="link icons">Link icons created by nawicon - Flaticon</a>
 - Layer icon: <a href="https://www.flaticon.com/free-icons/layer" title="layer icons">Layer icons created by Freepik - Flaticon</a>
+- Color palette icon: [Color Wheel free icon](https://www.flaticon.com/free-icon/color-wheel_11460720)
+  created by Color creator - Flaticon
 
 ## Category images
 

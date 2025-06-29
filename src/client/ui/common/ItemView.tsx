@@ -14,6 +14,7 @@ interface ItemViewProps {
   onClick?: (item?: Item) => void;
   cornerIcon?: any;
   className?: string;
+  hueShift?: number;
 }
 
 export const ItemView: React.FC<React.PropsWithChildren<ItemViewProps>> = ({

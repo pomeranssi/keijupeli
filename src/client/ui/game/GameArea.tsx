@@ -49,6 +49,7 @@ const DollImages: React.FC<{ scale: number }> = ({ scale }) => {
                   scale={scale}
                   onClick={() => toggleItem(category.type, item)}
                   restricted={restricted}
+                  hueOffset={item.hueOffset}
                 />
                 {item.linked?.map(l => (
                   <ItemElement
@@ -58,6 +59,7 @@ const DollImages: React.FC<{ scale: number }> = ({ scale }) => {
                     scale={scale}
                     onClick={() => toggleItem(category.type, item)}
                     restricted={restricted}
+                    hueOffset={item.hueOffset}
                   />
                 )) ?? null}
               </React.Fragment>

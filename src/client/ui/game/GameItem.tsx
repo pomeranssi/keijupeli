@@ -32,7 +32,14 @@ export const GameItem: React.FC<GameItemProps> = ({
       category={category}
       item={item}
       onClick={() => clickItem(item, category)}
-      cornerIcon={<CornerItem mode={mode} item={item} category={category} />}
+      cornerIcon={
+        <CornerItem
+          mode={mode}
+          item={item}
+          category={category}
+          selected={selected}
+        />
+      }
     />
   );
 };
@@ -41,7 +48,8 @@ const CornerItem: React.FC<{
   mode: GameMode;
   item: LinkedItem;
   category: Category;
-}> = ({ mode, item, category }) => {
+  selected?: boolean;
+}> = ({ mode, item, category, selected }) => {
   switch (mode) {
     case 'delete':
       return (
@@ -67,13 +75,19 @@ const CornerItem: React.FC<{
         </TextIcon>
       );
     default:
-      return null;
+      return selected ? (
+        <AppIcon
+          icon="icon-palette.png"
+          title="Vaihda väriä"
+          className="link"
+          onClick={e => clickCorner(e, item, category)}
+        />
+      ) : null;
   }
 };
 
 function clickItem(item: LinkedItem, category: Category) {
   const { mode, linkSource } = useGameState.getState();
-
   switch (mode) {
     case 'link':
       return clickLink(item, category, linkSource);
@@ -92,11 +106,15 @@ function clickCorner(
   e.preventDefault();
   e.stopPropagation();
 
-  const { mode } = useGameState.getState();
+  const { mode, selectedItems } = useGameState.getState();
+  const selectedItemsOfCat = selectedItems[item.category];
+  const selected = item.filename in selectedItemsOfCat;
 
   switch (mode) {
     case 'delete':
       return deleteItem(item);
+    case 'play':
+      return selected ? togglePalette(item) : clickItem(item, category);
     default:
       return clickItem(item, category);
   }
@@ -124,6 +142,16 @@ function clickLink(item: LinkedItem, cat: Category, linkSource?: LinkedItem) {
 function clickSelect(item: LinkedItem) {
   useGameState.getState().toggleItem(item.category, item);
 }
+
+const HueShiftAmount = 40;
+
+const togglePalette = (item: LinkedItem) => {
+  const { selectedItems, setHueShift } = useGameState.getState();
+  const selectedItem = selectedItems[item.category]?.[item.filename];
+  const oldHue = selectedItem?.hueOffset ?? 0;
+  const newHue = (oldHue + HueShiftAmount) % 360;
+  setHueShift(item, newHue);
+};
 
 const deleteItem = async (item: LinkedItem) => {
   if (item.linked) {

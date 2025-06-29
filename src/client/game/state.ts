@@ -23,7 +23,12 @@ import {
   typedKeys,
 } from 'shared/util';
 
-import { GroupedCategoryMap, groupLinkedImages, LinkedItem } from './items';
+import {
+  GroupedCategoryMap,
+  groupLinkedImages,
+  ItemOnScreen,
+  LinkedItem,
+} from './items';
 
 const log = debug('client:state');
 
@@ -43,14 +48,15 @@ export type State = {
   setSession(s: Session | undefined): void;
   setupCategories(categories: CategoryMap, resetMode?: boolean): void;
   selectCategory(type: CategoryType): void;
-  toggleItem(type: CategoryType, item: Item): void;
+  toggleItem(type: CategoryType, item: ItemOnScreen): void;
+  setHueShift(item: ItemOnScreen, hueShift?: number): void;
   clearItems(type: CategoryType): void;
   randomize(): void;
   reset(): void;
   toggleRestrictions(): void;
   mode: GameMode;
-  linkSource?: Item;
-  selectLinkSource(item?: Item): void;
+  linkSource?: ItemOnScreen;
+  selectLinkSource(item?: ItemOnScreen): void;
   setMode(mode: GameMode): void;
 };
 
@@ -118,6 +124,16 @@ export const useGameState = create<State, any>(
             return set({ selectedItems: replaceKey(selectedItems, type, {}) });
           }
         }
+      },
+
+      setHueShift: (item, hueOffset) => {
+        const { selectedItems } = get();
+        const current: CategoryItems = selectedItems[item.category] ?? {};
+        const { [item.filename]: deleted, ...cleared } = current;
+        cleared[item.filename] = { ...item, hueOffset };
+        return set({
+          selectedItems: replaceKey(selectedItems, item.category, cleared),
+        });
       },
 
       clearItems: type =>
