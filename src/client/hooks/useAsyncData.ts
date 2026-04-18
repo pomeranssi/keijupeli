@@ -31,7 +31,7 @@ export function useDeferredData<T, P extends any[]>(
         .then(value => setData({ type: 'loaded', value }))
         .catch(error => setData({ type: 'error', error }));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/use-memo
   }, [valid, dataSource, setData, ...params]);
 
   return {

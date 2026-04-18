@@ -1,6 +1,5 @@
-import * as bodyParser from 'body-parser';
 import debug from 'debug';
-import { Router } from 'express';
+import express, { Router } from 'express';
 
 import { GameError } from 'shared/types';
 import { createErrorHandler } from 'server/server/errorHandler';
@@ -24,8 +23,8 @@ export function createApi() {
 
   api.use('/upload', createUploadApi());
 
-  api.use(bodyParser.urlencoded({ extended: false }));
-  api.use(bodyParser.json());
+  api.use(express.urlencoded({ extended: false }));
+  api.use(express.json());
 
   // Attach subrouters
   api.use('/session', createSessionApi());
@@ -37,7 +36,7 @@ export function createApi() {
     Requests.request(() => ({ status: 'OK' }))
   );
 
-  api.all('/*', (req, _res, next) =>
+  api.all('/*splat', (req, _res, next) =>
     next(
       new GameError(
         'NOT_FOUND',

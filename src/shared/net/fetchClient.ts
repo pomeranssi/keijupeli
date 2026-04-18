@@ -17,16 +17,13 @@ export type MethodInit = {
   contentType?: string | null;
 };
 
-type RequestInit = MethodInit & {
+type FetchRequestInit = MethodInit & {
   method: HttpMethod;
 };
 
 export type MethodFun = <T>(path: string, params?: MethodInit) => Promise<T>;
 
-export type FetchType = (
-  input: RequestInfo,
-  init?: FixedRequestInit
-) => Promise<Response>;
+export type FetchType = typeof fetch;
 
 function encodeComponent(x: any) {
   if (!x) {
@@ -41,7 +38,10 @@ function encodeComponent(x: any) {
 export class FetchClient {
   private fetch: FetchType;
 
-  constructor(f: FetchType, private baseUrl: string = '') {
+  constructor(
+    f: FetchType,
+    private baseUrl: string = ''
+  ) {
     this.fetch = f;
   }
 
@@ -58,7 +58,7 @@ export class FetchClient {
 
   async req<T>(
     path: string,
-    { method, query, body, headers, contentType, sessionId }: RequestInit
+    { method, query, body, headers, contentType, sessionId }: FetchRequestInit
   ): Promise<T> {
     try {
       const queryPath = this.toQuery(path, query);

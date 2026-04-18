@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import shallow from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
 
 import { useGameState } from 'client/game/state';
 
@@ -19,7 +19,7 @@ export const UtilityBar: React.FC = () => {
     mode,
     setMode,
   ] = useGameState(
-    s => [
+    useShallow(s => [
       s.reset,
       s.randomize,
       s.toggleRestrictions,
@@ -27,8 +27,7 @@ export const UtilityBar: React.FC = () => {
       s.session,
       s.mode,
       s.setMode,
-    ],
-    shallow
+    ])
   );
   const location = useLocation();
   const loginTarget = location.pathname.includes('/login') ? '/' : '/login';

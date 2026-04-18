@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import shallow from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
 
 import { useGameState } from 'client/game/state';
 import { ItemImageView } from 'client/ui/common/ItemImageView';
@@ -11,15 +11,16 @@ import { GameItem } from './GameItem';
 
 export const ItemList: React.FC = () => {
   const [type, categories, selected, clear, session] = useGameState(
-    s =>
-      [
-        s.selectedCategory,
-        s.categories,
-        s.selectedItems,
-        s.clearItems,
-        s.session,
-      ] as const,
-    shallow
+    useShallow(
+      s =>
+        [
+          s.selectedCategory,
+          s.categories,
+          s.selectedItems,
+          s.clearItems,
+          s.session,
+        ] as const
+    )
   );
   const cat = categories[type];
 

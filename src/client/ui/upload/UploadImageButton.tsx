@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import shallow from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
 
 import { CategoryType, Session } from 'shared/types';
 import { apiClient } from 'client/game/apiCient';
@@ -10,11 +10,10 @@ import { ItemImageView } from 'client/ui/common/ItemImageView';
 import { getImagePath } from 'client/ui/images';
 import { executeOperation } from 'client/util/executeOperation';
 
-export const UploadImageButton: React.FC = ({}) => {
+export const UploadImageButton: React.FC = () => {
   const ref = React.useRef<HTMLInputElement | null>(null);
   const [category, session] = useGameState(
-    s => [s.selectedCategory, s.session] as const,
-    shallow
+    useShallow(s => [s.selectedCategory, s.session] as const)
   );
 
   const selectFile = async (e: any) => {
@@ -50,7 +49,7 @@ async function uploadImage(
   formData.append('image', file, filename);
   await executeOperation(sendImageData(session.id, formData), {
     success: 'Kuva lisätty!',
-    postProcess: initializeCategories,
+    postProcess: () => initializeCategories(),
   });
 }
 

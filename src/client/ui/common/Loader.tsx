@@ -7,7 +7,7 @@ type LoaderProps = { size?: string; color?: string };
 
 export const Loader: React.FC<LoaderProps> = ({ size, color }) => (
   <Container>
-    <Spinner size={size ?? '10px'} color={color ?? '#0dc5c1'} />
+    <Spinner $size={size ?? '10px'} $color={color ?? '#0dc5c1'} />
   </Container>
 );
 
@@ -27,18 +27,18 @@ const Container = styled.div`
 
 // Spinner CSS taken from https://projects.lukehaas.me/css-loaders/
 
-type SpinnerProps = { size: string; color: string };
-const Spinner = styled.div`
-  font-size: ${({ size }: SpinnerProps) => size};
+type SpinnerProps = { $size: string; $color: string };
+const Spinner = styled.div<SpinnerProps>`
+  font-size: ${({ $size }) => $size};
   margin: 50px auto;
   text-indent: -9999em;
   width: 11em;
   height: 11em;
   border-radius: 50%;
-  background: ${({ color }: SpinnerProps) => color};
+  background: ${({ $color }) => $color};
   background: linear-gradient(
     to right,
-    ${({ color }: SpinnerProps) => color} 10%,
+    ${({ $color }) => $color} 10%,
     rgba(255, 255, 255, 0) 42%
   );
   position: relative;
@@ -48,7 +48,7 @@ const Spinner = styled.div`
   &:before {
     width: 50%;
     height: 50%;
-    background: ${({ color }: SpinnerProps) => color};
+    background: ${({ $color }) => $color};
     border-radius: 100% 0 0 0;
     position: absolute;
     top: 0;

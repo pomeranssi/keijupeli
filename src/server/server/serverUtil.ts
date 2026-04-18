@@ -24,7 +24,7 @@ export function getTokenFromRequest(req: Request): UUID | undefined {
   if (!token) return undefined;
   try {
     return UUID.parse(token);
-  } catch (e) {
+  } catch {
     throw new AuthenticationError(`INVALID_TOKEN`, `Token is not UUID`, token);
   }
 }

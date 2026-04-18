@@ -17,7 +17,7 @@ export const RouteMethods = [
   'options',
   'head',
 ] as const;
-export type RouteMethod = typeof RouteMethods[number];
+export type RouteMethod = (typeof RouteMethods)[number];
 
 const TypeMap = {
   id: ObjectIdString,
@@ -29,19 +29,19 @@ type KnownParamNames = keyof typeof TypeMap;
 type KnownTypes = { [k in KnownParamNames]: z.infer<TypeMap[k]> };
 
 type ValidatorSpec<R, Q, B> = {
-  query?: z.ZodType<Q, any, any>;
-  body?: z.ZodType<B, any, any>;
-  response?: z.ZodType<R, any, any>;
+  query?: z.ZodType<Q>;
+  body?: z.ZodType<B>;
+  response?: z.ZodType<R>;
 };
 
 type PathToParams<Path extends string> =
   Path extends `${infer Start}/${infer Rest}`
     ? PathToParams<Start> & PathToParams<Rest>
     : Path extends `:${infer Param}`
-    ? {
-        [k in Param]: k extends keyof KnownTypes ? KnownTypes[k] : unknown;
-      }
-    : unknown;
+      ? {
+          [k in Param]: k extends keyof KnownTypes ? KnownTypes[k] : unknown;
+        }
+      : unknown;
 
 type HandlerParams<Path extends string, Q, B> = {
   params: PathToParams<Path>;
@@ -112,11 +112,7 @@ export function createValidatingRouter(router: Router): WrappedRouter {
   };
 }
 
-type ParamValidator<Path extends string> = z.ZodType<
-  PathToParams<Path>,
-  any,
-  any
->;
+type ParamValidator<Path extends string> = z.ZodType<PathToParams<Path>>;
 
 function addParamType<Path extends string, Return, Q, B>(
   path: Path,
@@ -136,10 +132,9 @@ function createParamType<Path extends string>(
     .map(p => p.substring(1)) as any;
   const p = recordFromPairs(
     types
-      .map<[KnownParamNames, typeof TypeMap[KnownParamNames]]>(t => [
-        t,
-        TypeMap[t],
-      ])
+      .map<
+        [KnownParamNames, (typeof TypeMap)[KnownParamNames]]
+      >(t => [t, TypeMap[t]])
       .filter(p => isDefined(p[1]))
   );
   return z.object(p) as any;

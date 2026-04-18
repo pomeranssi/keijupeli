@@ -1,4 +1,4 @@
-import debug = require('debug');
+import debug from 'debug';
 import { ITask } from 'pg-promise';
 
 import { AuthenticationError, Session, SessionInfo, UUID } from 'shared/types';

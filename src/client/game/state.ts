@@ -1,5 +1,5 @@
 import debug from 'debug';
-import create from 'zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import {
@@ -59,7 +59,7 @@ export type State = {
   setMode(mode: GameMode): void;
 };
 
-export const useGameState = create<State, any>(
+export const useGameState = create<State>()(
   persist(
     (set, get) => ({
       categories: {},
@@ -161,7 +161,8 @@ export const useGameState = create<State, any>(
   )
 );
 
-function getDefaultSelection(category: Category): CategoryItems {
+function getDefaultSelection(category: Category | undefined): CategoryItems {
+  if (!category) return {};
   return recordFromPairs(
     category.items.filter(i => i.isDefault).map(i => [i.filename, i])
   );

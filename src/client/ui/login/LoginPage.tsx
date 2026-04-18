@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import shallow from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
 
 import { useGameState } from 'client/game/state';
 import { useLogin } from 'client/hooks/useLogin';
@@ -24,8 +24,7 @@ export const LoginPage: React.FC = () => {
   } = useLogin();
   const navigate = useNavigate();
   const [session, setSession] = useGameState(
-    s => [s.session, s.setSession],
-    shallow
+    useShallow(s => [s.session, s.setSession])
   );
   const logout = () => {
     setSession(undefined);
@@ -38,7 +37,7 @@ export const LoginPage: React.FC = () => {
           {session ? (
             <>
               <Row>Olet jo kirjautunut sisään.</Row>
-              <Row topMargin="24px">
+              <Row $topMargin="24px">
                 <Button onClick={logout}>Kirjaudu ulos</Button>
               </Row>
             </>
@@ -76,7 +75,7 @@ export const LoginPage: React.FC = () => {
                   </>
                 ) : null}
               </Row>
-              <Row topMargin="20px">
+              <Row $topMargin="20px">
                 <Label htmlFor="login">Kirjaudu</Label>
                 <Button
                   id="login"
@@ -98,14 +97,13 @@ const LoginDialog = styled(Dialog)`
   width: 480px;
 `;
 
-const Row = styled.div`
+const Row = styled.div<{ $topMargin?: string }>`
   height: 32px;
   display: flex;
   flex-direction: row;
   align-items: center;
   margin: 12px 0;
-  ${(props: { topMargin?: string }) =>
-    props.topMargin ? `margin-top: ${props.topMargin}` : ''}
+  ${props => (props.$topMargin ? `margin-top: ${props.$topMargin}` : '')}
 `;
 
 const Label = styled.label`

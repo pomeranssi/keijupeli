@@ -22,7 +22,10 @@ export function useLogin() {
   const parsedPass = Password.safeParse(password);
   const dataValid = parsedUser.success && parsedPass.success;
 
-  React.useEffect(() => setLoginError(undefined), [username, password]);
+  React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLoginError(undefined);
+  }, [username, password]);
   const doLogin = async () => {
     if (dataValid && !loading) {
       setLoginError(undefined);
@@ -33,7 +36,7 @@ export function useLogin() {
         log('Success:', result);
         setSession(result);
         navigate('/');
-      } catch (e) {
+      } catch {
         setLoginError('Tarkista käyttäjätunnus ja salasana.');
       } finally {
         setLoading(false);

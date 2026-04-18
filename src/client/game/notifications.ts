@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 
 type TimeoutHandle = ReturnType<typeof setTimeout>;
 
@@ -13,7 +13,7 @@ export type NotificationState = {
   messageTimeout?: TimeoutHandle;
 };
 
-export const useNotifications = create<NotificationState>((set, get) => ({
+export const useNotifications = create<NotificationState>()((set, get) => ({
   message: undefined,
   messageTimeout: undefined,
 

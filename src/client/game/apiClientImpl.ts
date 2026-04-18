@@ -1,8 +1,8 @@
+import { FetchClient, HttpMethod, MethodInit } from 'shared/net/fetchClient';
 import { AuthenticationError, GameError, Session } from 'shared/types';
-import { useNotifications } from 'client/game/notifications';
-import { useGameState } from 'client/game/state';
 
-import { FetchClient, HttpMethod, MethodInit } from './fetchClient';
+import { useNotifications } from './notifications';
+import { useGameState } from './state';
 
 export class ApiClient {
   constructor(private client: FetchClient) {}
@@ -30,7 +30,8 @@ export class ApiClient {
             return this[type](path, params, step + 1);
           }
         } else {
-          useNotifications.getState().error(`Virhe: ${e.message}`);
+          const message = e instanceof Error ? e.message : String(e);
+          useNotifications.getState().error(`Virhe: ${message}`);
         }
         throw e;
       }

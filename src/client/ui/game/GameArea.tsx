@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import shallow from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
 
 import { TargetImageSize } from 'shared/types/images';
 import { useGameState } from 'client/game/state';
@@ -13,7 +13,7 @@ const desiredSize = new Size(TargetImageSize, TargetImageSize);
 
 const areaPadding = { landscape: new Size(200, 0), portrait: new Size(0, 200) };
 
-export const GameArea: React.FC = ({}) => {
+export const GameArea: React.FC = () => {
   const window = useWindowSize();
 
   const isLandscape = window.width >= window.height;
@@ -31,13 +31,13 @@ export const GameArea: React.FC = ({}) => {
 
 const DollImages: React.FC<{ scale: number }> = ({ scale }) => {
   const [categories, selectedItems, restricted, toggleItem] = useGameState(
-    s => [s.categories, s.selectedItems, s.restricted, s.toggleItem],
-    shallow
+    useShallow(s => [s.categories, s.selectedItems, s.restricted, s.toggleItem])
   );
 
   return (
-    <Content scale={scale}>
+    <Content $scale={scale}>
       {Object.values(categories)
+        .filter(category => category !== undefined)
         .map(category =>
           Object.keys(selectedItems[category.type] ?? {}).map(fn => {
             const item = selectedItems[category.type]?.[fn];
@@ -76,12 +76,12 @@ const Container = styled.div`
   padding: 0;
 `;
 
-type ContentProps = { scale: number };
-const Content = styled.div`
+type ContentProps = { $scale: number };
+const Content = styled.div<ContentProps>`
   width: ${TargetImageSize}px;
   height: ${TargetImageSize}px;
   display: block;
   transform-origin: top left;
 
-  transform: scale(${({ scale }: ContentProps) => scale});
+  transform: scale(${({ $scale }) => $scale});
 `;

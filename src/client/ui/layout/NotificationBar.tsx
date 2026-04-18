@@ -1,12 +1,15 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { useShallow } from 'zustand/react/shallow';
 
 import { useNotifications } from 'client/game/notifications';
 
 import { colors } from '../colors';
 
 export const NotificationBar: React.FC = () => {
-  const [message, dismiss] = useNotifications(s => [s.message, s.clearMessage]);
+  const [message, dismiss] = useNotifications(
+    useShallow(s => [s.message, s.clearMessage] as const)
+  );
   if (!message) return null;
   return (
     <Container>

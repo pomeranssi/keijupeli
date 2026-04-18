@@ -1,33 +1,7 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "ES2021",
-    "lib": [
-      "ES2021",
-      "DOM",
-      "DOM.Iterable"
-    ],
-    "sourceMap": true,
-    "allowJs": false,
-    "jsx": "react",
-    "moduleResolution": "node",
-    "baseUrl": "./src",  
-    "rootDir": "src",
-    "outDir": "build-server",
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "paths": {
-      "shared/*": ["./shared/*", "../build-server/shared/*"],
-      "server/*": ["./server/*", "../build-server/server/*"],
-      "client/*": ["./client/*", "../build-server/client/*"]
-    }
-  },
-  "include": [
-    "src"
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.server.json" }
   ]
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import shallow from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
 
 import { Item } from 'shared/types';
 import { CategoryItems, useGameState } from 'client/game/state';
@@ -17,14 +17,13 @@ function findItem(selection: CategoryItems): Item | undefined {
 export const CategoryList: React.FC = () => {
   const [selectedCategory, categories, selectedItems, selectCategory, mode] =
     useGameState(
-      s => [
+      useShallow(s => [
         s.selectedCategory,
         s.categories,
         s.selectedItems,
         s.selectCategory,
         s.mode,
-      ],
-      shallow
+      ])
     );
   return (
     <Container>

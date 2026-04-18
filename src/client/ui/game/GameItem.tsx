@@ -1,5 +1,5 @@
 import * as React from 'react';
-import shallow from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
 
 import { uri } from 'shared/net/urlUtils';
 import { Category, ObjectId, UUID } from 'shared/types';
@@ -24,7 +24,7 @@ export const GameItem: React.FC<GameItemProps> = ({
   category,
   selected,
 }) => {
-  const [linkS, mode] = useGameState(s => [s.linkSource, s.mode], shallow);
+  const [linkS, mode] = useGameState(useShallow(s => [s.linkSource, s.mode]));
   return (
     <ItemView
       selected={selected}
@@ -164,7 +164,7 @@ const deleteItem = async (item: LinkedItem) => {
   await executeOperation(() => deleteItemFromServer(sessionId, item.id), {
     confirm: 'Haluatko varmasti poistaa tämän kuvan?',
     success: 'Kuva poistettu',
-    postProcess: initializeCategories,
+    postProcess: () => initializeCategories(),
   });
 };
 
@@ -183,7 +183,7 @@ const adjustLayers = async (item: LinkedItem, category: Category) => {
     () => setItemLayer(sessionId, item.id, Number(zIndex)),
     {
       success: 'Taso muutettu',
-      postProcess: initializeCategories,
+      postProcess: () => initializeCategories(),
     }
   );
 };

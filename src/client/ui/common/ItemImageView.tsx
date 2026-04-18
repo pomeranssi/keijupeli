@@ -18,7 +18,7 @@ export const ItemImageView: React.FC<
 > = ({ image, children, selected, onClick, className }) => {
   const img =
     typeof image === 'string' ? (
-      <ItemImage className="ItemImage" image={image} />
+      <ItemImage className="ItemImage" $image={image} />
     ) : (
       image
     );
@@ -41,12 +41,12 @@ export function getThumbForItem(
   return item || fallback ? (
     <ItemImage
       className={`ItemImage ${background ? 'background' : ''}`}
-      image={getItemImagePath(item?.thumbnail) ?? fallback}
+      $image={getItemImagePath(item?.thumbnail) ?? fallback}
     />
   ) : null;
 }
 
-const ItemImage = styled.div`
+const ItemImage = styled.div<{ $image?: string }>`
   position: absolute;
   background: no-repeat center;
   background-size: contain;
@@ -56,8 +56,7 @@ const ItemImage = styled.div`
   width: 72px;
   height: 72px;
 
-  ${(props: { image?: string }) =>
-    props.image ? `background-image: url("${props.image}");` : ''}
+  ${props => (props.$image ? `background-image: url("${props.$image}");` : '')}
 
   &.background {
     width: 90px;

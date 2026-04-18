@@ -1,8 +1,13 @@
 import { render } from '@testing-library/react';
-import * as React from 'react';
+import { MemoryRouter } from 'react-router-dom';
+import { it } from 'vitest';
 
 import { MainPage } from './MainPage';
 
 it('renders without crashing', () => {
-  render(<MainPage />);
+  render(
+    <MemoryRouter>
+      <MainPage />
+    </MemoryRouter>
+  );
 });

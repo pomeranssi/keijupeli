@@ -1,1 +1,1 @@
-export const baseUrl = process.env.PUBLIC_URL;
+export const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
