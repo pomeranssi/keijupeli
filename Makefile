@@ -4,7 +4,7 @@ install:
 
 .PHONY: migrate
 migrate:
-	yarn run knex migrate:latest
+	yarn migrate
 
 .PHONY: start-server
 start-server:
