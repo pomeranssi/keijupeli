@@ -11,13 +11,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup Node
         uses: actions/setup-node@v5
         with:
           node-version: '24'
-
-      - name: Enable Corepack
-        run: corepack enable
+          cache: 'yarn'
 
       - name: Install deps
         run: yarn install --immutable
