@@ -8,7 +8,7 @@ import { uploadFile } from 'server/data/uploadService';
 import { Requests } from 'server/server/requestHandling';
 import { requireSessionMiddleware } from 'server/server/sessionMiddleware';
 
-const upload = multer({ dest: config.uploadPath });
+const upload = multer({ dest: config.itemImagesPath });
 
 /**
  * File upload API router.

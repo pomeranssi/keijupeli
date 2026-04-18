@@ -1,0 +1,38 @@
+name: Test Keijupeli
+
+on: [workflow_dispatch, push]
+
+jobs:
+  build:
+    name: Lint, typecheck, test and build
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install deps
+        run: yarn install --immutable
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Typecheck
+        run: yarn typecheck
+
+      - name: Test
+        run: yarn test
+
+      - name: Build client
+        run: yarn build-client
+
+      - name: Build server
+        run: yarn build-server

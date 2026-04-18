@@ -7,7 +7,7 @@ import { config } from 'server/config';
 const log = debug('server:images');
 
 export function getFullImagePath(filename: string) {
-  return path.join(config.uploadPath, filename);
+  return path.join(config.itemImagesPath, filename);
 }
 
 /**
@@ -18,7 +18,7 @@ export async function deleteImageFile(filename: string | undefined) {
   try {
     const fullPath = filename.includes('/')
       ? filename
-      : path.join(config.uploadPath, filename);
+      : path.join(config.itemImagesPath, filename);
     log(`Deleting image ${fullPath}`);
     await unlink(fullPath);
   } catch (e) {

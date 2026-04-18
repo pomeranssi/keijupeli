@@ -20,8 +20,7 @@ Local development assumes the Postgres dev DB is running via `docker compose up 
 - `yarn lint` / `yarn lint-fix` — ESLint 9 flat config (`eslint.config.js`)
 - `yarn test` — Vitest (jsdom); pass a path to run one file. `yarn test-watch` for watch mode.
 - `yarn migrate-make <name>` / `yarn migrate-rollback` — create/rollback migrations in `migrations/`
-- `make deploy` — `script/deploy.sh` builds, scps tarballs, and runs `script/install-prod.sh` on `deployer@keijupeli.pomeranssi.fi`
-- `make copy-prod-db` / `make copy-prod-images` — pull prod DB / uploads into local env
+- `make copy-prod-db` / `make copy-prod-images` — pull prod DB / uploads into local env (DB over Tailscale psql, images over scp)
 
 ## Architecture
 
@@ -30,8 +29,21 @@ Local development assumes the Postgres dev DB is running via `docker compose up 
 `src/` has three top-level namespaces wired through TypeScript `paths`: `shared/*`, `server/*`, `client/*`. Use those aliases in imports, not relative `../../`. Paths are declared in `tsconfig.app.json` (client, `moduleResolution: bundler`) and `tsconfig.server.json` (server, `moduleResolution: node10`); the root `tsconfig.json` is a references-only solution file. Vite resolves the aliases natively via `resolve.tsconfigPaths: true`; the dev server (`tsx`) uses them directly.
 
 - `src/shared/` — code usable by both client and server: zod schemas for domain types (`shared/types/item.ts` defines `CategoryType`, `Item`, `Category`, etc.), fetch/URL helpers (`shared/net/`), and small utilities. Do not import `client/*` or `server/*` from here.
-- `src/server/` — Express 5 app. Entry is `src/server/keijupeliServer.ts`, which mounts `createApi()` under `/api`, serves uploaded files from `upload/images/items` under `/images/items`, and falls back to serving an index page for `/p/*` routes.
+- `src/server/` — Express 5 app. Entry is `src/server/keijupeliServer.ts`, which mounts `createApi()` under `/api`, serves uploaded files from `upload/` under `/images/items`, and falls back to serving an index page for `/p/*` routes.
 - `src/client/` — React 19 SPA. The Vite entry HTML is `index.html` at the project root; it loads `src/index.tsx`, which mounts `AppDataLoader` → `AppRouter` (`/` = `MainPage`, `/login` = `LoginPage`). Uses `createHashRouter` when running as a standalone PWA, otherwise `createBrowserRouter`.
+
+### Deployment
+
+Production runs as a Docker image on a Hetzner CAX11 (ARM64) VM behind a Caddy reverse proxy that terminates TLS. The image is built and published to `ghcr.io/pomeranssi/keijupeli` by `.github/workflows/release.yml` (manual `workflow_dispatch`, refuses to re-publish an existing `package.json` version). The VM runs the image via its own docker-compose that provides `DB_URL` and bind-mounts `upload/` for persistent user uploads. Postgres is reached over Tailscale from a dev machine for direct psql access and image copy scripts use `scp`.
+
+The Docker image (`Dockerfile`) is a three-stage build: `builder` does `yarn install --immutable` + `yarn build-client` + `yarn build-server`; `prod-deps` reinstalls with `yarn workspaces focus --production` for a smaller runtime layer; `runtime` (node:24-slim) copies the pruned `node_modules/`, `build/`, `build-server/`, `migrations/`, `knexfile.cjs`, drops to the pre-created `node` user (UID 1000) so bind-mounted volumes are owned by a real non-root user on the host, and runs `knex migrate:latest && node build-server/server/keijupeliServer.js`. Env in the image: `NODE_ENV=production`, `SERVER_PORT=3000`, `STATIC_PATH=build`, `UPLOAD_PATH=/app/upload`. Compiled server imports are rewritten from `shared/*` path aliases to relative paths at build time by `tsc-alias`, so no path-resolver shim is needed at runtime.
+
+Static assets and cache headers are set in `src/server/keijupeliServer.ts`:
+
+- `/assets/*` (Vite's content-hashed output) → `public, max-age=1y, immutable`
+- Other static files under `STATIC_PATH` (favicons, manifest, etc.) → `max-age=1h`
+- `/images/items/*` (uploaded images; filenames are multer-random + category prefix and never reused) → `public, max-age=1y, immutable`
+- `/` and `/p/*` → `index.html` with `Cache-Control: no-store`
 
 ### Server request pipeline
 
@@ -42,7 +54,7 @@ Local development assumes the Postgres dev DB is running via `docker compose up 
 - `errorHandler.ts` — converts `GameError` (from `shared/types/error.ts`) to HTTP responses; `config.showErrorCause` controls whether cause chains are exposed.
 - `requestHandling.ts` — `Requests.request(...)` adapter used throughout API definitions.
 
-Data access goes through `src/server/data/`: `db.ts` wires `pg-promise` using `config.dbUrl`; `itemDb.ts`/`userDb.ts`/`sessionDb.ts` are the SQL layer; services (`itemService`, `uploadService`, `thumbnailService`, `itemLinkingService`) orchestrate DB + filesystem (`config.uploadPath`, default `./upload/images/items`).
+Data access goes through `src/server/data/`: `db.ts` wires `pg-promise` using `config.dbUrl`; `itemDb.ts`/`userDb.ts`/`sessionDb.ts` are the SQL layer; services (`itemService`, `uploadService`, `thumbnailService`, `itemLinkingService`) orchestrate DB + filesystem. `config.uploadPath` (default `./upload`, env `UPLOAD_PATH`) is the base for all uploads; item images live in `config.itemImagesPath` = `<uploadPath>/items` — future upload kinds get their own subdirs alongside. The base dir is created recursively at config load.
 
 ### Client state
 
@@ -73,4 +85,4 @@ styled-components 6. Custom (non-DOM) props passed to styled elements must be tr
 
 ## Environment
 
-`.env` is loaded by `dotenv` in both `knexfile.cjs` and `src/server/config.ts`. Relevant vars: `DB_URL`, `DB_SSL`, `SERVER_PORT` (default 3200), `SESSION_TIMEOUT`, `REFRESH_TOKEN_TIMEOUT`, `UPLOAD_PATH`, `SHOW_ERROR_CAUSE`, `LOG_LEVEL`, `NODE_ENV`.
+`.env` is loaded by `dotenv` in both `knexfile.cjs` and `src/server/config.ts`. Relevant vars: `DB_URL`, `DB_SSL`, `SERVER_PORT` (default 3200 in dev; image overrides to 3000), `STATIC_PATH` (default `public`; image overrides to `build`), `UPLOAD_PATH`, `SESSION_TIMEOUT`, `REFRESH_TOKEN_TIMEOUT`, `SHOW_ERROR_CAUSE`, `LOG_LEVEL`, `NODE_ENV`, and `PROD_DB_URL` (used by `script/copy-prod-db.sh` for pulling a prod dump).

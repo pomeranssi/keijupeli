@@ -89,7 +89,7 @@ async function createLinkedThumbnail(items: Item[], thumbnail: string) {
 }
 
 function getAlignedImage(item: Item) {
-  return sharp(path.join(config.uploadPath, item.filename))
+  return sharp(path.join(config.itemImagesPath, item.filename))
     .resize({
       width: item.width,
       height: item.height,

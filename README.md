@@ -52,3 +52,14 @@ Lint and auto-fix:
 Run tests (Vitest, jsdom):
 
 > `yarn test`
+
+# Deployment
+
+Production runs as a Docker image on a Hetzner CAX11 (ARM64) VM behind a
+Caddy reverse proxy. The image is built and pushed to
+`ghcr.io/pomeranssi/keijupeli` via the manual GitHub Actions release
+workflow (bump `package.json` version first; the workflow refuses to
+overwrite an existing tag). The VM pulls the image via its own
+`docker-compose.yml`, supplies `DB_URL`, and bind-mounts `upload/` so
+user uploads survive container restarts. Postgres runs alongside the
+app container and is reachable from dev machines via Tailscale.
