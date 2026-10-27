@@ -1,7 +1,7 @@
 [tools]
 node = "24"
 # Keep in sync with "packageManager" in package.json.
-yarn = "4.14.1"
+yarn = "4.18.1"
 # psql, pg_dump and pg_restore for script/copy-prod-db.sh. Match the major
 # version to the Postgres server in docker-compose.yml.
 postgres = "18"

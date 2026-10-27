@@ -26,14 +26,11 @@ export async function getItemsByCategory(
   const byCats = groupBy(items, i => i.category);
 
   return CategoryMap.parse(
-    mapObject(
-      BaseCategoryData,
-      (cat, type): Category => ({
-        ...cat,
-        type,
-        items: byCats[type] ?? [],
-      })
-    )
+    mapObject(BaseCategoryData, (cat, type): Category => ({
+      ...cat,
+      type,
+      items: byCats[type] ?? [],
+    }))
   );
 }
 

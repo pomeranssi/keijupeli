@@ -132,9 +132,10 @@ function createParamType<Path extends string>(
     .map(p => p.substring(1)) as any;
   const p = recordFromPairs(
     types
-      .map<
-        [KnownParamNames, (typeof TypeMap)[KnownParamNames]]
-      >(t => [t, TypeMap[t]])
+      .map<[KnownParamNames, (typeof TypeMap)[KnownParamNames]]>(t => [
+        t,
+        TypeMap[t],
+      ])
       .filter(p => isDefined(p[1]))
   );
   return z.object(p) as any;
