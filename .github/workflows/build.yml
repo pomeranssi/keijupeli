@@ -11,20 +11,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Setup Node
-        uses: actions/setup-node@v5
+      - name: Cache Yarn packages
+        uses: actions/cache@v4
         with:
-          node-version: '24'
-          cache: 'yarn'
+          path: ~/.yarn/berry/cache
+          key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: yarn-${{ runner.os }}-
 
-      - name: Install deps
-        run: yarn install --immutable
+      # Postgres client tools are only needed by the prod copy scripts.
+      # The mise postinstall hook runs `yarn install`, which is immutable on CI.
+      - name: Install tools and deps
+        uses: jdx/mise-action@v3
+        with:
+          install_args: node yarn
 
       - name: Lint
         run: yarn lint
+
+      - name: Format check
+        run: yarn format-check
 
       - name: Typecheck
         run: yarn typecheck

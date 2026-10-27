@@ -1,6 +1,6 @@
 .PHONY: install
 install:
-	yarn install
+	mise install
 
 .PHONY: migrate
 migrate:

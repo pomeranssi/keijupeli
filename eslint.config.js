@@ -8,7 +8,17 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['build', 'build-server', 'dist', 'deploy', 'node_modules', 'migrations', 'public/js'] },
+  {
+    ignores: [
+      'build',
+      'build-server',
+      'dist',
+      'deploy',
+      'node_modules',
+      'migrations',
+      'public/js',
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   react.configs.flat.recommended,
