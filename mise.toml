@@ -8,3 +8,23 @@ postgres = "18"
 
 [hooks]
 postinstall = "yarn install"
+
+[tasks.migrate]
+description = "Run database migrations"
+run = "yarn migrate"
+
+[tasks.start-server]
+description = "Start the API server in watch mode on port 3200"
+run = "yarn watch-server"
+
+[tasks.start-client]
+description = "Start the Vite dev server on port 3000"
+run = "yarn watch-client"
+
+[tasks.copy-prod-db]
+description = "Replace the local database with a copy of production"
+run = "script/copy-prod-db.sh"
+
+[tasks.copy-prod-images]
+description = "Copy uploaded images from production"
+run = "script/copy-prod-images.sh"

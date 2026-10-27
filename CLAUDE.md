@@ -13,16 +13,15 @@ Read these before larger changes:
 
 ## Tools
 
-mise manages the tools (`mise.toml`): Node 24, Yarn 4 and the PostgreSQL 18 client tools. `mise install` installs them and then runs `yarn install` through a postinstall hook. The Yarn version in `mise.toml` must match `packageManager` in `package.json`.
+mise manages the tools and tasks (`mise.toml`): Node 24, Yarn 4 and the PostgreSQL 18 client tools. `mise install` installs them and then runs `yarn install` through a postinstall hook; Yarn 4 uses the node-modules linker (see `.yarnrc.yml`). `mise tasks` lists the tasks. The Yarn version in `mise.toml` must match `packageManager` in `package.json`.
 
 ## Common commands
 
 Local development assumes the Postgres dev DB is running via `docker compose up -d` and `.env` contains `DB_URL=postgresql://keijupeli:keijupeli@localhost:3432/keijupeli`.
 
-- `make install` — `mise install` (tools + `yarn install`; Yarn 4 with the node-modules linker, see `.yarnrc.yml`)
-- `make migrate` — run knex migrations via `yarn migrate` (knexfile + migrations are `.cjs` because the package is `"type": "module"`)
-- `make start-server` — `yarn watch-server`: `tsx watch --tsconfig tsconfig.server.json` on port 3200 with `DEBUG=server*`
-- `make start-client` — `yarn watch-client`: Vite dev server on port 3000; proxy for `/api` and `/images/items` to 3200 lives in `vite.config.ts`
+- `mise run migrate` — run knex migrations via `yarn migrate` (knexfile + migrations are `.cjs` because the package is `"type": "module"`)
+- `mise run start-server` — `yarn watch-server`: `tsx watch --tsconfig tsconfig.server.json` on port 3200 with `DEBUG=server*`
+- `mise run start-client` — `yarn watch-client`: Vite dev server on port 3000; proxy for `/api` and `/images/items` to 3200 lives in `vite.config.ts`
 - `yarn build-client` — Vite production bundle into `build/`
 - `yarn build-server` — `tsc -p tsconfig.server.json` + `tsc-alias` emit server JS into `build-server/`
 - `yarn typecheck` — `tsc --noEmit` for both `tsconfig.app.json` and `tsconfig.server.json`
@@ -30,7 +29,7 @@ Local development assumes the Postgres dev DB is running via `docker compose up 
 - `yarn format` / `yarn format-check` — Prettier over the whole repo (`.prettierignore` skips vendored `public/js`)
 - `yarn test` — Vitest (jsdom); pass a path to run one file. `yarn test-watch` for watch mode.
 - `yarn migrate-make <name>` / `yarn migrate-rollback` — create/rollback migrations in `migrations/`
-- `make copy-prod-db` / `make copy-prod-images` — pull prod DB / uploads into local env (see HOSTING.md)
+- `mise run copy-prod-db` / `mise run copy-prod-images` — pull prod DB / uploads into local env (see HOSTING.md)
 
 CI (`.github/workflows/build.yml`) installs Node and Yarn with mise, then runs lint, format check, typecheck, tests and both builds.
 

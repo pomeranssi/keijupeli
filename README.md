@@ -13,7 +13,7 @@ The project uses [mise](https://mise.jdx.dev/) to install Node, Yarn and the
 PostgreSQL client tools. Install the tools and the project dependencies with:
 
 ```sh
-make install
+mise install
 ```
 
 To configure local DB for development, create the file `.env` with
@@ -27,7 +27,7 @@ Then start the local development DB with Docker and run the migrations:
 
 ```sh
 docker compose up -d
-make migrate
+mise run migrate
 ```
 
 # Commands

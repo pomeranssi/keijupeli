@@ -44,8 +44,8 @@ restarts. PostgreSQL runs next to the app container.
 You can reach the production database from a development machine over
 Tailscale. Two scripts copy production data into the local environment:
 
-- `make copy-prod-db` dumps the production database (`PROD_DB_URL` in `.env`)
+- `mise run copy-prod-db` dumps the production database (`PROD_DB_URL` in `.env`)
   and restores it into the local one (`DB_URL`). It then sets every password
   to `salasana`. It needs the PostgreSQL client tools, which `mise install`
   provides.
-- `make copy-prod-images` copies the uploaded images with `scp`.
+- `mise run copy-prod-images` copies the uploaded images with `scp`.
